@@ -46,7 +46,7 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
 		.formLogin().loginPage("/#Login_tab")
 		.loginProcessingUrl("/**/process-login")
 		.defaultSuccessUrl("/")
-		.failureUrl("/#Login_tab?error")
+		.failureUrl("/?msg=error#Login_tab")
 		.usernameParameter("email").passwordParameter("password")
 		.and()
 		.logout().logoutUrl("/**/process-logout")

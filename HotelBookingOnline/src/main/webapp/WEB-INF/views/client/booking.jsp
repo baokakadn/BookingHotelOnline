@@ -68,7 +68,7 @@
 						<p class="day_stuts clear">
 							<span> <i class="fa fa-bed"></i> <c:set var="numberOfNights"
 									value="${(booking.checkOutDate.time - booking.checkInDate.time)/(60*60*24*1000)}" /> <fmt:formatNumber value="${numberOfNights}" pattern="#" />
-								Night
+								Nights
 							</span> <a href="">Booking & Cancellation Policy</a>
 						</p>
 						<div class="i_have_promo justify-content-between d-flex">
@@ -80,6 +80,12 @@
 								<button type="submit" class="btn btn-success">Apply</button>
 							</form>
 						</div>
+						<c:if test="${not empty promoErr}">
+							<p style="color: red; text-align: center;">
+								Error:
+								<c:out value="${promoErr}" />
+							</p>
+						</c:if>
 					</div>
 				</div>
 			</div>
@@ -156,19 +162,19 @@
 				<div class="col-lg-9 col-md-9">
 					<h4 class="form_title4">Add Your Informations :-</h4>
 					<div class="form-group col-lg-6 col-md-6">
-						<form:input path="name" type="text" class="form-control" placeholder="Full Name*" />
+						<form:input path="name" type="text" class="form-control" placeholder="Full Name*" required="true"/>
 					</div>
 					<div class="form-group col-lg-6 col-md-6">
-						<form:input path="email" type="text" class="form-control" placeholder="Email*" />
+						<form:input path="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" type="email" class="form-control" placeholder="Email*" required="true"/>
 					</div>
 					<div class="form-group col-lg-6 col-md-6">
-						<form:input path="phone" type="text" class="form-control" placeholder="Phone*" />
+						<form:input path="phone" type="text" class="form-control" placeholder="Phone*" required="true"/>
 					</div>
 					<div class="form-group col-lg-12">
 						<form:textarea path="address" placeholder="Address*" class="form-control textaria_height"></form:textarea>
 					</div>
 					<div class="col-lg-6 col-md-8 col-sm-6">
-						<label class="custom-control custom-checkbox"> <input type="checkbox" class="custom-control-input"> <span
+						<label class="custom-control custom-checkbox"> <input type="checkbox" class="custom-control-input" required="required"> <span
 							class="custom-control-indicator"></span> <span class="custom-control-description"> I agree with <strong>Terms and Conditions</strong>
 						</span>
 						</label>

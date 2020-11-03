@@ -14,6 +14,7 @@ public class CustomUserDetail extends org.springframework.security.core.userdeta
 
 	private String name;
 
+
 	public CustomUserDetail(String username, String password, Collection<? extends GrantedAuthority> authorities,
 			int id, String picture, String name) {
 		super(username, password, true, true, true, true, authorities);

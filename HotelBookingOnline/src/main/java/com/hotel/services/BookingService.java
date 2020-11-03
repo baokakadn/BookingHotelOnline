@@ -13,4 +13,6 @@ public interface BookingService {
 	void saveBooking(Booking booking);
 
 	String getMaxBookingId();
+
+	Booking getByBookinguid(String uid);
 }

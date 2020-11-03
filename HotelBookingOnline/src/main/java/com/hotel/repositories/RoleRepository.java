@@ -12,7 +12,7 @@ public interface RoleRepository extends CrudRepository<Role, Integer>{
 
 	Role findById(int id);
 
-	public List<Role> findByListUsers_Email(String email);
+	public List<Role> findByListUsers_Username(String username);
 
 	public List<Role> findByListEmps_Username(String username);
 }

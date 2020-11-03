@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`promotion` (
   `value` INT NOT NULL,
   PRIMARY KEY (`promId`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -55,25 +55,29 @@ Insert into `hotelbooking`.`roomtype` (typename, description, adult_capacity, ch
 values ('Grand Deluxe Double', 'ashdsahdhsadhadg', 2, 2, 150, 'about_us_img-2020-10-03-10-1-47.jpg'),
 ('Standard King Room', 'ashdsahdhsadhadg', 2, 3, 250, 'home_blog_img1-2020-10-11-18-53-58.jpg');
 
+
 -- -----------------------------------------------------
 -- Table `hotelbooking`.`user`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `hotelbooking`.`user` (
   `userId` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(100) NOT NULL,
+  `name` VARCHAR(45) NULL DEFAULT NULL,
+  `email` VARCHAR(100) NULL DEFAULT NULL,
   `phone` VARCHAR(11) NULL DEFAULT NULL,
+  `username` VARCHAR(100) NULL DEFAULT NULL,
   `password` VARCHAR(255) NULL DEFAULT NULL,
   `address` VARCHAR(200) NULL DEFAULT NULL,
   `picture` VARCHAR(200) NULL DEFAULT NULL,
-  `status` TINYINT(1) NOT NULL,
-  PRIMARY KEY (`userId`))
+  `status` TINYINT(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`userId`),
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 34
+AUTO_INCREMENT = 56
 DEFAULT CHARACTER SET = utf8;
 
-Insert into `hotelbooking`.`user` (name, email, phone, password, address, picture, status)
-value ('Nhat Minh', 'minh@gmail.com', '023456789', '$2a$10$GHgGvDv1bD95pAEy83g.I.nY9SPCTnLGFhRBq1G0C2./1E0slqH3W', 'Da Nang', 'Jin-Woo_Profile.png', 1);
+Insert into `hotelbooking`.`user` (name, email, phone, username, password, address, picture, status)
+value ('Nhat Minh', 'minh@gmail.com', '023456789', 'nhatminh', '$2a$10$GHgGvDv1bD95pAEy83g.I.nY9SPCTnLGFhRBq1G0C2./1E0slqH3W', 'Da Nang', 'Jin-Woo_Profile.png', 1);
+
 
 -- -----------------------------------------------------
 -- Table `hotelbooking`.`booking`
@@ -92,6 +96,7 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`booking` (
   `adult` INT NOT NULL,
   `children` INT NOT NULL,
   `numberOfRooms` INT NULL DEFAULT NULL,
+  `cancelDate` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`bookingId`),
   UNIQUE INDEX `booking_uid_UNIQUE` (`booking_uid` ASC) VISIBLE,
   INDEX `fk_Booking_RoomType1_idx` (`room_type_id` ASC) VISIBLE,
@@ -113,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`booking` (
     FOREIGN KEY (`promId`)
     REFERENCES `hotelbooking`.`promotion` (`promId`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 32
+AUTO_INCREMENT = 42
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -138,7 +143,6 @@ DEFAULT CHARACTER SET = utf8;
 
 Insert into `hotelbooking`.`room` (room_number, room_type_id, floor, description, status)
 values (101, 1, 1, 'abcda', '1'), (102, 1, 1, 'abcda', '1'), (201, 2, 2, 'abcda', '1'), (202, 2, 2, 'abcda', '1');
-
 -- -----------------------------------------------------
 -- Table `hotelbooking`.`bookingdetails`
 -- -----------------------------------------------------
@@ -164,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`bookingdetails` (
     FOREIGN KEY (`roomId`)
     REFERENCES `hotelbooking`.`room` (`roomId`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 52
+AUTO_INCREMENT = 92
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -208,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`charge` (
     FOREIGN KEY (`serviceId`)
     REFERENCES `hotelbooking`.`service` (`serviceId`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 16
+AUTO_INCREMENT = 19
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -221,6 +225,7 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`creditcard` (
   `expiryMonth` INT NOT NULL,
   `expiryYear` INT NOT NULL,
   `cvv_code` INT NOT NULL,
+  `balance` DOUBLE NOT NULL,
   PRIMARY KEY (`cardNumber`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -260,7 +265,6 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`employee` (
     FOREIGN KEY (`position_id`)
     REFERENCES `hotelbooking`.`position` (`position_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8;
 
 Insert into `hotelbooking`.`employee` (empName, gender, dateOfBirth, address, phone, username, password, position_id)
@@ -278,7 +282,6 @@ DEFAULT CHARACTER SET = utf8;
 
 Insert into `hotelbooking`.`role` (role_name)
 values ("ROLE_ADMIN"), ("ROLE_STAFF"), ("ROLE_USER");
-
 -- -----------------------------------------------------
 -- Table `hotelbooking`.`employee_role`
 -- -----------------------------------------------------
@@ -322,6 +325,15 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
+-- Table `hotelbooking`.`hibernate_sequence`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `hotelbooking`.`hibernate_sequence` (
+  `next_val` BIGINT NULL DEFAULT NULL)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
 -- Table `hotelbooking`.`invoice`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `hotelbooking`.`invoice` (
@@ -346,7 +358,7 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`invoice` (
     FOREIGN KEY (`cardNumber`)
     REFERENCES `hotelbooking`.`creditcard` (`cardNumber`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 23
+AUTO_INCREMENT = 33
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -372,6 +384,42 @@ values ('about_us_img-2020-09-29-22-15-22.jpg', 1, 1),
 ('conform_hotelpic-2020-09-29-22-15-22.jpg', 1, 0),
 ('china_hotel-2020-09-29-22-15-22.jpg', 2, 1),
 ('home_blog_img3-2020-10-03-9-53-45.jpg', 2, 0);
+-- -----------------------------------------------------
+-- Table `hotelbooking`.`spring_session`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `hotelbooking`.`spring_session` (
+  `PRIMARY_ID` CHAR(36) NOT NULL,
+  `SESSION_ID` CHAR(36) NOT NULL,
+  `CREATION_TIME` BIGINT NOT NULL,
+  `LAST_ACCESS_TIME` BIGINT NOT NULL,
+  `MAX_INACTIVE_INTERVAL` INT NOT NULL,
+  `EXPIRY_TIME` BIGINT NOT NULL,
+  `PRINCIPAL_NAME` VARCHAR(100) NULL DEFAULT NULL,
+  PRIMARY KEY (`PRIMARY_ID`),
+  UNIQUE INDEX `SPRING_SESSION_IX1` (`SESSION_ID` ASC) VISIBLE,
+  INDEX `SPRING_SESSION_IX2` (`EXPIRY_TIME` ASC) VISIBLE,
+  INDEX `SPRING_SESSION_IX3` (`PRINCIPAL_NAME` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+ROW_FORMAT = DYNAMIC;
+
+
+-- -----------------------------------------------------
+-- Table `hotelbooking`.`spring_session_attributes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `hotelbooking`.`spring_session_attributes` (
+  `SESSION_PRIMARY_ID` CHAR(36) NOT NULL,
+  `ATTRIBUTE_NAME` VARCHAR(200) NOT NULL,
+  `ATTRIBUTE_BYTES` BLOB NOT NULL,
+  PRIMARY KEY (`SESSION_PRIMARY_ID`, `ATTRIBUTE_NAME`),
+  CONSTRAINT `SPRING_SESSION_ATTRIBUTES_FK`
+    FOREIGN KEY (`SESSION_PRIMARY_ID`)
+    REFERENCES `hotelbooking`.`spring_session` (`PRIMARY_ID`)
+    ON DELETE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+ROW_FORMAT = DYNAMIC;
+
 
 -- -----------------------------------------------------
 -- Table `hotelbooking`.`user_role`
@@ -392,6 +440,24 @@ DEFAULT CHARACTER SET = utf8;
 
 Insert into `hotelbooking`.`user_role`
 value (1, 3);
+-- -----------------------------------------------------
+-- Table `hotelbooking`.`verificationtoken`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `hotelbooking`.`verificationtoken` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `token` VARCHAR(255) NULL DEFAULT NULL,
+  `userId` INT NOT NULL,
+  `expiryDate` DATE NOT NULL,
+  `createdDate` DATETIME(6) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `token_UNIQUE` (`token` ASC) VISIBLE,
+  INDEX `fk_Veri_User1_idx` (`userId` ASC) VISIBLE,
+  CONSTRAINT `fk_Veri_User1`
+    FOREIGN KEY (`userId`)
+    REFERENCES `hotelbooking`.`user` (`userId`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 16
+DEFAULT CHARACTER SET = utf8;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

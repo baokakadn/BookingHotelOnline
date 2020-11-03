@@ -10,7 +10,9 @@ import com.hotel.models.Booking;
 public interface BookingRepository extends CrudRepository<Booking, Integer>{
 	Booking findById(int id);
 
-	@Query(value = "select LAST_INSERT_ID() from booking", nativeQuery = true)
+	Booking findByBookinguid(String uid);
+
+	@Query(value = "select max(bookingId) from booking", nativeQuery = true)
 	String getMaxId();
 
 }

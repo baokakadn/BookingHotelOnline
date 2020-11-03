@@ -58,8 +58,8 @@ h3 {
 						<div class="white-box">
 							<div id="menu-btn">
 								<div class="float-right ml-2">
-									<a style="margin-right: .5rem !important;" class="btn btn-primary" href="#" data-toggle="modal" data-target="#add_service"> Add Service</a> <a
-										style="background: #888888;" class="btn btn-tsk" onclick="javascript:window.print()"><i style="color: #fff;" class="fa fa-print"></i></a>
+									<a style="background: #888888;" class="btn btn-tsk" onclick="javascript:window.print()"><i style="color: #fff;"
+													class="fa fa-print"></i></a>
 								</div>
 								<c:choose>
 									<c:when test="${booking.status == 'ONLINE_PENDING'}">
@@ -69,6 +69,10 @@ h3 {
 									</c:when>
 									<c:otherwise>
 										<c:if test="${booking.status eq 'PENDING' }">
+											<div class="float-right ml-2">
+												<a style="margin-right: .5rem !important;" class="btn btn-primary" href="#" data-toggle="modal" data-target="#add_service"> Add
+													Service</a> 
+											</div>
 											<div class="float-right mr-2" style="margin-right: 0; margin-left: .5rem !important;">
 												<a class="btn btn-danger" href="#" data-toggle="modal" data-target="#checkout"> CHECKOUT</a>
 											</div>
@@ -84,10 +88,11 @@ h3 {
 												<c:set var="statusList" value="${['SUCCESS','PENDING','CANCEL']}" />
 												<c:forEach var="status" items="${statusList}">
 													<c:if test="${status != booking.status}">
-														<c:set var="statusLink" value="/admin/booking/booking-details/${booking.bookingId}/change-status/${status}"/>
+														<c:set var="statusLink" value="/admin/booking/booking-details/${booking.bookingId}/change-status/${status}" />
 														<c:choose>
 															<c:when test="${status eq 'CANCEL' }">
-																<a class="dropdown-item" href="#" onclick="if ((confirm('Are you sure you want to delete this student?'))) 
+																<a class="dropdown-item" href="#"
+																	onclick="if ((confirm('Are you sure you want to delete this student?'))) 
 																window.location.href = '${statusLink}'; return false;">${status}</a>
 															</c:when>
 															<c:otherwise>
@@ -423,7 +428,7 @@ h3 {
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-md-12">
-						<form class="" action="add-service" method="POST">
+						<form id="service-form" class="" action="add-service" method="POST">
 							<input type="hidden" name="bookingId" value="${booking.bookingId}">
 							<div class="form-row justify-content-center">
 								<div class="form-group col-sm-12">
@@ -481,104 +486,128 @@ h3 {
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-md-12">
-						<form class="" action="${booking.bookingId}/checkout" method="POST">
-							<div class="form-row justify-content-center">
-								<div class="form-group col-sm-12">
-									<label><strong>Booking Number</strong></label> <input class="form-control" readonly="readonly" value="${booking.bookinguid }">
-								</div>
-							</div>
-							<div class="form-row justify-content-center">
-								<div class="form-group col-sm-12">
-									<label><strong>Date</strong></label> <input name="date" id="liveClock" class="form-control" readonly="readonly">
-								</div>
-							</div>
-							<div class="form-row justify-content-center">
-								<div class="form-group col-sm-12">
-									<label style="display: block;"><strong>Rooms</strong></label>
-									<c:forEach var="room" items="${unCheckoutRooms}">
-										<div style="display: inline; margin-right: 1rem;" class="custom-control custom-checkbox">
-											<input name="checked" type="checkbox" class="form-control custom-control-input checkbox-btn" id="${room.roomnumber}" value="${room.roomid}"
-												onchange='checkCount();' /> <label class="custom-control-label" for="${room.roomnumber}">${room.roomnumber}</label>
-										</div>
-									</c:forEach>
-								</div>
-							</div>
-							<div id="area" style="display: none;" class="form-row justify-content-center">
-								<div class="form-group col-sm-12">
-									<label><strong>Payment Method</strong></label> <select id="payMethod" class="form-control" name="payment" onchange="showDiv(this);">
-										<option value="none">Select Method</option>
-										<option value="card">CreditCard</option>
-										<option value="cash">Cash</option>
-									</select>
-								</div>
-							</div>
-							<div id="card" class="method form-row justify-content-center" style="display: none;">
-								<div class="form-group col-sm-12">
-									<label class="font-bold18">Card Number</label> <input name="cardNumber" class="form-control" type="text" />
-								</div>
-								<div class="form-group col-sm-12">
-									<label class="font-bold18">Name on Card</label> <input name="ownerName" class="form-control" type="text" />
-								</div>
-								<div class="form-group col-sm-12">
-									<label class="font-bold18">Expiry Date</label>
-									<div class="form-row">
-										<div class="form-group col-sm-12">
-											<select class="form-control" name="expiryMonth">
-												<option>MM</option>
-												<option value="1">January</option>
-												<option value="2">February</option>
-												<option value="3">March</option>
-												<option value="4">April</option>
-												<option value="5">May</option>
-												<option value="6">June</option>
-												<option value="7">July</option>
-												<option value="8">August</option>
-												<option value="9">September</option>
-												<option value="10">October</option>
-												<option value="11">November</option>
-												<option value="12">December</option>
-											</select>
-										</div>
-										<div class="form-group col-sm-12">
-											<select class="form-control" name="expiryYear">
-												<option value="YY">YY</option>
-												<option value="2009">2009</option>
-												<option value="2010">2010</option>
-												<option value="2011">2011</option>
-												<option value="2012">2012</option>
-												<option value="2013">2013</option>
-												<option value="2014">2014</option>
-												<option value="2015">2015</option>
-												<option value="2016">2016</option>
-												<option value="2017">2017</option>
-												<option value="2019">2019</option>
-											</select>
-										</div>
+						<form id="checkout-form" action="${booking.bookingId}/checkout" method="POST">
+							<div id="initial-content">
+								<div class="form-row justify-content-center">
+									<div class="form-group col-sm-12">
+										<label><strong>Booking Number</strong></label> <input class="form-control" readonly="readonly" value="${booking.bookinguid }">
 									</div>
 								</div>
-								<div class="form-group col-sm-12 ">
-									<label class="font-bold18">CVV Number</label> <input name="cvvcode" class="form-control" type="text" />
+								<div class="form-row justify-content-center">
+									<div class="form-group col-sm-12">
+										<label><strong>Date</strong></label> <input name="date" id="liveClock" class="form-control" readonly="readonly">
+									</div>
 								</div>
-							</div>
-
-							<div id="cash" class="method form-row justify-content-center" style="display: none;">
-								<div class="form-group col-sm-12">
-									<label><strong>Amount</strong></label> <input type="number" class="form-control" name="amount" min="0" placeholder="0">
+								<div class="form-row justify-content-center">
+									<div class="form-group col-sm-12">
+										<label style="display: block;"><strong>Rooms</strong></label>
+										<c:forEach var="room" items="${unCheckoutRooms}">
+											<div style="display: inline; margin-right: 1rem;" class="custom-control custom-checkbox">
+												<input name="checked" type="checkbox" class="form-control custom-control-input checkbox-btn" id="${room.roomnumber}"
+													value="${room.roomid}" onchange='checkCount();' /> <label class="custom-control-label" for="${room.roomnumber}">${room.roomnumber}</label>
+											</div>
+										</c:forEach>
+									</div>
 								</div>
-							</div>
-							<input type="hidden" name="grandTotal" value="${grandTotal}">
-							<div class="form-row justify-content-center">
-								<div class="form-group col-sm-12">
-									<hr>
-									<button type="reset" class="btn btn-outline-tsk">
-										<i class="fa fa-refresh"></i> Reset
-									</button>
-									<button type="submit" class="btn btn-tsk">
-										<i class="fa fa-money"></i> Submit
-									</button>
+								<div class="form-row justify-content-center">
+									<div class="form-group col-sm-12">
+										<hr>
+										<button id="btn-submit" type="submit" class="btn btn-tsk">
+											<i class="fa fa-money"></i> Submit
+										</button>
+										<button id="btn-send" type="button" onclick="showMethod();" class="btn btn-info" style="display: none;">
+											<i class="fa fa-arrow-circle-right"></i> Next
+										</button>
+									</div>
 								</div>
 							</div>
 						</form>
+						<div id="payment-details" style="display: none;">
+							<form id="payment-form" class="" action="${booking.bookingId}/checkout" method="POST">
+								<input id="checked" type="hidden" name="checked" value=""> 
+								<input type="hidden" name="amount" value="${grandTotal - totalPaid}">
+								<div class="form-row justify-content-center">
+									<div class="form-group col-sm-12">
+										<label><strong>Total Amount to be paid: $${grandTotal - totalPaid}</strong></label>
+									</div>
+								</div>
+								<div id="area" class="form-row justify-content-center">
+									<div class="form-group col-sm-12">
+										<label><strong>Payment Method</strong></label> <select id="payMethod" class="form-control" name="payment" onchange="showDiv(this);">
+											<option value="cash" selected="selected">Cash</option>
+											<option value="card">CreditCard</option>
+
+										</select>
+									</div>
+								</div>
+								<div id="card" class="method form-row justify-content-center" style="display: none;">
+									<div class="form-group col-sm-12">
+										<label class="font-bold18">Card Number</label> <input name="cardNumber" class="form-control" type="text" maxlength="19"/>
+									</div>
+									<div class="form-group col-sm-12">
+										<label class="font-bold18">Name on Card</label> <input name="ownerName" class="form-control" type="text" />
+									</div>
+									<div class="form-group col-sm-12">
+										<label class="font-bold18">Expiry Date</label>
+										<div class="form-row">
+											<div class="form-group col-sm-12">
+												<select class="form-control" name="expiryMonth">
+													<option>MM</option>
+													<option value="1">January</option>
+													<option value="2">February</option>
+													<option value="3">March</option>
+													<option value="4">April</option>
+													<option value="5">May</option>
+													<option value="6">June</option>
+													<option value="7">July</option>
+													<option value="8">August</option>
+													<option value="9">September</option>
+													<option value="10">October</option>
+													<option value="11">November</option>
+													<option value="12">December</option>
+												</select>
+											</div>
+											<div class="form-group col-sm-12">
+												<select class="form-control" name="expiryYear">
+													<option value="YY">YY</option>
+													<option value="2009">2009</option>
+													<option value="2010">2010</option>
+													<option value="2011">2011</option>
+													<option value="2012">2012</option>
+													<option value="2013">2013</option>
+													<option value="2014">2014</option>
+													<option value="2015">2015</option>
+													<option value="2016">2016</option>
+													<option value="2017">2017</option>
+													<option value="2019">2019</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="form-group col-sm-12 ">
+										<label class="font-bold18">CVV Number</label> <input name="cvvcode" class="form-control" type="text" />
+									</div>
+								</div>
+								<div id="cash" class="method form-row justify-content-center" style="display: none;">
+									<!-- <div class="form-group col-sm-12">
+									<label><strong>Amount</strong></label> <input type="number" class="form-control" name="amount" min="0" placeholder="0">
+								</div> -->
+								</div>
+								<input type="hidden" name="grandTotal" value="${grandTotal}">
+								<div class="form-row justify-content-center">
+									<div class="form-group col-sm-12">
+										<hr>
+										<button type="button" class="btn btn-sml btn-success"
+											onclick="$('#payment-details').hide();$('#card').hide();$('#cash').hide();$('#initial-content').show();$('#payment-form').trigger('reset');">
+											<i class="fa fa-arrow-circle-left" aria-hidden="true"></i>Back
+										</button>
+										<button type="submit" class="btn btn-tsk">
+											<i class="fa fa-money"></i> Submit
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -587,13 +616,26 @@ h3 {
 </div>
 
 <script>
+	$('#checkout').on('hidden.bs.modal', function(e) {
+		$(this).find('#checkout-form')[0].reset();
+		document.getElementById("initial-content").style.display = 'block';
+		document.getElementById("payment-details").style.display = 'none';
+		document.getElementById('btn-submit').style.display = 'inline-block';
+		document.getElementById('btn-send').style.display = 'none';
+	});
+	$('#add_service').on('hidden.bs.modal', function(e) {
+		$(this).find('#service-form')[0].reset();
+	});
+</script>
+<script>
 	function timeClock() {
 		setTimeout(timeClock, 1000);
 		now = new Date();
 		f_date = now.getFullYear();
 		f_date += "-" + (now.getMonth() + 1);
 		f_date += "-" + now.getDate();
-		f_date += " " + now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+		f_date += " " + now.getHours() + ':'
+				+ (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
 		document.getElementById('liveClock').value = f_date;
 		document.getElementById('liveClock1').value = f_date;
 		return f_date;
@@ -605,23 +647,27 @@ h3 {
 </script>
 
 <script>
-	function checkCount(elm) {
+	function checkCount() {
+
 		var checkboxes = document.getElementsByClassName("checkbox-btn");
 		var selected = [];
-		var rooms = ${unCheckoutRooms.size()}
-		;
+		var rooms = ${unCheckoutRooms.size()};
 		for (var i = 0; i < checkboxes.length; ++i) {
 			if (checkboxes[i].checked) {
 				selected.push(checkboxes[i].value);
 			}
 		}
+		$('#checkout').on('hidden.bs.modal', function(e) {
+			selected = [];
+		});
+		document.getElementById('checked').value = selected;
 		if (selected.length == rooms) {
-			document.getElementById('area').style.display = 'block';
+			document.getElementById('btn-submit').style.display = 'none';
+			document.getElementById('btn-send').style.display = 'inline-block';
+
 		} else {
-			document.getElementById('area').style.display = 'none';
-			document.querySelectorAll('.method').forEach(function(el) {
-				el.style.display = 'none';
-			});
+			document.getElementById('btn-submit').style.display = 'inline-block';
+			document.getElementById('btn-send').style.display = 'none';
 		}
 	}
 </script>
@@ -638,4 +684,21 @@ h3 {
 			document.getElementById(strUser).style.display = 'block';
 		}
 	}
+</script>
+
+<script>
+	function showMethod() {
+		document.getElementById("initial-content").style.display = 'none';
+		document.getElementById("payment-details").style.display = 'block';
+	}
+</script>
+
+<script>
+	$('input[name=cardNumber]').keypress(function(){
+		 var rawNumbers = $(this).val().replace(/ /g,'');
+		 var cardLength = rawNumbers.length;
+		 if(cardLength !==0 && cardLength <=12 && cardLength % 4 == 0){
+		   $(this).val($(this).val()+' ');
+		 }
+	});
 </script>

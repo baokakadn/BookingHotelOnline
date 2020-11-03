@@ -9,7 +9,7 @@
 <meta content="width=device-width, initial-scale=1" name="viewport" />
 <meta name="description" content="Responsive Admin Template" />
 <meta name="author" content="SmartUniversity" />
-<title>Spice Hotel | Bootstrap 4 Admin Dashboard Template + UI Kit</title>
+<title>Admin | Login</title>
 <!-- google font -->
 <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet" type="text/css" />
 <!-- icons -->
@@ -20,7 +20,7 @@
 <!-- style -->
 <link rel="stylesheet" href="${resources}/assets/css/pages/extra_pages.css">
 <!-- favicon -->
-<link rel="shortcut icon" href="${resources}/assets/img/favicon.ico" />
+<link rel="shortcut icon" href="${resources}/assets/img/favicon.png" />
 </head>
 <body>
 	<div class="limiter">

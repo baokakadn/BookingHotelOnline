@@ -34,7 +34,11 @@
 				<div class="pay_mathod_header">
 					<strong class="total_pey">Total Amount: $${grandTotal}</strong>
 					<h4 class="float-left">Choose a Payment Method :-</h4>
-					<div class="dic_msg clear">Hurry! Avail 10% cashback upto INR50 now, pay via Freecharge Wallet. TnC apply.</div>
+					<div class="dic_msg clear" style="color: red;">
+						<c:if test="${!empty error}">
+							${error}
+						</c:if>
+					</div>
 				</div>
 				<div class="row">
 					<div class="col-12">
@@ -68,59 +72,29 @@
 							<div class="col-lg-9 col-md-8 col-sm-8">
 								<div class="tab-content" id="pills-tabContent">
 									<div class="tab-pane fade show active" id="pills-creadit" role="tabpanel" aria-labelledby="pills-creadit-tab">
-										<form class="form-row" action="confirm" method="POST">
-											<div class="form-group col-sm-12">
+										<form:form id="cardForm" class="form-row" action="confirm" method="POST" modelAttribute="card">
+											<%-- <div class="form-group col-sm-12">
 												<label class="font-bold18 d-block">Card Type</label>
 												<img src="${resources}/assets/images/payment_card.png" alt="">
+											</div> --%>
+											<div class="card-wrapper form-group col-sm-12">
+											
 											</div>
 											<div class="form-group col-sm-6">
 												<label class="font-bold18">Card Number</label>
-												<input name="cardNumber" class="form-control" type="text" />
+												<form:input path="cardNumber" name="cardNumber" class="form-control" type="text" required="true"/>
 											</div>
 											<div class="form-group col-sm-6">
 												<label class="font-bold18">Name on Card</label>
-												<input name="ownerName" class="form-control" type="text" />
+												<form:input path="ownerName" name="ownerName" class="form-control" type="text" required="true"/>
 											</div>
-											<div class="form-group col-sm-12">
+											<div class="form-group col-sm-6">
 												<label class="font-bold18">Expiry Date</label>
-												<div class="form-row">
-													<div class="col-6 select_cart_down">
-														<select class="form-control" name="expiryMonth">
-															<option>MM</option>
-															<option value="1">January</option>
-															<option value="2">February</option>
-															<option value="3">March</option>
-															<option value="4">April</option>
-															<option value="5">May</option>
-															<option value="6">June</option>
-															<option value="7">July</option>
-															<option value="8">August</option>
-															<option value="9">September</option>
-															<option value="10">October</option>
-															<option value="11">November</option>
-															<option value="12">December</option>
-														</select>
-													</div>
-													<div class="col-6 select_cart_down">
-														<select class="form-control" name="expiryYear">
-															<option value="YY">YY</option>
-															<option value="2009">2009</option>
-															<option value="2010">2010</option>
-															<option value="2011">2011</option>
-															<option value="2012">2012</option>
-															<option value="2013">2013</option>
-															<option value="2014">2014</option>
-															<option value="2015">2015</option>
-															<option value="2016">2016</option>
-															<option value="2017">2017</option>
-															<option value="2019">2019</option>
-														</select>
-													</div>
-												</div>
+												<input name="expiry" class="form-control" type="text" required="required"/>
 											</div>
-											<div class="form-group col-sm-12 ">
+											<div class="form-group col-sm-6 ">
 												<label class="font-bold18">CVV Number</label>
-												<input name="cvvcode" class="form-control" type="text" />
+												<form:input path="cvvcode" name="cvvcode" class="form-control" type="text" required="true"/>
 											</div>
 											<div class="col-12 text-center">
 												<p class="note_text">
@@ -130,10 +104,10 @@
 												<input type="hidden" name="grandTotal" value="${grandTotal}">
 												<input type="submit" value="Pay Now">
 											</div>
-										</form>
+										</form:form>
 									</div>
 									<div class="tab-pane fade" id="pills-dabit" role="tabpanel" aria-labelledby="pills-dabit-tab">
-										<form class="form-row">
+										<form  class="form-row">
 											<div class="form-group col-sm-12">
 												<label class="font-bold18 d-block">Card Type</label>
 												<img src="${resources}/assets/images/payment_card.png" alt="">
@@ -214,3 +188,31 @@
 		</div>
 	</div>
 </section>
+
+<script src="${resources}/assets/plugin/card-master/dist/card.js"></script>
+
+	<script>
+	var card = new Card({
+	    // a selector or DOM element for the form where users will
+	    // be entering their information
+	    form: '#cardForm', // *required*
+	    // a selector or DOM element for the container
+	    // where you want the card to appear
+	    container: '.card-wrapper', // *required*
+
+	    formSelectors: {
+	        numberInput: 'input[name="cardNumber"]', // optional — default input[name="number"]
+	        expiryInput: 'input[name="expiry"]', // optional — default input[name="expiry"]
+	        cvcInput: 'input[name="cvvcode"]', // optional — default input[name="cvc"]
+	        nameInput: 'input[name="ownerName"]' // optional - defaults input[name="name"]
+	    },
+
+	    placeholders: {
+	        number: '•••• •••• •••• ••••',
+	        name: 'Full Name',
+	        expiry: '••/••••',
+	        cvc: '•••'
+	    }
+
+	});
+	</script>

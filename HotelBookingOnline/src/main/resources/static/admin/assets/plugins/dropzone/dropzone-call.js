@@ -3,7 +3,7 @@
    $(document).ready(function () {
         $("#dZUpload").dropzone({
             maxFiles: 2000,
-            url: "uploadImage",
+            url: "uploadUserImage",
             success: function (file, response) {
                 console.log(response);
             }

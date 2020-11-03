@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglib.jsp"%>
-
+<c:url var="resources" value="/resources/admin" />
+<link rel="stylesheet" href="${resources}/assets/css/imageuploadify.min.css" type="text/css">
+<style>
+.imageuploadify-container{
+	margin: 0px auto;
+}
+</style>
 <div class="page-content-wrapper">
 	<div class="page-content">
 		<div class="page-bar">
@@ -82,18 +88,8 @@
 									<span class="mdl-textfield__error">Number required!</span>
 								</div>
 							</div>
-							<div class="col-lg-12 p-t-20">
-								<label class="control-label col-md-3">Upload Identify Photo</label>
-								<form id="id_dropzone" class="dropzone">
-									<div class="dz-message">
-										<div class="dropIcon">
-											<i class="material-icons">cloud_upload</i>
-										</div>
-										<h3>Drop files here or click to upload.</h3>
-										<em> (This is just a demo. Selected files are <strong>not</strong> actually uploaded.)
-										</em>
-									</div>
-								</form>
+							<div style="margin: 0 auto;" class="col-lg-6">
+								<input name="image" onchange="processFile(this)" type="file" accept="image/*" multiple>
 							</div>
 							<div class="col-lg-12 p-t-20 text-center">
 								<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink">Submit</button>
@@ -106,3 +102,23 @@
 		</div>
 	</div>
 </div>
+
+<script src="${resources}/assets/js/imageuploadify.min.js"></script>
+
+<script>
+$('input[type="file"]').imageuploadify();
+</script>
+
+<script>
+function processFile(imageInput) {
+    if (imageInput.files[0]) {
+      var file = imageInput.files[0];
+      var pattern = /image-*/;
+      if (!file.type.match(pattern)) {
+        alert('Invalid format');
+        return;
+      }
+      // here you can do whatever you want with your image. Now you are sure that it is an image
+    }
+}
+</script>

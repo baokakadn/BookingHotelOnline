@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 @Entity
 @Table(name = "user")
 public class User implements java.io.Serializable {
@@ -36,6 +38,9 @@ public class User implements java.io.Serializable {
 	@Column(name = "phone")
 	private String phone;
 
+	@Column(name = "username")
+	private String username;
+
 	@Column(name = "password")
 	private String password;
 
@@ -46,7 +51,7 @@ public class User implements java.io.Serializable {
 	private String picture;
 
 	@Column(name = "status")
-	private int status;
+	private boolean status;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	private List<Booking> bookings;
@@ -57,6 +62,7 @@ public class User implements java.io.Serializable {
 
 	public User() {
 		super();
+		this.status = false;
 	}
 
 	public int getUserId() {
@@ -96,7 +102,8 @@ public class User implements java.io.Serializable {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+		this.password = encoder.encode(password);
 	}
 
 	public String getAddress() {
@@ -115,11 +122,11 @@ public class User implements java.io.Serializable {
 		this.picture = picture;
 	}
 
-	public int getStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 
@@ -137,6 +144,14 @@ public class User implements java.io.Serializable {
 
 	public void setListRole(Set<Role> listRole) {
 		this.listRole = listRole;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglib.jsp"%>
 <c:set var="url" value="${requestScope['javax.servlet.forward.request_uri']}" />
+<c:url var="resources" value="/resources" />
 <header class="header ${fn:indexOf(url, 'user') > -1 ? ' header_style2':' header_style1'}">
 	<div class="container top-bar">
 		<div class="row pt-2 pb-2">
@@ -111,80 +112,16 @@
 					<li class="nav-item ${fn:indexOf(url, 'contact') > -1 ? ' active':''}"><a class="nav-link" href="<c:url value="/contact"/>">Contact Us</a></li>
 					<li class="nav-item ${fn:indexOf(url, 'faq') > -1 ? ' active':''}"><a class="nav-link" href="<c:url value="/faqs"/>">FAQs</a></li>
 				</ul>
-				<div class="navbar-nav float-right">
-					<a class="btn btn-success" href="<c:url value="/rooms"/>"> <i class="fa fa-plus-square m-r-7"></i> Book Now
-					</a>
-					<div class="modal fade" id="SubmitHotel">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<!-- Modal Header -->
-								<div class="modal-header">
-									<h4 class="modal-title">Submit Hotel</h4>
-									<button type="button" class="close" data-dismiss="modal">
-										<i class="fa fa-times"></i>
-									</button>
-								</div>
-								<!-- Modal body -->
-								<div class="modal-body">
-									<form class="form-row">
-										<div class="form-group col-lg-6">
-											<input type="text" placeholder="Hotel Name*" class="form-control" />
-										</div>
-										<div class="form-group col-lg-6">
-											<input type="text" placeholder="Hotel Website*" class="form-control" />
-										</div>
-										<div class="form-group col-lg-6">
-											<input type="text" placeholder="Phone No.*" class="form-control" />
-										</div>
-										<div class="form-group col-lg-6">
-											<div class="select_cart_down">
-												<select class="form-control large_fild select_height48">
-													<option>Type of lodging</option>
-													<option>1</option>
-													<option>2</option>
-													<option>3</option>
-												</select>
-											</div>
-										</div>
-										<div class="form-group col-lg-6">
-											<input type="text" placeholder="Hotel Website*" class="form-control" />
-										</div>
-										<div class="form-group col-lg-6">
-											<input type="text" placeholder="Postcode*" class="form-control" />
-										</div>
-										<div class="form-group col-lg-6">
-											<input type="text" placeholder="City*" class="form-control" />
-										</div>
-										<div class="form-group col-lg-6">
-											<input type="text" placeholder="State*" class="form-control" />
-										</div>
-										<div class="form-group col-lg-12">
-											<div class="select_cart_down">
-												<select class="form-control large_fild select_height48">
-													<option>Country</option>
-													<option>UK</option>
-													<option>Colombia</option>
-													<option>China</option>
-												</select>
-											</div>
-										</div>
-										<div class="form-group col-lg-12 m-0">
-											<textarea placeholder="Address*" class="form-control textaria_height"></textarea>
-										</div>
-										<div class="form-group col-lg-12 roomtype_images m-0">
-											<input type="file" accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf" multiple>
-										</div>
-									</form>
-								</div>
-								<!-- Modal footer -->
-								<div class="modal-footer text-right border-0">
-									<!--<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
-									\ <input type="submit" value="Submit" class="btn btn-success" />
-								</div>
-							</div>
-						</div>
-					</div>
+				<div id="sb-search" class="sb-search">
+					<form action="/search-booking" id="searchForm">
+						<input class="sb-search-input" placeholder="Enter booking number..." type="text" value="" name="bookingUID" id="search"> <input
+							class="sb-search-submit" type="submit" value=""> <span class="sb-icon-search"></span>
+					</form>
 				</div>
+				<%-- <div class="navbar-nav float-right">
+					<a class="btn btn-success" href="<c:url value="/rooms"/>"> <i class="fa fa-search m-r-7"></i> Search Booking
+					</a>
+				</div> --%>
 			</div>
 		</div>
 	</nav>
@@ -208,9 +145,10 @@
 				<div class="tab-content">
 					<div class="tab-pane " id="Login_tab">
 						<form name='login-form' action="process-login" method='POST'>
+							<label id="loginError" style="color: red;"></label>
 							<div class="input-group">
 								<span class="input-group-addon"> <i class="fa fa-user"></i>
-								</span> <input id="email" type="text" class="form-control" name="email" placeholder="Email Address">
+								</span> <input id="email" type="text" class="form-control" name="email" placeholder="Username">
 							</div>
 							<div class="input-group">
 								<span class="input-group-addon"> <i class="fa fa-lock"></i>
@@ -242,31 +180,36 @@
 						</form>
 					</div>
 					<div class="tab-pane " id="Register_tab">
-						<div class="input-group">
-							<span class="input-group-addon"> <i class="fa fa-user"></i>
-							</span> <input type="text" class="form-control" name="Reg-Username" placeholder="Username">
-						</div>
-						<div class="input-group">
-							<span class="input-group-addon"> <i class="fa fa-envelope"></i>
-							</span> <input type="text" class="form-control" name="Reg-Email" placeholder="Email">
-						</div>
-						<div class="input-group">
-							<span class="input-group-addon"> <i class="fa fa-lock"></i>
-							</span> <input type="Password" class="form-control" name="Reg-Password" placeholder="Password">
-						</div>
-						<div class="input-group">
-							<span class="input-group-addon"> <i class="fa fa-lock"></i>
-							</span> <input type="Password" class="form-control" name="Confirm Password" placeholder="Confirm Password">
-						</div>
-						<div class="foregot_pass">
-							<label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0"> <input type="checkbox" class="custom-control-input"> <span
-								class="custom-control-indicator"></span> <span class="custom-control-description"> I agree with your <a href="#">Terms & Conditions</a>
-							</span>
-							</label>
-						</div>
-						<div class="text-right mt-4">
-							<input type="submit" value="Sign Up" class="btn btn-success" />
-						</div>
+						<form action="register" method="POST">
+							<label id="registerError" style="color: red;"></label>
+							<input type="hidden" name="url" value="${url}">
+							<div class="input-group">
+								<span class="input-group-addon"> <i class="fa fa-user"></i>
+								</span> <input type="text" class="form-control" name="Reg-Username" placeholder="Username" required="required">
+							</div>
+							<div class="input-group">
+								<span class="input-group-addon"> <i class="fa fa-envelope"></i>
+								</span> <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="form-control" name="Reg-Email" placeholder="Email" required="required">
+							</div>
+							<div class="input-group">
+								<span class="input-group-addon"> <i class="fa fa-lock"></i>
+								</span> <input id="regPass" type="Password" class="form-control" name="Reg-Password" placeholder="Password" required="required">
+							</div>
+							<div class="input-group">
+								<span class="input-group-addon"> <i class="fa fa-lock"></i>
+								</span> <input id="confirmPass" type="Password" class="form-control" name="Confirm Password" placeholder="Confirm Password" required="required">
+							</div>
+							<div class="foregot_pass">
+								<label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0"> <input type="checkbox" class="custom-control-input"
+									required="required"> <span class="custom-control-indicator"></span> <span class="custom-control-description"> I agree with
+										your <a href="#">Terms & Conditions</a>
+								</span>
+								</label>
+							</div>
+							<div class="text-right mt-4">
+								<input type="submit" value="Sign Up" class="btn btn-success" />
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -275,3 +218,49 @@
 	</div>
 </div>
 <!-- Login Modal End -->
+<script src="${resources}/assets/js/uisearch.js"></script>
+<script src="${resources}/assets/js/classie.js"></script>
+<script>
+	new UISearch(document.getElementById('sb-search'));
+</script>
+
+<script>
+function GetURLParameter(sParam)
+{
+	var sPageURL = window.location.search.substring(1);
+	var sURLVariables = sPageURL.split('&');
+	for (var i = 0; i < sURLVariables.length; i++){
+		var sParameterName = sURLVariables[i].split('=');
+		if (sParameterName[0] == sParam)
+		{
+			return sParameterName[1];
+		}
+	}
+}
+
+var msg = GetURLParameter('msg');
+if (msg == 'username'){
+	$('#registerError').text('Error: Username already exists !!!');
+}
+if (msg == 'error'){
+	$('#loginError').text('Error: Wrong username or password !!!');
+}
+if (msg == 'email'){
+	$('#registerError').text('Error: Email already registered !!!');
+}
+</script>
+<script type="text/javascript">
+	var password = document.getElementById("regPass"), 
+		confirm_password = document.getElementById("confirmPass");
+	
+	function validatePassword() {
+		if (password.value != confirm_password.value) {
+			confirm_password.setCustomValidity("Passwords Don't Match");
+		} else {
+			confirm_password.setCustomValidity('');
+		}
+	}
+
+	password.onchange = validatePassword;
+	confirm_password.onkeyup = validatePassword;
+</script>

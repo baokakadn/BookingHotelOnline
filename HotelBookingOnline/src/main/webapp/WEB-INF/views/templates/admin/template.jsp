@@ -10,7 +10,7 @@
 <meta content="width=device-width, initial-scale=1" name="viewport" />
 <meta name="description" content="Responsive Admin Template" />
 <meta name="author" content="SmartUniversity" />
-<title>Gwesty</title>
+<title>Gwesty | Admin</title>
 <!-- google font -->
 <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet"
 	type="text/css" />
@@ -94,8 +94,8 @@
 	<script src="${resources}/assets/plugins/material-datetimepicker/bootstrap-material-datetimepicker.js"></script>
 	<script src="${resources}/assets/plugins/material-datetimepicker/datetimepicker.js"></script>
 	<!-- dropzone -->
-    <script src="${resources}/assets/plugins/dropzone/dropzone.js" ></script>
-    <script src="${resources}/assets/plugins/dropzone/dropzone-call.js" ></script>
+    <%-- <script src="${resources}/assets/plugins/dropzone/dropzone.js" ></script> --%>
+    <%-- <script src="${resources}/assets/plugins/dropzone/dropzone-call.js" ></script> --%>
 	<!-- animation -->
 	<script src="${resources}/assets/js/pages/ui/animations.js"></script>
 	<!-- end js include path -->

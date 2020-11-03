@@ -35,7 +35,8 @@
 							<div class="card-body no-padding height-9">
 								<div class="row">
 									<div class="profile-userpic">
-										<img src="<c:url value="/resources/admin/assets/img/dp.jpg"/>" class="img-responsive" alt="">
+										<img style="width: 130px; height: 130px;" src="<c:url value="/resources/upload/guest-image/${guest.id}/${guest.idImage}"/>"
+											class="img-responsive" alt="">
 									</div>
 								</div>
 								<div class="profile-usertitle">
@@ -43,9 +44,11 @@
 								</div>
 								<!-- SIDEBAR BUTTONS -->
 								<div class="profile-userbuttons">
-									&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-									<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-circle btn-primary">Change
-										Photo</button>
+									<form action="uploadGuestImage" method="POST" enctype="multipart/form-data">
+										<input type="hidden" name="guestId" value="${guest.id}"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <input type="file" id="upload"
+											hidden="hiden" name="fileDatas" onchange="this.form.submit()"> <label style="font-size: 11px; font-weight: 600;" for="upload"
+											class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-circle btn-primary">Change Photo</label>
+									</form>
 								</div>
 								<!-- END SIDEBAR BUTTONS -->
 								<ul class="list-group list-group-unbordered">
@@ -92,8 +95,8 @@
 										class="pull-right margin-0"> <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
 									</label> <label for="sample2" class="mdl-textfield__label">Room</label>
 									<ul data-mdl-for="sample2" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
-										<c:forEach var="detail" items="${listDetails}">
-											<li class="mdl-menu__item" data-val="${detail.bookingdetailsid}">${detail.room.roomnumber}</li>
+										<c:forEach var="room" items="${listRoom}">
+											<li class="mdl-menu__item" data-val="${room.roomid}">${room.roomnumber}</li>
 										</c:forEach>
 									</ul>
 								</div>

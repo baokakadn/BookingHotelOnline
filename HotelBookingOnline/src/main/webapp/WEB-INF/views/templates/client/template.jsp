@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="keywords" content="">
 <meta name="description" content="">
-<title>Gwesty - Hotel Booking HTML5 Responsive Template</title>
+<title>Gwesty - Hotel Booking Online</title>
 <!--FontAwesome Font Style -->
 <link href="${resources}/assets/css/font-awesome4.0.min.css" rel="stylesheet">
 <!-- Google-Font-->
@@ -28,8 +28,14 @@
 <link rel="stylesheet" href="${resources}/assets/css/flexslider.css" type="text/css">
 <!--Image-Uploader-->
 <link rel="stylesheet" href="${resources}/assets/css/imageuploadify.min.css" type="text/css">
+
+
+<link rel="stylesheet" href="${resources}/assets/css/component.css" type="text/css">
+
 <!--Custome Style -->
 <link rel="stylesheet" href="${resources}/assets/css/style.css" type="text/css">
+
+
 <!--Responsive Media Style -->
 <link rel="stylesheet" href="${resources}/assets/css/media-responsive.css" type="text/css">
 <script src="${resources}/assets/js/jquery-3.2.1.slim.min.js"></script>
@@ -39,6 +45,7 @@
 <link rel="shortcut icon" sizes="72x72" href="${resources}/assets/images/favicon-icon/apple-touch-icon-72-precomposed.png">
 <link rel="shortcut icon" sizes="57x57" href="${resources}/assets/images/favicon-icon/apple-touch-icon-57-precomposed.png">
 <link rel="shortcut icon" sizes="24x24" href="${resources}/assets/images/favicon-icon/favicon.png">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -65,7 +72,7 @@
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	
 	<script src="${resources}/assets/js/popper.min.js"></script>
 	<script src="${resources}/assets/js/bootstrap.min.js"></script>
 	<%-- <script src="${resources}/assets/js/bootstrap-datepicker.min.js"></script> --%>
@@ -84,6 +91,8 @@
 	<!--Custom-JS-->
 	<script src="${resources}/assets/js/interface.js"></script>
 	
+	
+	
 	<script>
 	var url = document.location.toString();
 	if (window.location.href.indexOf('#Register_tab') != -1) {
@@ -100,7 +109,9 @@
 	    $('.nav-pills a[href="#Login_tab"]').addClass("active"); 
 	    document.getElementById('Login_tab').classList.add("active");
 	}  
-	
+	if (window.location.href.indexOf('#change_pass') != -1) {
+		$('#change_pass').modal('show');
+	} 
 	</script>
 	<script>
 	function showTab(a, b) {
@@ -111,5 +122,6 @@
 	    
 	}
 </script>
+
 </body>
 </html>

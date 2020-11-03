@@ -24,7 +24,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "booking")
-public class Booking implements Serializable{
+public class Booking implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -62,6 +62,10 @@ public class Booking implements Serializable{
 
 	@Column(name = "numberOfRooms")
 	private int numberOfRooms;
+
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@Column(name = "cancelDate")
+	private Date cancelDate;
 
 	@OneToMany(mappedBy = "booking", fetch = FetchType.LAZY)
 	private List<BookingDetails> bookingdetails;
@@ -215,6 +219,14 @@ public class Booking implements Serializable{
 
 	public void setNumberOfRooms(int numberOfRooms) {
 		this.numberOfRooms = numberOfRooms;
+	}
+
+	public Date getCancelDate() {
+		return cancelDate;
+	}
+
+	public void setCancelDate(Date cancelDate) {
+		this.cancelDate = cancelDate;
 	}
 
 }

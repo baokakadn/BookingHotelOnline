@@ -57,9 +57,11 @@ public class UserManageController {
 	}
 
 	@PostMapping("saveUser")
-	private String saveUser(@ModelAttribute("user") User user) {
+	private String saveUser(@ModelAttribute("user") User user, @RequestParam("image") MultipartFile[] fileDatas, HttpServletRequest request) throws IOException {
 		userService.saveUser(user);
-		return "redirect:/admin/user";
+		MyUploadForm myUploadForm = new MyUploadForm();
+		myUploadForm.setFileDatas(fileDatas);
+		return this.doUpload(request, myUploadForm, user.getUserId());
 	}
 
 	@PostMapping("updateUser")
@@ -76,11 +78,11 @@ public class UserManageController {
 			@RequestParam("fileDatas") MultipartFile[] fileDatas, @RequestParam("userId") String userId) throws NumberFormatException, IOException {
 		MyUploadForm myUploadForm = new MyUploadForm();
 		myUploadForm.setFileDatas(fileDatas);
-		return this.doUpload(request, model, myUploadForm, Integer.parseInt(userId.trim()));
+		return this.doUpload(request, myUploadForm, Integer.parseInt(userId.trim()));
 
 	}
 
-	private String doUpload(HttpServletRequest request, Model model, //
+	private String doUpload(HttpServletRequest request, //
 			MyUploadForm myUploadForm, int userId) throws IOException {
 
 		// Thư mục gốc upload file.
@@ -126,4 +128,5 @@ public class UserManageController {
 		userService.saveUser(user);
 		return "redirect:/admin/user/" + userId;
 	}
+
 }

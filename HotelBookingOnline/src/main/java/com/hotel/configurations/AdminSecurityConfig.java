@@ -44,7 +44,8 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/admin", "/admin/login", "/admin/logout, /**").permitAll();
 		http.antMatcher("/admin/**")
 		.authorizeRequests()
-		.antMatchers("/admin/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_STAFF')")
+		.antMatchers("/admin/user", "/admin/booking", "/admin/guest", "/admin/dashboard").access("hasAnyRole('ROLE_ADMIN', 'ROLE_STAFF')")
+		.antMatchers("/admin/staff/**", "/admin/room-type/**", "/admin/rooms/**", "/admin/service/**", "/admin/staff/**", "/admin/promotion/**").access("hasRole('ROLE_ADMIN')")
 		.and()
 		.formLogin().loginPage("/admin")
 		.loginProcessingUrl("/admin/process-login")

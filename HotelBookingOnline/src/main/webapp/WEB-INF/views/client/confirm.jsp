@@ -36,13 +36,13 @@
 			<div class="col-md-12">
 				<div class="alert alert-success">
 					<i class="fa fa-info-circle m-r-7"></i>
-					Thank you! Your booking has been placed. Please check your Email to confirm the booking.
+					Thank you! Your booking has been placed. We will contact you to confirm about the booking soon.
 				</div>
 			</div>
 		</div>
 		<div class="row conform-yemm_content">
 			<div class="col-12">
-				<h4 class="form_title4">Booking :-</h4>
+				<h4 class="form_title4">Booking Information:-</h4>
 			</div>
 			<div class="col-lg-12">
 				<div class="row">
@@ -62,7 +62,7 @@
 										<li>
 											<fmt:setLocale value="en_US" scope="session"/>
 											<strong>Check-In</strong>
-											<p><fmt:formatDate value="${booking.checkInDate}" pattern="MMMM dd" /></p>
+											<p><fmt:formatDate value="${booking.checkInDate}" pattern="MMM dd yyyy" /></p>
 											<span><fmt:formatDate value="${booking.checkInDate}" pattern="E" />, 13 pm</span>
 										</li>
 										<li class="text-center">
@@ -72,8 +72,8 @@
 											</span>
 										</li>
 										<li>
-											<strong>Check-In</strong>
-											<p><fmt:formatDate value="${booking.checkOutDate}" pattern="MMMM dd" /></p>
+											<strong>Check-Out</strong>
+											<p><fmt:formatDate value="${booking.checkOutDate}" pattern="MMM dd yyyy" /></p>
 											<span><fmt:formatDate value="${booking.checkOutDate}" pattern="E" />, 12 pm</span>
 										</li>
 									</ul>
@@ -86,7 +86,7 @@
 							</div>
 						</div>
 						<div class="conform_more_dic">
-							<h5>Primary Traveller In This Trip :-</h5>
+							<h5>Customer information :-</h5>
 							<ul class="d-inline-block m-b15">
 								<li>
 									<strong>Full Name:</strong>

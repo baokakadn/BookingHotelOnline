@@ -28,21 +28,22 @@ public class UserSecurityService implements UserDetailsService {
 	private RoleRepository roleRepository;
 
 	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		User user = userRepository.findByEmail(email);
-		if (user == null) {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = userRepository.findByUsername(username);
+		if (user != null && user.getStatus()) {
+			List<Role> roleNames = roleRepository.findByListUsers_Username(username);
+
+			List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
+			if (!CollectionUtils.isEmpty(roleNames)) {
+				for (Role role : roleNames) {
+					GrantedAuthority authority = new SimpleGrantedAuthority(role.getRoleName());
+					grantList.add(authority);
+				}
+			}
+			return new CustomUserDetail(user.getUsername(), user.getPassword(), grantList, user.getUserId(), user.getPicture(), user.getName());
+		} else {
 			throw new UsernameNotFoundException("Username is not found");
 		}
-		List<Role> roleNames = roleRepository.findByListUsers_Email(email);
 
-		List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
-		if (!CollectionUtils.isEmpty(roleNames)) {
-			for (Role role : roleNames) {
-				GrantedAuthority authority = new SimpleGrantedAuthority(role.getRoleName());
-				grantList.add(authority);
-			}
-		}
-
-		return new CustomUserDetail(user.getEmail(), user.getPassword(), grantList, user.getUserId(), user.getPicture(), user.getName());
 	}
 }

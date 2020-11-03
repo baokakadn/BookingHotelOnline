@@ -32,4 +32,17 @@
 	<definition name="faqs" extends="template_client">
 		<put-attribute name="content" value="/WEB-INF/views/client/faqs.jsp" />
 	</definition>
+	
+	<definition name="reg-success" extends="template_client">
+		<put-attribute name="content" value="/WEB-INF/views/client/reg-success.jsp" />
+	</definition>
+	
+	<definition name="search" extends="template_client">
+		<put-attribute name="content" value="/WEB-INF/views/client/search.jsp" />
+	</definition>
+	
+	<definition name="not-available" extends="template_client">
+		<put-attribute name="content" value="/WEB-INF/views/client/not-available.jsp" />
+	</definition>
+	
 </tiles-definitions>

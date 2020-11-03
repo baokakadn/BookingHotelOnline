@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hotel.models.CustomEmployeeDetail;
 import com.hotel.models.Employee;
 import com.hotel.models.Position;
 import com.hotel.services.EmployeeService;
@@ -40,7 +45,7 @@ public class StaffManageController {
 	@GetMapping("create")
 	private String createStaff(Model model) {
 		model.addAttribute("staff", new Employee());
-		model.addAttribute("roleList", positionService.getAllPositions());
+		model.addAttribute("positionList", positionService.getAllPositions());
 		return "create-staff";
 	}
 
@@ -59,7 +64,7 @@ public class StaffManageController {
 	}
 
 	@PostMapping("saveStaff")
-	private String saveStaff(@ModelAttribute("staff") Employee employee, @RequestParam("roleName") String name) {
+	private String saveStaff(@ModelAttribute("staff") Employee employee, @RequestParam("position") String name) {
 		Position position = positionService.getPositionByName(name);
 		employee.setPosition(position);
 		employeeService.saveEmployee(employee);
@@ -79,15 +84,15 @@ public class StaffManageController {
 	@PostMapping("uploadImage")
 	public String uploadMultiFileHandlerPOST(HttpServletRequest request, //
 			Model model, //
-			@RequestParam("fileDatas") MultipartFile[] fileDatas, @RequestParam("staffId") String staffId) throws NumberFormatException, IOException {
+			@RequestParam("fileDatas") MultipartFile[] fileDatas, @RequestParam("staffId") String staffId, @AuthenticationPrincipal CustomEmployeeDetail user) throws NumberFormatException, IOException {
 		MyUploadForm myUploadForm = new MyUploadForm();
 		myUploadForm.setFileDatas(fileDatas);
-		return this.doUpload(request, model, myUploadForm, Integer.parseInt(staffId.trim()));
+		return this.doUpload(request, model, myUploadForm, Integer.parseInt(staffId.trim()), user);
 
 	}
 
 	private String doUpload(HttpServletRequest request, Model model, //
-			MyUploadForm myUploadForm, int staffId) throws IOException {
+			MyUploadForm myUploadForm, int staffId, CustomEmployeeDetail user) throws IOException {
 
 		// Thư mục gốc upload file.
 		String uploadRootPath = request.getServletContext().getRealPath("upload/staff-image/" + staffId);
@@ -130,6 +135,16 @@ public class StaffManageController {
 			}
 		}
 		employeeService.saveEmployee(employee);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication instanceof UsernamePasswordAuthenticationToken) {
+			UsernamePasswordAuthenticationToken currentAuth = (UsernamePasswordAuthenticationToken) authentication;
+			user.setPicture(employee.getPhoto());
+			UsernamePasswordAuthenticationToken updateAuth = new UsernamePasswordAuthenticationToken(user ,
+					currentAuth.getCredentials(),
+					currentAuth.getAuthorities());
+			SecurityContextHolder.getContext().setAuthentication(updateAuth);
+		}
+
 		return "redirect:/admin/staff/" + staffId;
 	}
 }

@@ -12,6 +12,8 @@ import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -175,16 +177,42 @@ public class BookingManageController {
 
 	@PostMapping("booking-details/{bookingId}/checkout")
 	private String checkout(@RequestParam("checked") List<String> checkedList, @PathVariable("bookingId") int bookingId,
-			@RequestParam("payment") String payment, @RequestParam("amount") String amount, @RequestParam("grandTotal") String grandTotal,
-			@RequestParam("cardNumber") String cardNumber, @RequestParam("ownerName") String ownerName, @RequestParam("expiryMonth") String month, @RequestParam("expiryYear") String year,
-			@RequestParam("cvvcode") String cvvCode) {
+			@RequestParam(value = "payment", required = false) String payment, @RequestParam(value = "amount", required = false) String amount, @RequestParam(value = "grandTotal", required = false) String grandTotal,
+			@RequestParam(value = "cardNumber", required = false) String cardNumber, @RequestParam(value = "ownerName", required = false) String ownerName, @RequestParam(value = "expiryMonth", required = false) String month,
+			@RequestParam(value = "expiryYear", required = false) String year, @RequestParam(value = "cvvcode", required = false) String cvvCode){
 		Booking booking = bookingService.getBookingById(bookingId);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String strCheckout = java.time.LocalDate.now().toString() + " 12:00:00";
 		String strCheckin = java.time.LocalDate.now().toString() + " 13:00:00";
+		System.out.println(payment);
 		if (checkedList != null) {
+			if (payment != null) {
+				Invoice invoice = new Invoice();
+				if (payment.equalsIgnoreCase("cash")) {
+					invoice.setAmount(Double.parseDouble(amount));
+				} else {
+					CreditCard card = cardService.getCreditCard(cardNumber);
+					if (card.getBalance() < Double.parseDouble(amount)) {
+						System.out.println("Not enough money");
+						return "";
+					} else {
+						invoice.setCreditcard(card);
+						try {
+							transaction(card, invoice, Double.parseDouble(amount));
+						} catch (NumberFormatException e) {
+							e.printStackTrace();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}
+				invoice.setBooking(booking);
+				invoice.setInvoiceDate(now);
+				invoiceService.saveInvoice(invoice);
+				booking.setStatus(Status.SUCCESS);
+			}
 			for (String checked : checkedList) {
 				int id = Integer.parseInt(checked.trim());
 				BookingDetails details;
@@ -194,7 +222,6 @@ public class BookingManageController {
 					details.setCheckoutDate(LocalDateTime.parse(now.format(formatter), formatter));
 					listDetails = detailsService.getAllAfter(bookingId, id, LocalDateTime.parse(strCheckin, formatter));
 				} else {
-
 					details = detailsService.getByCheckinDate(bookingId, id, LocalDateTime.parse(strCheckin, formatter));
 					details.setCheckoutDate(LocalDateTime.parse(now.format(formatter), formatter));
 					Date newDate = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
@@ -206,20 +233,7 @@ public class BookingManageController {
 					detailsService.deleteAll(listDetails);
 				}
 			}
-			if (!payment.equalsIgnoreCase("none")) {
-				Invoice invoice = new Invoice();
-				if (payment.equalsIgnoreCase("cash")) {
-					invoice.setAmount(Double.parseDouble(amount));
-				} else {
-					CreditCard card = cardService.getCreditCard(cardNumber);
-					invoice.setCreditcard(card);
-					invoice.setAmount(Double.parseDouble(grandTotal) - invoiceService.getTotalPaid(bookingId));
-				}
-				invoice.setBooking(booking);
-				invoice.setInvoiceDate(now);
-				invoiceService.saveInvoice(invoice);
-				booking.setStatus(Status.SUCCESS);
-			}
+
 		}
 		return "redirect:/admin/booking/booking-details/" + bookingId;
 	}
@@ -245,4 +259,11 @@ public class BookingManageController {
 		c.add(Calendar.DATE, 1);
 		return c;
 	}
+
+	@Transactional(rollbackOn = Exception.class)
+	private void transaction(CreditCard card, Invoice invoice, double amount) throws Exception {
+		card.setBalance(card.getBalance() - amount);
+		invoice.setAmount(amount);
+	}
+
 }

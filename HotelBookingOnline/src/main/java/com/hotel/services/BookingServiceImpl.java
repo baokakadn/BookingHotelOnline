@@ -37,4 +37,9 @@ public class BookingServiceImpl implements BookingService{
 		return bookingRepo.getMaxId();
 	}
 
+	@Override
+	public Booking getByBookinguid(String uid) {
+		return bookingRepo.findByBookinguid(uid);
+	}
+
 }

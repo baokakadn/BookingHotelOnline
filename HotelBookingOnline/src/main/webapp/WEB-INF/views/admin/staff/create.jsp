@@ -62,12 +62,12 @@
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height txt-full-width">
-									<input name="roleName" class="mdl-textfield__input"  type="text" id="list1" value="${staff.role.roleName}" readonly="readonly" required="true"/> 
+									<input name="position" class="mdl-textfield__input"  type="text" id="list1" value="${staff.position.name}" readonly="readonly" required="true"/> 
 									<label for="list1" class="pull-right margin-0"><i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i></label> 
-									<label for="list1" class="mdl-textfield__label">Role</label>
+									<label for="list1" class="mdl-textfield__label">Position</label>
 									<ul data-mdl-for="list1" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
-										<c:forEach var="role" items="${roleList}">
-											<li class="mdl-menu__item" data-val="${role.roleId}">${role.roleName}</li>
+										<c:forEach var="position" items="${positionList}">
+											<li class="mdl-menu__item" data-val="${position.id}">${position.name}</li>
 										</c:forEach>
 									</ul>
 								</div>

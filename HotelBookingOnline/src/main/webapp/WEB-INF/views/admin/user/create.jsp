@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglib.jsp"%>
-
+<c:url var="resources" value="/resources/admin" />
+<link rel="stylesheet" href="${resources}/assets/css/imageuploadify.min.css" type="text/css">
+<style>
+.imageuploadify-container{
+	margin: 0px auto;
+}
+</style>
 <div class="page-content-wrapper">
 	<div class="page-content">
 		<div class="page-bar">
@@ -31,58 +37,56 @@
 						</ul>
 					</div>
 					<form:form action="saveUser" method="POST" modelAttribute="user" id="userForm">
-						<form:hidden path="userId"/>
+						<form:hidden path="userId" />
 						<div class="card-body row">
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<form:input path="name" class="mdl-textfield__input" type="text" id="txtFirstName" />
+									<form:input path="name" class="mdl-textfield__input" type="text" id="txtFirstName" required="true"/>
 									<label class="mdl-textfield__label">Full Name</label>
 								</div>
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<form:input path="email" class="mdl-textfield__input" type="email" id="txtemail" />
-									<label class="mdl-textfield__label">Email</label> <span class="mdl-textfield__error">Enter Valid Email Address!</span>
+									<form:input path="email" class="mdl-textfield__input" type="email" id="txtemail" required="true"/>
+									<label class="mdl-textfield__label">Email</label> 
+									<span class="mdl-textfield__error">Enter Valid Email Address!</span>
 								</div>
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<form:input path="phone" class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="text5" />
+									<form:input path="phone" class="mdl-textfield__input" type="text" pattern="-?[0-9]*([0-9]+)?" id="text5" required="true"/>
 									<label class="mdl-textfield__label" for="text5">Mobile Number</label> <span class="mdl-textfield__error">Number required!</span>
 								</div>
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<form:input path="password" class="mdl-textfield__input" type="password" id="txtPwd" />
-									<label class="mdl-textfield__label">Password</label>
+									<form:input path="username" class="mdl-textfield__input" type="text" id="txtUserName" required="true"/>
+									<label class="mdl-textfield__label">UserName</label>
 								</div>
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<input class="mdl-textfield__input" type="password" id="txtConfirmPwd"> <label class="mdl-textfield__label">Confirm Password</label>
+									<form:input path="password" class="mdl-textfield__input" type="password" id="txtPwd" required="true"/>
+									<label class="mdl-textfield__label">Password</label>
 								</div>
 							</div>
 							<div class="col-lg-6 p-t-20">
-								<div class="mdl-textfield mdl-js-textfield txt-full-width">
-									<form:textarea path="address" class="mdl-textfield__input" rows="1" id="text7" /></textarea>
-									<label class="mdl-textfield__label" for="text7">Address</label>
+								<div id="confirm" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+									<input class="mdl-textfield__input" type="password" id="txtConfirmPwd" required="true" /> 
+									<label class="mdl-textfield__label">Confirm Password</label>
 								</div>
 							</div>
 							<div class="col-lg-12 p-t-20">
-								<label class="control-label col-md-3">Upload Photos</label>
-								<form id="id_dropzone" class="dropzone">
-									<div class="dz-message">
-										<div class="dropIcon">
-											<i class="material-icons">cloud_upload</i>
-										</div>
-										<h3>Drop files here or click to upload.</h3>
-										<em> (This is just a demo. Selected files are <strong>not</strong> actually uploaded.)
-										</em>
-									</div>
-								</form>
+								<div class="mdl-textfield mdl-js-textfield txt-full-width">
+									<form:textarea path="address" class="mdl-textfield__input" rows="1" id="text7" required="true"/>
+									<label class="mdl-textfield__label" for="text7">Address</label>
+								</div>
+							</div>
+							<div style="margin: 0 auto;" class="col-lg-6">
+								<input name="image" onchange="processFile(this)" type="file" accept="image/*" multiple>
 							</div>
 							<div class="col-lg-12 p-t-20 text-center">
-								<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink">Submit</button>
+								<button id="submit" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink">Submit</button>
 								<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default">Cancel</button>
 							</div>
 						</div>
@@ -92,3 +96,45 @@
 		</div>
 	</div>
 </div>
+<script src="${resources}/assets/js/imageuploadify.min.js"></script>
+
+<script>
+$('input[type="file"]').imageuploadify();
+</script>
+
+<script>
+function processFile(imageInput) {
+    if (imageInput.files[0]) {
+      var file = imageInput.files[0];
+      var pattern = /image-*/;
+      if (!file.type.match(pattern)) {
+        alert('Invalid format');
+        return;
+      }
+      // here you can do whatever you want with your image. Now you are sure that it is an image
+    }
+}
+</script>
+
+<script type="text/javascript">
+		var password = document.getElementById("txtPwd")
+		  , confirm_password = document.getElementById("txtConfirmPwd");
+	
+		function validatePassword(){
+		  if(password.value != confirm_password.value) {
+			$('#confirm').removeClass('is-valid');
+			$('#confirm').addClass('is-invalid');
+			$('#cfError').remove();
+			$('#confirm').append("<span class='mdl-textfield__error' id='cfError'>Passwords Don't Match</span>");
+		    confirm_password.setCustomValidity("Passwords Don't Match");
+		  } else {
+			  $('#cfError').remove();
+			 $('#confirm').removeClass('is-invalid');
+			 $('#confirm').addClass('is-valid');
+		    confirm_password.setCustomValidity('');
+		  }
+		}
+	
+		password.onchange = validatePassword;
+		confirm_password.onkeyup = validatePassword;
+	</script>

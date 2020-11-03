@@ -49,25 +49,25 @@
 									All Users</span>
 						</a></li>
 					</ul></li>
-				<li class="nav-item ${fn:indexOf(url, '/guest') > -1 ? ' active':''}"><a href="#" class="nav-link nav-toggle"> <i class="material-icons">contacts</i>
-						<span class="title">Guest In Room</span> <span class="arrow ${fn:indexOf(url, '/guest') > -1 ? ' open':''}"></span>
+				<li class="nav-item ${fn:indexOf(url, '/guest') > -1 ? ' active':''}"><a href="<c:url value="/admin/guest"/>" class="nav-link nav-toggle"> <i class="material-icons">contacts</i>
+						<span class="title">Guest In Room</span> <%-- <span class="arrow ${fn:indexOf(url, '/guest') > -1 ? ' open':''}"></span> --%>
 				</a>
-					<ul class="sub-menu">
+					<%-- <ul class="sub-menu">
 						<li class="nav-item ${isGuest ? ' active':''}"><a href="<c:url value="/admin/guest"/>" class="nav-link "> <span class="title">View
 									All Guest</span>
 						</a></li>
-					</ul></li>
-				<li class="nav-item ${fn:indexOf(url, 'booking') > -1 ? ' active':''}"><a href="#" class="nav-link nav-toggle"> <i class="material-icons">business_center</i>
-						<span class="title">Booking</span> <span class="arrow ${fn:indexOf(url, 'booking') > -1 ? ' open':''}"></span>
+					</ul></li> --%>
+				<li class="nav-item ${fn:indexOf(url, 'booking') > -1 ? ' active':''}"><a href="<c:url value="/admin/booking"/>" class="nav-link nav-toggle"> <i class="material-icons">business_center</i>
+						<span class="title">Booking</span> <%-- <span class="arrow ${fn:indexOf(url, 'booking') > -1 ? ' open':''}"></span> --%>
 				</a>
-					<ul class="sub-menu">
-						<%-- <li class="nav-item ${fn:indexOf(url, 'booking/create') > -1 ? ' active':''}"><a href="<c:url value="/admin/booking/create"/>"
+					<%-- <ul class="sub-menu">
+						<li class="nav-item ${fn:indexOf(url, 'booking/create') > -1 ? ' active':''}"><a href="<c:url value="/admin/booking/create"/>"
 							class="nav-link "> <span class="title">New Booking</span>
-						</a></li> --%>
+						</a></li>
 						<li class="nav-item ${isBooking ? ' active':''}"><a href="<c:url value="/admin/booking"/>" class="nav-link "> <span class="title">View
 									Booking</span>
 						</a></li>
-					</ul></li>
+					</ul></li> --%>
 				<security:authorize access="hasRole('ADMIN')">
 					<li class="nav-item ${fn:indexOf(url, 'room-type') > -1 ? ' active':''}"><a href="#" class="nav-link nav-toggle"> <i
 							class="material-icons">local_hotel</i> <span class="title">Room Types</span> <span
