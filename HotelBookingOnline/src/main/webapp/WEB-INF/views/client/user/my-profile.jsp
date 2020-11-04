@@ -51,7 +51,7 @@
 							<h4>
 								Email Address <a href="#" class="pass_link" data-toggle="modal" data-target="#change_pass">Change Password</a>
 							</h4>
-							<form:input path="email" type="text" class="form-control gray_fild" required="true"/>
+							<form:input path="email" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" class="form-control gray_fild" required="true"/>
 						</div>
 						<div class="form-group col-lg-6 col-md-6  m-0">
 							<h4>Phone No.</h4>

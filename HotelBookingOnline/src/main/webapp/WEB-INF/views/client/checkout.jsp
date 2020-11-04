@@ -90,7 +90,7 @@
 											</div>
 											<div class="form-group col-sm-6">
 												<label class="font-bold18">Expiry Date</label>
-												<input name="expiry" class="form-control" type="text" required="required"/>
+												<input name="expiry" class="form-control" type="text" required="required" maxlength="7"/>
 											</div>
 											<div class="form-group col-sm-6 ">
 												<label class="font-bold18">CVV Number</label>
@@ -207,10 +207,15 @@
 	        nameInput: 'input[name="ownerName"]' // optional - defaults input[name="name"]
 	    },
 
+	    messages: {
+	        validDate: 'expire\ndate',
+	        monthYear: 'mm/yy'
+	    },
+
 	    placeholders: {
 	        number: '•••• •••• •••• ••••',
 	        name: 'Full Name',
-	        expiry: '••/••••',
+	        expiry: '••/••',
 	        cvc: '•••'
 	    }
 

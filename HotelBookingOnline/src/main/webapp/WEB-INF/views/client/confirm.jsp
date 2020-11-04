@@ -49,7 +49,7 @@
 					<div class="col-lg-9 col-md-12 conform-yemm-detail">
 						<div class="row">
 							<div class="conform-hotel_pic col-lg-4 col-md-4 ">
-								<img src="${resources}/assets/images/conform_hotelpic.jpg" class="img-fluid" alt="">
+								<img src="${resources}/upload/room-type-image/${booking.roomtype.roomtypeid}/${booking.roomtype.image}" class="img-fluid" alt="">
 							</div>
 							<div class="col-lg-8 col-md-8 confortion_dic">
 								<h5>${booking.roomtype.typename }</h5>

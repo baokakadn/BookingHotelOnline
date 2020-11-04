@@ -47,7 +47,7 @@
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<form:input path="email" class="mdl-textfield__input" type="email" id="txtemail" required="true"/>
+									<form:input path="email" class="mdl-textfield__input" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" id="txtemail" required="true"/>
 									<label class="mdl-textfield__label">Email</label> 
 									<span class="mdl-textfield__error">Enter Valid Email Address!</span>
 								</div>

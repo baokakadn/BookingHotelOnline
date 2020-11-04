@@ -40,4 +40,9 @@ public class TypeRoomServiceImpl implements TypeRoomService {
 	public RoomType getByTypeName(String name) {
 		return typerepository.findByTypename(name);
 	}
+
+	@Override
+	public List<RoomType> searchAvailableRoomType(String checkInDate, String checkOutDate) {
+		return typerepository.searchAvailableRoomType(checkInDate, checkOutDate);
+	}
 }

@@ -68,6 +68,19 @@
 									Booking</span>
 						</a></li>
 					</ul></li> --%>
+				</li>
+				<li class="nav-item ${fn:indexOf(url, 'reports') > -1 ? ' active':''}">
+					<a href="#" class="nav-link nav-toggle"> 
+						<i class="material-icons">local_hotel</i> 
+						<span class="title">Reports</span> 
+						<span class="arrow ${fn:indexOf(url, 'room-type') > -1 ? ' open':''}"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="nav-item ${fn:indexOf(url, 'booking-report') > -1 ? ' active':''}"><a href="<c:url value="/admin/booking-report"/>"
+							class="nav-link "> <span class="title">Booking Report</span>
+						</a></li>
+					</ul>
+				</li>
 				<security:authorize access="hasRole('ADMIN')">
 					<li class="nav-item ${fn:indexOf(url, 'room-type') > -1 ? ' active':''}"><a href="#" class="nav-link nav-toggle"> <i
 							class="material-icons">local_hotel</i> <span class="title">Room Types</span> <span
@@ -80,7 +93,8 @@
 							<li class="nav-item ${isRoomType ? ' active':''}"><a href="<c:url value="/admin/room-type"/>" class="nav-link "> <span class="title">View
 										All Room Types</span>
 							</a></li>
-						</ul></li>
+						</ul>
+					</li>
 					<li class="nav-item ${fn:indexOf(url, 'rooms') > -1 ? ' active':''}"><a href="#" class="nav-link nav-toggle"> <i class="material-icons">vpn_key</i>
 							<span class="title">Rooms</span> <span class="arrow ${fn:indexOf(url, 'rooms') > -1 ? ' open':''}"></span>
 					</a>

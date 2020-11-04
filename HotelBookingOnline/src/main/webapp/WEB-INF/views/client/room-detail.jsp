@@ -72,32 +72,34 @@
 					<form:form action="${roomType.roomtypeid}/search" method="POST" class="booking_form1" modelAttribute="booking">
 						<h4 class="form_title">Booking</h4>
 						<div class="form-group rel_position">
-							<form:input path="checkInDate" id="check-in" name="arrival" placeholder="Check In" type="text" class="fancy_fild form-control" readonly="true" />
+							<form:input path="checkInDate" id="check-in" name="arrival" placeholder="Check In" type="text" class="fancy_fild form-control" autocomplete="off" required="true"/>
 							<i class="fa fa-calendar absolute_icon"></i>
 						</div>
 						<div class="form-group rel_position">
-							<form:input path="checkOutDate" id="check-out" name="departure" placeholder="Check Out" type="text" class="fancy_fild form-control" readonly="true" />
+							<form:input path="checkOutDate" id="check-out" name="departure" placeholder="Check Out" type="text" class="fancy_fild form-control" autocomplete="off" required="true"/>
 							<i class="fa fa-calendar absolute_icon"></i>
 						</div>
-						<div class="form-group select_cart_down">
-							<form:select path="adult" class="fancy_fild form-control" name="adult" id="adult">
-								<option>Adults</option>
+						<div class="form-group rel_position">
+							<form:input path="adult" type="number" name="adult" required="true" class="fancy_fild form-control" autocomplete="off"/>
+							<%-- <form:select path="adult" class="fancy_fild form-control" name="adult" id="adult" required="true">
+								<option value="">Adults</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
 								<option value="3">3</option>
 								<option value="4">4</option>
 								<option value="5">5</option>
-							</form:select>
+							</form:select> --%>
 						</div>
-						<div class="form-group select_cart_down">
-							<form:select path="children" class="fancy_fild form-control" name="children" id="children">
-								<option value="0">Children</option>
+						<div class="form-group rel_position">
+							<form:input path="children" type="number" name="childreb" required="true" class="fancy_fild form-control" autocomplete="off"/>
+							<%-- <form:select path="children" class="fancy_fild form-control" name="children" id="children" required="true">
+								<option value="">Children</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
 								<option value="3">3</option>
 								<option value="4">4</option>
 								<option value="5">5</option>
-							</form:select>
+							</form:select> --%>
 						</div>
 						<div class="form-group">
 							<label>Rooms</label>
@@ -658,6 +660,18 @@
 <script type="text/javascript">
 $("#adult,#children").change(function () {
     var adult = Math.ceil($("#adult").val() / ${roomType.adultcapacity});
+    var children = Math.ceil($("#children").val() / ${roomType.childrencapacity});
+    if (adult > children || children == 0){
+    	$("#room").val(adult);
+	} else {
+		$("#room").val(children);
+	}
+});
+</script>
+
+<script type="text/javascript">
+$(function() {
+	var adult = Math.ceil($("#adult").val() / ${roomType.adultcapacity});
     var children = Math.ceil($("#children").val() / ${roomType.childrencapacity});
     if (adult > children || children == 0){
     	$("#room").val(adult);

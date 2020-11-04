@@ -14,17 +14,17 @@
 					<p>The best hotel deal from all the top hotel sites.</p>
 					<div class="green_trasp_bg">
 						<div class="white_bg">
-							<form action="<c:url value="/rooms"/>" method="get">
+							<form action="/rooms" method="GET">
 								<div class="row">
 									<div class="col-lg-4 col-md-4 col-sm-6">
 										<div class="form-group">
-											<input id="check-in" name="arrival" placeholder="Check In" type="text" class="fancy_fild form-control">
+											<input id="check-in" name="arrival" placeholder="Check In" type="text" class="fancy_fild form-control" autocomplete="off" required>
 											<i class="fa fa-calendar pointer_event_none"></i>
 										</div>
 									</div>
 									<div class="col-lg-4 col-md-4 col-sm-6">
 										<div class="form-group">
-											<input id="check-out" name="depature" placeholder="Check Out" type="text" class="fancy_fild form-control">
+											<input id="check-out" name="depature" placeholder="Check Out" type="text" class="fancy_fild form-control" autocomplete="off" required>
 											<i class="fa fa-calendar pointer_event_none"></i>
 										</div>
 									</div>
@@ -32,28 +32,27 @@
 								<div class="row">
 									<div class="col-lg-4 col-md-4 col-sm-4">
 										<div class="form-group select_cart_down">
-											<select class="fancy_fild form-control" name="adult">
-												<option>Adults</option>
-												<option>0</option>
-												<option>1</option>
-												<option>2</option>
-												<option>3</option>
-												<option>4</option>
-												<option>5</option>
-												<option>6</option>
-												<option>7</option>
+											<select class="fancy_fild form-control" name="adult" required="required">
+												<option value="">Adults</option>
+												<option value="1">1</option>
+												<option value="2">2</option>
+												<option value="3">3</option>
+												<option value="4">4</option>
+												<option value="5">5</option>
+												<option value="6">6</option>
+												<option value="7">7</option>
 											</select>
 										</div>
 									</div>
 									<div class="col-lg-4 col-md-4 col-sm-4">
 										<div class="form-group select_cart_down">
-											<select class="fancy_fild form-control" name="children">
-												<option>Children</option>
-												<option>0</option>
-												<option>1</option>
-												<option>2</option>
-												<option>3</option>
-												<option>4</option>
+											<select class="fancy_fild form-control" name="children" required="required">
+												<option value="">Children</option>
+												<option value="0">0</option>
+												<option value="1">1</option>
+												<option value="2">2</option>
+												<option value="3">3</option>
+												<option value="4">4</option>
 											</select>
 										</div>
 									</div>
@@ -876,3 +875,4 @@
 
 	});
 </script>
+

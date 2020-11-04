@@ -31,7 +31,6 @@
 						</ul>
 					</div>
 					<form:form action="saveStaff" method="POST" modelAttribute="staff">	
-						<form:hidden path="empId"/>
 						<div class="card-body row">
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
@@ -62,12 +61,12 @@
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height txt-full-width">
-									<input name="position" class="mdl-textfield__input"  type="text" id="list1" value="${staff.position.name}" readonly="readonly" required="true"/> 
+									<input name="pos" class="mdl-textfield__input"  type="text" id="list1" value="${staff.position.name}" readonly="readonly" required="required"/> 
 									<label for="list1" class="pull-right margin-0"><i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i></label> 
 									<label for="list1" class="mdl-textfield__label">Position</label>
 									<ul data-mdl-for="list1" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
 										<c:forEach var="position" items="${positionList}">
-											<li class="mdl-menu__item" data-val="${position.id}">${position.name}</li>
+											<li class="mdl-menu__item" data-val="${position.name}">${position.name}</li>
 										</c:forEach>
 									</ul>
 								</div>
@@ -93,7 +92,7 @@
 									<label class="mdl-textfield__label" for="text7">Address</label>
 								</div>
 							</div>
-							<div class="col-lg-12 p-t-20">
+							<!-- <div class="col-lg-12 p-t-20">
 								<label class="control-label col-md-3">Upload Room Photos</label>
 								<div id="dZUpload" class="dropzone">
 									<div class="dz-message">
@@ -105,7 +104,7 @@
 										</em>
 									</div>
 								</div>
-							</div>
+							</div> -->
 							<div class="col-lg-12 p-t-20 text-center">
 								<button id="submitBtn" type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink">Submit</button>
 								<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default">Cancel</button>

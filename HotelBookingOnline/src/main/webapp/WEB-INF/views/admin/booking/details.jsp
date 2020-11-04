@@ -266,7 +266,7 @@ h3 {
 											<b>Total :</b> $${grandTotal}
 										</h3>
 										<h3>
-											<b>Total Paid :</b> $${totalPaid}
+											<b>Total Paid :</b> $${empty booking.invoices ? 0 : totalPaid}
 										</h3>
 										<h3>
 											<b>Due :</b> $${grandTotal - totalPaid}

@@ -1,5 +1,6 @@
 package com.hotel.services;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -40,6 +41,11 @@ public class BookingServiceImpl implements BookingService{
 	@Override
 	public Booking getByBookinguid(String uid) {
 		return bookingRepo.findByBookinguid(uid);
+	}
+
+	@Override
+	public List<Booking> getBookingByCheckInDateBetween(Date date1, Date date2) {
+		return bookingRepo.findByCheckInDateBetween(date1, date2);
 	}
 
 }

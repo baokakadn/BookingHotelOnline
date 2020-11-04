@@ -1,7 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglib.jsp"%>
 <c:url var="resources" value="/resources/admin" />
+<style>
+.switchToggle {
+	float: left;
+	margin-left: 100px;
+	margin-top: -50px;
+	width: 200px;
+}
 
+.switchToggle input:checked+.slider:before {
+	transform: translateX(165px);
+}
+</style>
 <div class="page-content-wrapper">
 	<div class="page-content">
 		<div class="page-bar">
@@ -20,10 +31,11 @@
 			<li class="nav-item tab-all"><a class="nav-link active show" href="#tab1" data-toggle="tab">Details</a></li>
 			<li class="nav-item tab-all"><a class="nav-link" href="#tab2" data-toggle="tab">Bookings</a></li>
 			<li class="nav-item tab-all"><a class="nav-link" href="#tab3" data-toggle="tab">Invoices</a></li>
+			<li class="nav-item tab-all"><a class="nav-link" href="#tab4" data-toggle="tab">Change Password</a></li>
 		</ul>
 		<div class="tab-content tab-space">
 			<div class="tab-pane active fontawesome-demo" id="tab1">
-				<div class="white-box">
+				<div class="white-box" style="overflow: auto;">
 					<div class="profile-sidebar">
 						<div class="card card-topline-aqua">
 							<div class="card-body no-padding height-9">
@@ -66,8 +78,9 @@
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<form:input path="email" class="mdl-textfield__input" type="email" id="txtemail" />
-									<label class="mdl-textfield__label">Email</label> <span class="mdl-textfield__error">Enter Valid Email Address!</span>
+									<form:input path="email" class="mdl-textfield__input" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" id="txtemail" />
+									<label class="mdl-textfield__label">Email</label> 
+									<span class="mdl-textfield__error">Enter Valid Email Address!</span>
 								</div>
 							</div>
 							<div class="col-lg-6 p-t-20">
@@ -78,20 +91,24 @@
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<form:input path="password" class="mdl-textfield__input" type="password" id="password" />
-									<label class="mdl-textfield__label">Password</label>
+									<input name="username" value="${user.username}" class="mdl-textfield__input" type="text" id="txtUsername" />
+									<label class="mdl-textfield__label">Username</label>
+								</div>
+							</div>
+							<div class="col-lg-12 p-t-20">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+									<form:textarea path="address" class="mdl-textfield__input" rows="1" id="text7" />
+									<label class="mdl-textfield__label" for="text7">Address</label>
 								</div>
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<input class="mdl-textfield__input" type="password" id="confirmPass"> <label class="mdl-textfield__label">Confirm Password</label>
+									<label style="height: 20px; margin-top: -20px;" class="mdl-textfield__label">Status</label>
 								</div>
-							</div>
-							<div class="col-lg-6 p-t-20">
-								<div class="mdl-textfield mdl-js-textfield txt-full-width">
-									<form:textarea path="address" class="mdl-textfield__input" rows="1" id="text7" />
-									<label class="mdl-textfield__label" for="text7">Address</label>
-								</div>
+								<label class="switchToggle"> 
+									<input name="status" type="checkbox" ${user.status ? 'checked="checked"': '' }> 
+									<span class="slider aqua round"></span>
+								</label>
 							</div>
 							<div class="col-lg-12 p-t-20 text-center">
 								<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink">Submit</button>
@@ -188,7 +205,7 @@
 														<td class="center">${index}</td>
 														<td class="center">${invoice.invoiceDate}</td>
 														<td class="center">${invoice.amount}</td>
-														<td class="center"><a href="edit_booking.html" class="btn btn-tbl-edit btn-xs"><i class="fa fa-pencil"></i></a>
+														<td class="center"><a href="" class="btn btn-tbl-edit btn-xs"><i class="fa fa-pencil"></i></a>
 															<button class="btn btn-tbl-delete btn-xs">
 																<i class="fa fa-trash-o "></i>
 															</button>
@@ -205,12 +222,46 @@
 					</div>
 				</div>
 			</div>
+			<div class="tab-pane fontawesome-demo" id="tab4">
+				<div class="white-box">
+					<form action="changePass" method="POST">
+						<input type="hidden" name="userId" value="${user.userId}"/>
+						<div class="card-body row">
+							<div class="col-lg-6 p-t-20">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+									<input class="mdl-textfield__input" type="password" id="oldPass" name="oldPass" />
+									<label class="mdl-textfield__label">Password</label>
+									<c:if test="${not empty msg}">
+										<span class="mdl-textfield__error">${msg}</span>
+									</c:if>
+								</div>
+							</div>
+							<div class="col-lg-6 p-t-20">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+									<input class="mdl-textfield__input" type="password" id="newPass" name="newPass" />
+									<label class="mdl-textfield__label">Password</label>
+								</div>
+							</div>
+							<div class="col-lg-6 p-t-20">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+									<input class="mdl-textfield__input" type="password" id="confirmPass"> 
+									<label class="mdl-textfield__label">Confirm Password</label>
+								</div>
+							</div>
+							<div class="col-lg-12 p-t-20 text-center">
+								<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink">Submit</button>
+								<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default">Cancel</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
 
 <script type="text/javascript">
-	var password = document.getElementById("password"), confirm_password = document
+	var password = document.getElementById("newPass"), confirm_password = document
 			.getElementById("confirmPass");
 
 	function validatePassword() {

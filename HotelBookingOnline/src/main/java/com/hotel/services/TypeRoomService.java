@@ -15,4 +15,6 @@ public interface TypeRoomService {
 	void deleteRoomType(RoomType roomType);
 
 	RoomType getByTypeName(String name);
+
+	List<RoomType> searchAvailableRoomType(String checkInDate, String checkOutDate);
 }

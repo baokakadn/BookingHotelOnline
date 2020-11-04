@@ -1,5 +1,7 @@
 package com.hotel.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,11 @@ public class InvoiceServiceImpl implements InvoiceService{
 	@Override
 	public Double getTotalPaid(int bookingId) {
 		return invoiceRepository.calTotalPaid(bookingId);
+	}
+
+	@Override
+	public void deleteInvoiceList(List<Invoice> list) {
+		invoiceRepository.deleteAll(list);
 	}
 
 }

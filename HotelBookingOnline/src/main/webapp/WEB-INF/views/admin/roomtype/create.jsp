@@ -78,7 +78,7 @@
 								</div>
 							</div>
 							
-							<div class="col-lg-12 p-t-20">
+							<!-- <div class="col-lg-12 p-t-20">
 								<label class="control-label col-md-3">Upload Room Photos</label>
 								<div id="dZUpload" class="dropzone">
 									<div class="dz-message">
@@ -90,7 +90,7 @@
 										</em>
 									</div>
 								</div>
-							</div>
+							</div> -->
 						
 						<div class="col-lg-12 p-t-20 text-center">
 							<button onclick="document.getElementById('createForm').submit();" type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink">Submit</button>

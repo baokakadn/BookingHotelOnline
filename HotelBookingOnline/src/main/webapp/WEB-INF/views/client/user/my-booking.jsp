@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/taglib.jsp"%>
 <c:url var="resources" value="/resources" />
+<fmt:setLocale value="en_US" scope="session" />
 <!-- Order History strat Here -->
 <section class="p-45 my_history_main">
 	<div class="container">
@@ -95,7 +96,7 @@
 							<div class="conform_date">
 								<ul class="d-flex justify-content-between align-items-center">
 									<li><strong>Check-In</strong>
-										<fmt:formatDate var="checkinDate1" value="${booking.checkInDate}" pattern="MMMM dd yyyy" />
+										<fmt:formatDate var="checkinDate1" value="${booking.checkInDate}" pattern="MMM dd yyyy" />
 										<fmt:formatDate var="checkinDate2" value="${booking.checkInDate}" pattern="E" />
 										<p>${checkinDate1}</p> 
 										<span>${checkinDate2}, 13 pm</span>
@@ -105,7 +106,7 @@
 										<span> <i class="fa fa-clock-o d-block"></i> <fmt:formatNumber value="${nights}" pattern="#" /> nights</span>
 									</li>
 									<li><strong>Check-Out</strong>
-										<fmt:formatDate var="checkoutDate1" value="${booking.checkOutDate}" pattern="MMMM dd yyyy" />
+										<fmt:formatDate var="checkoutDate1" value="${booking.checkOutDate}" pattern="MMM dd yyyy" />
 										<fmt:formatDate var="checkoutDate2" value="${booking.checkOutDate}" pattern="E" />
 										<p>${checkoutDate1}</p> 
 										<span>${checkoutDate2}, 12 pm</span>
@@ -120,7 +121,7 @@
 						</div>
 						<jsp:useBean id="now" class="java.util.Date" />
 						<c:choose>
-							<c:when test="${booking.checkInDate > now}">
+							<c:when test="${booking.status eq 'ONLINE_PENDING'}">
 								<div class="col-lg-2 col-md-3">
 									<div class="price_modual_sec">
 										<strong>$${booking.roomtype.price }</strong> <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#cancel-booking">Cancel</a>

@@ -50,7 +50,7 @@
 										<span>${checkinDate2}, 13 pm</span>
 									</li>
 									<c:set var="nights" value="${(booking.checkOutDate.time - booking.checkInDate.time)/(60*60*24*1000)}"/>
-									<li class="text-center"><span> <i class="fa fa-clock-o d-block"></i> ${nights} nights
+									<li class="text-center"><span> <i class="fa fa-clock-o d-block"></i> <fmt:formatNumber value="${nights}" pattern="#" /> nights
 									</span></li>
 									<li><strong>Check-Out</strong>
 										<fmt:formatDate var="checkoutDate1" value="${booking.checkOutDate}" pattern="MMMM dd yyyy" />

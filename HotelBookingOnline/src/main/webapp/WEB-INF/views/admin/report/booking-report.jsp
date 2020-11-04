@@ -15,6 +15,36 @@
 			</div>
 		</div>
 		<div class="row">
+			<div class="col-md-6">
+				<div class="card card-box">
+					<div class="card-head">
+						<header>Report Query</header>
+					</div>
+					<form action="booking-report" method="POST">
+						<div class="card-body row">
+
+							<div class="col-lg-12 p-t-20">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+									<input class="mdl-textfield__input" type="text" id="startDate" name="startDate" required="required" /> <label class="mdl-textfield__label">Start
+										Date</label>
+								</div>
+							</div>
+							<div class="col-lg-12 p-t-20">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+									<input class="mdl-textfield__input" type="text" id="endDate" name="endDate" required="required" /> <label class="mdl-textfield__label">End
+										Date</label>
+								</div>
+							</div>
+							<div class="col-lg-12 p-t-20 text-center">
+								<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink">Submit</button>
+								<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default">Cancel</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="row">
 			<div class="col-md-12">
 				<div class="card card-box">
 					<div class="card-head">

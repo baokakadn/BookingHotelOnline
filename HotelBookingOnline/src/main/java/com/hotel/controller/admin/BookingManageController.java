@@ -117,10 +117,11 @@ public class BookingManageController {
 	}
 
 	@PostMapping("{bookingId}/add-service")
-	private String addService(@RequestParam("bookingId") int bookingId, @RequestParam("date") String date, @RequestParam("service") int id, @RequestParam("qty") int qty ) {
+	private String addService(@RequestParam("bookingId") int bookingId, @RequestParam("date") String date,
+			@RequestParam("service") int id, @RequestParam("qty") int qty) {
 		Charge charge = new Charge();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime dateTime = LocalDateTime.parse(formatter.format(LocalDateTime.now()), formatter);
 		charge.setChargeDate(dateTime);
 		charge.setService(manageService.getServiceById(id));
 		charge.setBooking(bookingService.getBookingById(bookingId));
@@ -129,6 +130,7 @@ public class BookingManageController {
 		return "redirect:/admin/booking/booking-details/" + bookingId;
 	}
 
+	@Transactional
 	@GetMapping("booking-details/{bookingId}/change-status/{status}")
 	private String changeStatus(@PathVariable("bookingId") int bookingId, @PathVariable("status") String status) {
 		Booking booking = bookingService.getBookingById(bookingId);
@@ -136,6 +138,8 @@ public class BookingManageController {
 		bookingService.saveBooking(booking);
 		if (status.equalsIgnoreCase("CANCEL")) {
 			detailsService.deleteAll(detailsService.getAllByBookingId(bookingId));
+			List<Invoice> invoiceList = booking.getInvoices();
+			invoiceService.deleteInvoiceList(invoiceList);
 		}
 		return "redirect:/admin/booking/booking-details/" + bookingId;
 	}
@@ -155,7 +159,8 @@ public class BookingManageController {
 	}
 
 	@PostMapping("booking-details/{bookingId}/saveGuest")
-	private String saveGuest(@ModelAttribute("guest") GuestInRoom guest, Model model, @PathVariable("bookingId") int bookingId, @RequestParam("roomNum") int roomNum) {
+	private String saveGuest(@ModelAttribute("guest") GuestInRoom guest, Model model,
+			@PathVariable("bookingId") int bookingId, @RequestParam("roomNum") int roomNum) {
 		Booking booking = bookingService.getBookingById(bookingId);
 		for (BookingDetails detail : booking.getBookingdetails()) {
 			if (detail.getRoom().getRoomnumber() == roomNum) {
@@ -174,12 +179,17 @@ public class BookingManageController {
 		return "redirect:/admin/booking/booking-details/" + bookingId;
 	}
 
-
+	@Transactional(rollbackOn = Exception.class)
 	@PostMapping("booking-details/{bookingId}/checkout")
 	private String checkout(@RequestParam("checked") List<String> checkedList, @PathVariable("bookingId") int bookingId,
-			@RequestParam(value = "payment", required = false) String payment, @RequestParam(value = "amount", required = false) String amount, @RequestParam(value = "grandTotal", required = false) String grandTotal,
-			@RequestParam(value = "cardNumber", required = false) String cardNumber, @RequestParam(value = "ownerName", required = false) String ownerName, @RequestParam(value = "expiryMonth", required = false) String month,
-			@RequestParam(value = "expiryYear", required = false) String year, @RequestParam(value = "cvvcode", required = false) String cvvCode){
+			@RequestParam(value = "payment", required = false) String payment,
+			@RequestParam(value = "amount", required = false) String amount,
+			@RequestParam(value = "grandTotal", required = false) String grandTotal,
+			@RequestParam(value = "cardNumber", required = false) String cardNumber,
+			@RequestParam(value = "ownerName", required = false) String ownerName,
+			@RequestParam(value = "expiryMonth", required = false) String month,
+			@RequestParam(value = "expiryYear", required = false) String year,
+			@RequestParam(value = "cvvcode", required = false) String cvvCode) {
 		Booking booking = bookingService.getBookingById(bookingId);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
@@ -218,11 +228,13 @@ public class BookingManageController {
 				BookingDetails details;
 				List<BookingDetails> listDetails;
 				if (now.getHour() <= 12) {
-					details = detailsService.getByCheckoutDate(bookingId, id, LocalDateTime.parse(strCheckout, formatter));
+					details = detailsService.getByCheckoutDate(bookingId, id,
+							LocalDateTime.parse(strCheckout, formatter));
 					details.setCheckoutDate(LocalDateTime.parse(now.format(formatter), formatter));
 					listDetails = detailsService.getAllAfter(bookingId, id, LocalDateTime.parse(strCheckin, formatter));
 				} else {
-					details = detailsService.getByCheckinDate(bookingId, id, LocalDateTime.parse(strCheckin, formatter));
+					details = detailsService.getByCheckinDate(bookingId, id,
+							LocalDateTime.parse(strCheckin, formatter));
 					details.setCheckoutDate(LocalDateTime.parse(now.format(formatter), formatter));
 					Date newDate = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
 					String checkIn = dateFormat.format(getNextDay(newDate).getTime()) + " 13:00:00";
@@ -238,14 +250,12 @@ public class BookingManageController {
 		return "redirect:/admin/booking/booking-details/" + bookingId;
 	}
 
-	public static List<Date> getDaysBetweenDates(Date startdate, Date enddate)
-	{
+	public static List<Date> getDaysBetweenDates(Date startdate, Date enddate) {
 		List<Date> dates = new ArrayList<Date>();
 		Calendar calendar = new GregorianCalendar();
 		calendar.setTime(startdate);
 
-		while (calendar.getTime().before(enddate))
-		{
+		while (calendar.getTime().before(enddate)) {
 			Date result = calendar.getTime();
 			dates.add(result);
 			calendar.add(Calendar.DATE, 1);

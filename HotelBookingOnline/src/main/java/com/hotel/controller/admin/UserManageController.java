@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,11 +66,31 @@ public class UserManageController {
 	}
 
 	@PostMapping("updateUser")
-	private String updateUser(@ModelAttribute("user") User user) {
+	private String updateUser(@ModelAttribute("user") User user, @RequestParam(value = "username", required = false) String username) {
 		User newUser = userService.getUserById(user.getUserId());
 		user.setPicture(newUser.getPicture());
+		if (!username.equalsIgnoreCase("")) {
+			user.setUsername(username);
+		} else {
+			user.setUsername(newUser.getUsername());
+		}
 		userService.saveUser(user);
 		return "redirect:/admin/user/" + user.getUserId();
+	}
+
+	@PostMapping("changePass")
+	private String changePass(@RequestParam("oldPass") String oldPass, @RequestParam("newPass") String newPass, @RequestParam("userId") String userId, Model model) {
+		User user = userService.getUserById(Integer.parseInt(userId));
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+		if (!encoder.matches(oldPass, user.getPassword())) {
+			model.addAttribute("msg", "Wrong password !");
+			model.addAttribute("user", user);
+			return "edit-user";
+		} else {
+			user.setPassword(newPass);
+			userService.saveUser(user);
+			return "redirect:/admin/user/" + userId;
+		}
 	}
 
 	@PostMapping("uploadUserImage")

@@ -13,10 +13,10 @@
 					<div class="col-lg-8 col-md-12 p-0">
 						<div class="row yemm_res_left">
 							<div class="col-lg-4 col-md-4 col-sm-4">
-								<img src="${resources}/upload/room-type-image/${booking.roomtype.roomtypeid}/${booking.roomtype.image}" class="img-fluid" alt="">
+								<img style="height: 180px;" src="${resources}/upload/room-type-image/${booking.roomtype.roomtypeid}/${booking.roomtype.image}"  alt="">
 							</div>
 							<div class="col-lg-8 col-md-8 col-sm-8 booking_hotel_dic">
-								<h5>FabHotel All Season Calangute Beach</h5>
+								<h5>${booking.roomtype.typename }</h5>
 								<ul class="list-inline item-ratting">
 									<li><a href="#"> <i class="fa fa-star fa-2x"></i>
 									</a></li>
@@ -29,10 +29,6 @@
 									<li><a href="#"> <i class="fa fa-star-o fa-2x"></i>
 									</a></li>
 								</ul>
-								<p>
-									<strong>Address:</strong> 235 W 46th St, New York, NY 10036, USA
-								</p>
-								<h6>Deluxe Room</h6>
 								<span class="green_text">Your stay includes:</span>
 								<ul class="room_facilities">
 									<li><i class="fa fa-check"></i> Breakfast</li>

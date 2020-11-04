@@ -39,6 +39,7 @@ import com.hotel.models.User;
 import com.hotel.services.BookingDetailsService;
 import com.hotel.services.BookingService;
 import com.hotel.services.CreditCardService;
+import com.hotel.services.EmailService;
 import com.hotel.services.InvoiceService;
 import com.hotel.services.PromotionService;
 import com.hotel.services.RoomService;
@@ -71,6 +72,9 @@ public class BookingController {
 
 	@Autowired
 	private CreditCardService cardService;
+
+	@Autowired
+	private EmailService emailService;
 
 	@GetMapping("booking")
 	private String getBooking() {
@@ -110,7 +114,7 @@ public class BookingController {
 		}
 	}
 
-	@Transactional
+	@Transactional(rollbackOn = Exception.class)
 	@PostMapping("confirm")
 	private String getConfirm(@ModelAttribute("card") CreditCard getCard, HttpServletRequest request, Model model,
 			@RequestParam("grandTotal") double grandTotal, HttpSession session, @RequestParam("expiry") String expiry) throws Exception {
@@ -191,7 +195,7 @@ public class BookingController {
 						}
 					}
 					detailsService.saveAll(listDetails);
-
+					emailService.sendConfirmBooking(booking);
 					int nights = (int) (booking.getCheckOutDate().getTime() - booking.getCheckInDate().getTime())
 							/ (60 * 60 * 24 * 1000);
 					model.addAttribute("nights", nights);

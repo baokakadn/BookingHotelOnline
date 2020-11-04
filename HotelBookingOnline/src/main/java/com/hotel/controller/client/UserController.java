@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -12,7 +13,9 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +34,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hotel.models.Booking;
+import com.hotel.models.CreditCard;
 import com.hotel.models.CustomUserDetail;
+import com.hotel.models.Invoice;
 import com.hotel.models.Status;
 import com.hotel.models.User;
 import com.hotel.services.BookingDetailsService;
 import com.hotel.services.BookingService;
+import com.hotel.services.CreditCardService;
+import com.hotel.services.EmailService;
+import com.hotel.services.InvoiceService;
 import com.hotel.services.UserService;
 import com.hotel.ults.MyUploadForm;
 
@@ -51,6 +59,16 @@ public class UserController {
 
 	@Autowired
 	private BookingDetailsService detailsService;
+
+	@Autowired
+	private InvoiceService invoiceService;
+
+	@Autowired
+	private CreditCardService cardService;
+
+	@Autowired
+	private EmailService emailService;
+
 
 	@GetMapping("profile")
 	private String getProfile( @AuthenticationPrincipal CustomUserDetail user, Model model, @RequestParam(value = "msg", required = false) String msg) {
@@ -103,14 +121,22 @@ public class UserController {
 		return "cancel-booking";
 	}
 
+	@Transactional(rollbackOn = Exception.class)
 	@PostMapping("cancel-booking")
-	private String cancelBooking(@RequestParam("bookingId") String bookingId) {
+	private String cancelBooking(@RequestParam("bookingId") String bookingId) throws UnsupportedEncodingException, MessagingException {
 		Booking booking = bookingService.getBookingById(Integer.parseInt(bookingId.trim()));
 		detailsService.deleteAll(detailsService.getAllByBookingId(Integer.parseInt(bookingId)));
 		booking.setStatus(Status.CANCEL);
 		Date date = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
 		booking.setCancelDate(date);
 		bookingService.saveBooking(booking);
+		List<Invoice> invoiceList = booking.getInvoices();
+		double total = invoiceList.get(0).getAmount();
+		CreditCard card = invoiceList.get(0).getCreditcard();
+		card.setBalance(card.getBalance() + (total - (total * 0.2)));
+		cardService.saveCard(card);
+		invoiceService.deleteInvoiceList(invoiceList);
+		emailService.sendCancelBooking(booking, total);
 		return "redirect:/user/booking";
 	}
 

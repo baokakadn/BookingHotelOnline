@@ -64,8 +64,10 @@ public class StaffManageController {
 	}
 
 	@PostMapping("saveStaff")
-	private String saveStaff(@ModelAttribute("staff") Employee employee, @RequestParam("position") String name) {
-		Position position = positionService.getPositionByName(name);
+	private String saveStaff(@ModelAttribute("staff") Employee employee, @RequestParam("pos") String name) {
+		System.out.println(name);
+		Position position = positionService.getPositionByName(name.trim());
+		System.out.println(position.getId());
 		employee.setPosition(position);
 		employeeService.saveEmployee(employee);
 		return "redirect:/admin/staff";
@@ -136,14 +138,17 @@ public class StaffManageController {
 		}
 		employeeService.saveEmployee(employee);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication instanceof UsernamePasswordAuthenticationToken) {
-			UsernamePasswordAuthenticationToken currentAuth = (UsernamePasswordAuthenticationToken) authentication;
-			user.setPicture(employee.getPhoto());
-			UsernamePasswordAuthenticationToken updateAuth = new UsernamePasswordAuthenticationToken(user ,
-					currentAuth.getCredentials(),
-					currentAuth.getAuthorities());
-			SecurityContextHolder.getContext().setAuthentication(updateAuth);
+		if (authentication.getName().equalsIgnoreCase(employee.getUsername())) {
+			if (authentication instanceof UsernamePasswordAuthenticationToken) {
+				UsernamePasswordAuthenticationToken currentAuth = (UsernamePasswordAuthenticationToken) authentication;
+				user.setPicture(employee.getPhoto());
+				UsernamePasswordAuthenticationToken updateAuth = new UsernamePasswordAuthenticationToken(user ,
+						currentAuth.getCredentials(),
+						currentAuth.getAuthorities());
+				SecurityContextHolder.getContext().setAuthentication(updateAuth);
+			}
 		}
+
 
 		return "redirect:/admin/staff/" + staffId;
 	}
