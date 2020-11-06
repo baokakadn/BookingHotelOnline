@@ -38,4 +38,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 		invoiceRepository.deleteAll(list);
 	}
 
+	@Override
+	public List<Invoice> getInvoiceByDate(String start, String end) {
+		return invoiceRepository.findInvoiceByDate(start, end);
+	}
+
 }

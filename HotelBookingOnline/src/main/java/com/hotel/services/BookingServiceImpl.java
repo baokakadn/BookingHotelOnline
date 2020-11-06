@@ -48,4 +48,9 @@ public class BookingServiceImpl implements BookingService{
 		return bookingRepo.findByCheckInDateBetween(date1, date2);
 	}
 
+	@Override
+	public Booking getBookingByRoomNumber(int number) {
+		return bookingRepo.findByRoomNumber(number);
+	}
+
 }

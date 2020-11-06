@@ -67,6 +67,16 @@ h3 {
 											<a class="btn btn-secondary " href="/admin/booking/booking-details/${booking.bookingId}/confirmStatus"> Make Confirm</a>
 										</div>
 									</c:when>
+									<c:when test="${booking.status == 'SUCCESS'}">
+										<div class="float-right mr-2">
+											<a class="btn btn-success " href="javascript:;">SUCCESS</a>
+										</div>
+									</c:when>
+									<c:when test="${booking.status == 'CANCEL'}">
+										<div class="float-right mr-2">
+											<a class="btn btn-danger " href="javascript:;">CANCEL</a>
+										</div>
+									</c:when>
 									<c:otherwise>
 										<c:if test="${booking.status eq 'PENDING' }">
 											<div class="float-right ml-2">
@@ -79,13 +89,13 @@ h3 {
 										</c:if>
 										<div class="dropdown float-right mr-2">
 											<button type="button"
-												class="btn btn-${booking.status == 'PENDING' ? 'warning' : booking.status == 'CANCEL' ? 'danger' : 'success'} 
+												class="btn btn-${booking.status == 'PENDING' ? 'warning' : 'danger'} 
 											dropdown-toggle"
 												data-toggle="dropdown">${booking.status}
 												&nbsp&nbsp<i class="fa fa-angle-down"></i>
 											</button>
 											<div class="dropdown-menu">
-												<c:set var="statusList" value="${['SUCCESS','PENDING','CANCEL']}" />
+												<c:set var="statusList" value="${['PENDING','CANCEL']}" />
 												<c:forEach var="status" items="${statusList}">
 													<c:if test="${status != booking.status}">
 														<c:set var="statusLink" value="/admin/booking/booking-details/${booking.bookingId}/change-status/${status}" />
@@ -131,7 +141,7 @@ h3 {
 												<td>&nbsp&nbsp ${booking.roomtype.getTypename()}</td>
 											</tr>
 											<tr>
-												<th><b>Booking Date:</b></th>
+												<th><b>Booking Date</b></th>
 												<th>:</th>
 												<fmt:parseDate value="${booking.bookingDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate" type="both" />
 												<fmt:formatDate value="${parsedDate}" var="bookingDate" type="both" pattern="yyyy-MM-dd HH:mm" />
@@ -452,7 +462,7 @@ h3 {
 							</div>
 							<div class="form-row justify-content-center">
 								<div class="form-group col-sm-12">
-									<label><strong>Quantity</strong></label> <input type="number" class="form-control" name="qty" min="0" placeholder="0" required="required">
+									<label><strong>Quantity</strong></label> <input type="number" class="form-control" name="qty" min="0" placeholder="0" required="required" autocomplete="off">
 								</div>
 							</div>
 							<div class="form-row justify-content-center">
@@ -541,16 +551,21 @@ h3 {
 									</div>
 								</div>
 								<div id="card" class="method form-row justify-content-center" style="display: none;">
+									<div class="card-wrapper">
+									
+									</div>
 									<div class="form-group col-sm-12">
 										<label class="font-bold18">Card Number</label> <input name="cardNumber" class="form-control" type="text" maxlength="19"/>
 									</div>
 									<div class="form-group col-sm-12">
-										<label class="font-bold18">Name on Card</label> <input name="ownerName" class="form-control" type="text" />
+										<label class="font-bold18">Name on Card</label> <input name="ownerName" style="text-transform:uppercase;" class="form-control" type="text"/>
 									</div>
 									<div class="form-group col-sm-12">
 										<label class="font-bold18">Expiry Date</label>
-										<div class="form-row">
+										<input name="expiry" class="form-control" type="text" placeholder data-mask="99/99"/>
+										<!-- <div class="form-row">
 											<div class="form-group col-sm-12">
+												<input name="expiryDate" class="form-control" type="text" />
 												<select class="form-control" name="expiryMonth">
 													<option>MM</option>
 													<option value="1">January</option>
@@ -567,22 +582,7 @@ h3 {
 													<option value="12">December</option>
 												</select>
 											</div>
-											<div class="form-group col-sm-12">
-												<select class="form-control" name="expiryYear">
-													<option value="YY">YY</option>
-													<option value="2009">2009</option>
-													<option value="2010">2010</option>
-													<option value="2011">2011</option>
-													<option value="2012">2012</option>
-													<option value="2013">2013</option>
-													<option value="2014">2014</option>
-													<option value="2015">2015</option>
-													<option value="2016">2016</option>
-													<option value="2017">2017</option>
-													<option value="2019">2019</option>
-												</select>
-											</div>
-										</div>
+										</div> -->
 									</div>
 									<div class="form-group col-sm-12 ">
 										<label class="font-bold18">CVV Number</label> <input name="cvvcode" class="form-control" type="text" />
@@ -702,3 +702,43 @@ h3 {
 		 }
 	});
 </script>
+
+<script>
+jQuery.browser = {
+	    msie: false,
+	    version: 0
+	};
+</script>
+
+<%-- <script src="${resources}/assets/plugin/card-master/dist/card.js"></script>
+
+<script>
+	var card = new Card({
+	    // a selector or DOM element for the form where users will
+	    // be entering their information
+	    form: '#payment-form', // *required*
+	    // a selector or DOM element for the container
+	    // where you want the card to appear
+	    container: '.card-wrapper', // *required* 
+
+	    formSelectors: {
+	        numberInput: 'input[name="cardNumber"]', // optional — default input[name="number"]
+	        expiryInput: 'input[name="expiry"]', // optional — default input[name="expiry"]
+	        cvcInput: 'input[name="cvvcode"]', // optional — default input[name="cvc"]
+	        nameInput: 'input[name="ownerName"]' // optional - defaults input[name="name"]
+	    },
+
+	    messages: {
+	        validDate: 'expire\ndate',
+	        monthYear: 'mm/yy'
+	    },
+
+	    placeholders: {
+	        number: '•••• •••• •••• ••••',
+	        name: 'Full Name',
+	        expiry: '••/••',
+	        cvc: '•••'
+	    }
+
+	});
+</script> --%>

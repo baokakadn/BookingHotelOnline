@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hotel.models.Role;
 import com.hotel.models.User;
 import com.hotel.services.RoleService;
 import com.hotel.services.UserService;
@@ -59,6 +60,11 @@ public class UserManageController {
 
 	@PostMapping("saveUser")
 	private String saveUser(@ModelAttribute("user") User user, @RequestParam("image") MultipartFile[] fileDatas, HttpServletRequest request) throws IOException {
+		if (user.getUsername() != null) {
+			Role role = roleService.getRoleById(3);
+			user.getListRole().add(role);
+			user.setStatus(true);
+		}
 		userService.saveUser(user);
 		MyUploadForm myUploadForm = new MyUploadForm();
 		myUploadForm.setFileDatas(fileDatas);

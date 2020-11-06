@@ -203,6 +203,7 @@ public class BookingController {
 					model.addAttribute("card", hideCard(invoice.getCreditcard().getCardNumber()));
 					model.addAttribute("grandTotal", grandTotal);
 					session.removeAttribute("BOOKING_SESSION");
+					request.getSession().invalidate();
 				}
 				return "confirm";
 			}

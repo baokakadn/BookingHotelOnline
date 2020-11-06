@@ -91,7 +91,7 @@
 							</form:select> --%>
 						</div>
 						<div class="form-group rel_position">
-							<form:input path="children" type="number" name="childreb" required="true" class="fancy_fild form-control" autocomplete="off"/>
+							<form:input path="children" type="number" name="children" required="true" class="fancy_fild form-control" autocomplete="off"/>
 							<%-- <form:select path="children" class="fancy_fild form-control" name="children" id="children" required="true">
 								<option value="">Children</option>
 								<option value="1">1</option>

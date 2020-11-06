@@ -21,14 +21,19 @@
 <link rel="stylesheet" href="${resources}/assets/css/pages/extra_pages.css">
 <!-- favicon -->
 <link rel="shortcut icon" href="${resources}/assets/img/favicon.png" />
+<style type="text/css">
+body {
+	background: #3e2bc5 url('/resources/admin/assets/img/login_bg.jpg') no-repeat center center fixed;
+}
+</style>
 </head>
 <body>
 	<div class="limiter">
-		<div class="container-login100 page-background">
+		<div class="container-login100">
 			<div class="wrap-login100">
 				<form class="login100-form validate-form" method="POST" action="${pageContext.request.contextPath }/admin/process-login">
-					<span class="login100-form-logo"> <i class="zmdi zmdi-flower"></i>
-					</span> <span class="login100-form-title p-b-34 p-t-27"> Log in </span>
+					<div style="text-align: center;"><img src="${resources}/assets/img/login-logo.png" ></div>
+					<span class="login100-form-title p-b-34 p-t-27" style="padding-bottom: 25px; padding-top: 20px;"><h1>Log in</h1></span>
 					<c:if test="${not empty message}">
 						<p style="color: red;">
 							Error:
@@ -48,7 +53,7 @@
 					<div class="container-login100-form-btn">
 						<button class="login100-form-btn">Login</button>
 					</div>
-					<div class="text-center p-t-90">
+					<div class="text-center p-t-90" style="padding-top: 35px;">
 						<a class="txt1" href="#"> Forgot Password? </a>
 					</div>
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />

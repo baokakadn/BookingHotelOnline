@@ -24,4 +24,8 @@ public interface BookingRepository extends CrudRepository<Booking, Integer>{
 	 */
 	List<Booking> findByCheckInDateBetween(Date date1, Date date2);
 
+	@Query(value = "SELECT * FROM booking where bookingId in (select bookingId from bookingdetails where roomId in "
+			+ "(select roomId from room where room_number = ?)) and status = 'PENDING'", nativeQuery = true)
+	Booking findByRoomNumber(int number);
+
 }

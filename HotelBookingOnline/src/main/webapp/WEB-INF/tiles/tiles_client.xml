@@ -45,4 +45,6 @@
 		<put-attribute name="content" value="/WEB-INF/views/client/not-available.jsp" />
 	</definition>
 	
+	<definition name="403" template="/WEB-INF/views/403.jsp">
+	</definition>
 </tiles-definitions>

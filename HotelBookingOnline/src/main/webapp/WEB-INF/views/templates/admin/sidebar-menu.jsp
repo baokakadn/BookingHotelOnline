@@ -69,15 +69,21 @@
 						</a></li>
 					</ul></li> --%>
 				</li>
-				<li class="nav-item ${fn:indexOf(url, 'reports') > -1 ? ' active':''}">
+				<li class="nav-item ${fn:indexOf(url, 'report') > -1 ? ' active':''}">
 					<a href="#" class="nav-link nav-toggle"> 
 						<i class="material-icons">local_hotel</i> 
 						<span class="title">Reports</span> 
-						<span class="arrow ${fn:indexOf(url, 'room-type') > -1 ? ' open':''}"></span>
+						<span class="arrow ${fn:indexOf(url, 'report') > -1 ? ' open':''}"></span>
 					</a>
 					<ul class="sub-menu">
-						<li class="nav-item ${fn:indexOf(url, 'booking-report') > -1 ? ' active':''}"><a href="<c:url value="/admin/booking-report"/>"
+						<%-- <li class="nav-item ${fn:indexOf(url, 'booking-report') > -1 ? ' active':''}"><a href="<c:url value="/admin/booking-report"/>"
 							class="nav-link "> <span class="title">Booking Report</span>
+						</a></li> --%>
+						<li class="nav-item ${fn:indexOf(url, 'revenue-report') > -1 ? ' active':''}"><a href="<c:url value="/admin/revenue-report"/>"
+							class="nav-link "> <span class="title">Revenue Report</span>
+						</a></li>
+						<li class="nav-item ${fn:indexOf(url, 'room-report') > -1 ? ' active':''}"><a href="<c:url value="/admin/room-report"/>"
+							class="nav-link "> <span class="title">Room Report</span>
 						</a></li>
 					</ul>
 				</li>
@@ -128,13 +134,13 @@
 										All Staffs</span>
 							</a></li>
 						</ul></li>
-					<li class="nav-item ${fn:indexOf(url, 'payment') > -1 ? ' active':''}"><a href="#" class="nav-link nav-toggle"> <i
+					<%-- <li class="nav-item ${fn:indexOf(url, 'payment') > -1 ? ' active':''}"><a href="#" class="nav-link nav-toggle"> <i
 							class="material-icons">credit_card</i> <span class="title">Payment</span> <span class="arrow ${fn:indexOf(url, 'payment') > -1 ? ' active':''}"></span>
 					</a>
 						<ul class="sub-menu">
 							<li class="nav-item"><a href="all_staffs.html" class="nav-link "> <span class="title">Payment Logs</span>
 							</a></li>
-						</ul></li>
+						</ul></li> --%>
 					<li class="nav-item ${fn:indexOf(url, 'promotion') > -1 ? ' active':''}"><a href="#" class="nav-link nav-toggle"> <i
 							class="material-icons">redeem</i> <span class="title">Promotion</span> <span class="arrow ${fn:indexOf(url, 'promotion') > -1 ? ' open':''}"></span>
 					</a>

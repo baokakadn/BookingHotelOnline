@@ -86,7 +86,7 @@
 											</div>
 											<div class="form-group col-sm-6">
 												<label class="font-bold18">Name on Card</label>
-												<form:input path="ownerName" name="ownerName" class="form-control" type="text" required="true"/>
+												<form:input path="ownerName" name="ownerName" class="form-control" type="text" required="true" style="text-transform: uppercase;"/>
 											</div>
 											<div class="form-group col-sm-6">
 												<label class="font-bold18">Expiry Date</label>

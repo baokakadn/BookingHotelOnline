@@ -9,5 +9,12 @@
 		<put-attribute name="content" value="/WEB-INF/views/admin/report/booking-report.jsp" />
 	</definition>
 	
+	<definition name="revenue-report" extends="template_admin">
+		<put-attribute name="content" value="/WEB-INF/views/admin/report/revenue-report.jsp" />
+	</definition>
+	
+	<definition name="room-report" extends="template_admin">
+		<put-attribute name="content" value="/WEB-INF/views/admin/report/room-report.jsp" />
+	</definition>
 	
 </tiles-definitions>

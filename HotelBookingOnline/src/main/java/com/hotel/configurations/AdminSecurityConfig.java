@@ -44,7 +44,7 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/admin", "/admin/login", "/admin/logout, /**").permitAll();
 		http.antMatcher("/admin/**")
 		.authorizeRequests()
-		.antMatchers("/admin/user", "/admin/booking", "/admin/guest", "/admin/dashboard").access("hasAnyRole('ROLE_ADMIN', 'ROLE_STAFF')")
+		.antMatchers("/admin/user", "/admin/booking", "/admin/guest", "/admin/dashboard", "/admin/booking-report", "/admin/revenue-report").access("hasAnyRole('ROLE_ADMIN', 'ROLE_STAFF')")
 		.antMatchers("/admin/staff/**", "/admin/room-type/**", "/admin/rooms/**", "/admin/service/**", "/admin/staff/**", "/admin/promotion/**").access("hasRole('ROLE_ADMIN')")
 		.and()
 		.formLogin().loginPage("/admin")
@@ -58,6 +58,11 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
 		.deleteCookies("JSESSIONID")
 		.invalidateHttpSession(true)
 		.and()
-		.exceptionHandling().accessDeniedPage("/admin/accessDenied");
+		.exceptionHandling().accessDeniedPage("/403");
+		http.sessionManagement()
+		.maximumSessions(1)
+		.expiredUrl("/admin/login?message=expired")
+		.and()
+		.invalidSessionUrl("/admin/login");
 	}
 }

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +53,14 @@ public class RoomTypeManageController {
 		roomType.setDescription(description);
 		roomTypeService.saveRoomType(roomType);
 		return "redirect:/admin/room-type";
+	}
+
+	@PostMapping("updateRoomType")
+	private String updateRoomType(@ModelAttribute("roomType") RoomType roomType) {
+		RoomType newType = roomTypeService.find(roomType.getRoomtypeid());
+		roomType.setImage(newType.getImage());
+		roomTypeService.saveRoomType(roomType);
+		return "redirect:/admin/room-type/" + roomType.getRoomtypeid();
 	}
 
 	@GetMapping("")

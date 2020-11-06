@@ -21,11 +21,14 @@
 <!--bootstrap -->
 <link href="${resources}/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link href="${resources}/assets/plugins/summernote/summernote.css" rel="stylesheet">
+<!-- morris chart -->
+    <link href="${resources}/assets/plugins/morris/morris.css" rel="stylesheet" type="text/css" />
 <!-- Material Design Lite CSS -->
 <link rel="stylesheet" href="${resources}/assets/plugins/material/material.min.css">
 <link rel="stylesheet" href="${resources}/assets/css/material_style.css">
 <!-- data tables -->
 <link href="${resources}/assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 <!-- animation -->
 <link href="${resources}/assets/css/pages/animate_page.css" rel="stylesheet">
 <link rel="stylesheet" href="${resources}/assets/plugins/sweet-alert/sweetalert.min.css">
@@ -39,9 +42,16 @@
 <link href="${resources}/assets/plugins/dropzone/dropzone.css" rel="stylesheet" media="screen">
 <!-- Date Time item CSS -->
 <link rel="stylesheet" href="${resources}/assets/plugins/material-datetimepicker/bootstrap-material-datetimepicker.css" />
+
+
 <!-- favicon -->
 <link rel="shortcut icon" href="${resources}/assets/img/favicon.png" />
 <script src="${resources}/assets/plugins/jquery/jquery.min.js"></script>
+<!-- data tables -->
+    <script src="${resources}/assets/plugins/datatables/jquery.dataTables.min.js" ></script>
+ 	<script src="${resources}/assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.js" ></script>
+ 	<script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js" ></script>
+ 	<script src="${resources}/assets/js/pages/table/table_data.js" ></script>
 </head>
 <!-- END HEAD -->
 <body class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md header-white dark-sidebar-color logo-dark">
@@ -75,6 +85,7 @@
 	<script src="${resources}/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 	<script src="${resources}/assets/plugins/sparkline/jquery.sparkline.min.js"></script>
 	<script src="${resources}/assets/js/pages/sparkline/sparkline-data.js"></script>
+	
 	<!-- Sweet Alert -->
     <script src="${resources}/assets/plugins/sweet-alert/sweetalert.min.js" ></script>
     <script src="${resources}/assets/js/pages/sweet-alert/sweet-alert-data.js" ></script>
@@ -83,9 +94,10 @@
 	<script src="${resources}/assets/js/layout.js"></script>
 	<script src="${resources}/assets/js/theme-color.js"></script>
 	<!-- data tables -->
-    <script src="${resources}/assets/plugins/datatables/jquery.dataTables.min.js" ></script>
+    <%-- <script src="${resources}/assets/plugins/datatables/jquery.dataTables.min.js" ></script>
  	<script src="${resources}/assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap4.min.js" ></script>
- 	<script src="${resources}/assets/js/pages/table/table_data.js" ></script>
+ 	<script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js" ></script>
+ 	<script src="${resources}/assets/js/pages/table/table_data.js" ></script> --%>
 	<!-- material -->
 	<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 	<%-- <script src="${resources}/assets/plugins/material/material.min.js"></script> --%>
@@ -99,6 +111,8 @@
 	<!-- animation -->
 	<script src="${resources}/assets/js/pages/ui/animations.js"></script>
 	<!-- end js include path -->
+	<script src="${resources}/assets/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js" ></script>
+	
 	<script>
 $(document).ready(function() {
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function(e){

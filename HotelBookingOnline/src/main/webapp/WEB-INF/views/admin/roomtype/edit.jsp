@@ -135,7 +135,7 @@ img {
 					</div>
 					<form:form action="updateRoomType" modelAttribute="roomType" method="POST" id="updateForm">
 						<div class="card-body row">
-
+							<form:hidden path="roomtypeid"/>
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
 									<form:input path="typename" class="mdl-textfield__input" type="text" />

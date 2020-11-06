@@ -14,36 +14,45 @@
 				</ol>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-6">
-				<div class="card card-box">
-					<div class="card-head">
-						<header>Report Query</header>
-					</div>
-					<form action="booking-report" method="POST">
-						<div class="card-body row">
+		<div class="tab-content tab-space">
+			<div class="tab-pane active show" id="tab1">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="card card-box">
+							<div class="card-head">
+								<header>Search By Date</header>
+							</div>
+							<form action="booking-report" method="POST">
+								<div class="card-body row">
 
-							<div class="col-lg-12 p-t-20">
-								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<input class="mdl-textfield__input" type="text" id="startDate" name="startDate" required="required" /> <label class="mdl-textfield__label">Start
-										Date</label>
+									<div class="col-lg-12 p-t-20">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+											<input class="mdl-textfield__input" type="text" id="startDate" name="startDate" required="required" /> <label class="mdl-textfield__label">Start
+												Date</label>
+										</div>
+									</div>
+									<div class="col-md-6 col-sm-6">
+										<div class="radio radio-yellow">
+											<input id="radiobg1" name="radio2" type="radio" checked="checked"> <label for="radiobg1"> 7 days </label>
+										</div>
+										<div class="radio radio-red">
+											<input id="radiobg2" name="radio2" type="radio" checked="checked"> <label for="radiobg2"> 15 days </label>
+										</div>
+										<div class="radio radio-aqua">
+											<input id="radiobg3" name="radio2" type="radio" checked="checked"> <label for="radiobg3"> 30 days </label>
+										</div>
+									</div>
+									<div class="col-lg-12 p-t-20 text-center">
+										<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink">Submit</button>
+									</div>
 								</div>
-							</div>
-							<div class="col-lg-12 p-t-20">
-								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<input class="mdl-textfield__input" type="text" id="endDate" name="endDate" required="required" /> <label class="mdl-textfield__label">End
-										Date</label>
-								</div>
-							</div>
-							<div class="col-lg-12 p-t-20 text-center">
-								<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink">Submit</button>
-								<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default">Cancel</button>
-							</div>
+							</form>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>
+
 		<div class="row">
 			<div class="col-md-12">
 				<div class="card card-box">

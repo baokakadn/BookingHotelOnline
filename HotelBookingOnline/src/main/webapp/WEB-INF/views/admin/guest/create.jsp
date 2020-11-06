@@ -88,9 +88,9 @@
 									<span class="mdl-textfield__error">Number required!</span>
 								</div>
 							</div>
-							<div style="margin: 0 auto;" class="col-lg-6">
+							<!-- <div style="margin: 0 auto;" class="col-lg-6">
 								<input name="image" onchange="processFile(this)" type="file" accept="image/*" multiple>
-							</div>
+							</div> -->
 							<div class="col-lg-12 p-t-20 text-center">
 								<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink">Submit</button>
 								<button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-default">Cancel</button>

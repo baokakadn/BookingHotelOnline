@@ -1,6 +1,7 @@
 package com.hotel.controller.admin;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -75,10 +76,25 @@ public class BookingManageController {
 	}
 
 	@GetMapping("")
-	private String viewAllBookings(Model model) {
+	private String viewAllBookings(Model model, @RequestParam(value = "startDate", required = false) String startDate, @RequestParam(value = "endDate", required = false) String endDate,
+			@RequestParam(value = "bookingNumber", required = false) String bookingNumber, @RequestParam(value = "roomNumber", required = false) String roomNumber) throws ParseException {
+		List<Booking> bookingList = new ArrayList<Booking>();
+		if (startDate != null && endDate != null) {
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			bookingList = bookingService.getBookingByCheckInDateBetween(dateFormat.parse(startDate), dateFormat.parse(endDate));
+			model.addAttribute("bookingList", bookingList);
+		} else if (bookingNumber != null) {
+			Booking booking1 = bookingService.getByBookinguid(bookingNumber);
+			bookingList.add(booking1);
+		} else if (roomNumber != null) {
+			Booking booking2 = bookingService.getBookingByRoomNumber(Integer.parseInt(roomNumber));
+			bookingList.add(booking2);
+		} else {
+			bookingList = bookingService.getAllBookings();
+		}
 		boolean isBooking = true;
 		model.addAttribute("isBooking", isBooking);
-		model.addAttribute("bookingList", bookingService.getAllBookings());
+		model.addAttribute("bookingList", bookingList);
 		return "view-booking";
 	}
 
@@ -199,28 +215,31 @@ public class BookingManageController {
 		System.out.println(payment);
 		if (checkedList != null) {
 			if (payment != null) {
-				Invoice invoice = new Invoice();
-				if (payment.equalsIgnoreCase("cash")) {
-					invoice.setAmount(Double.parseDouble(amount));
-				} else {
-					CreditCard card = cardService.getCreditCard(cardNumber);
-					if (card.getBalance() < Double.parseDouble(amount)) {
-						System.out.println("Not enough money");
-						return "";
+				if (Double.parseDouble(amount) > 0) {
+					Invoice invoice = new Invoice();
+					if (payment.equalsIgnoreCase("cash")) {
+						invoice.setAmount(Double.parseDouble(amount));
 					} else {
-						invoice.setCreditcard(card);
-						try {
-							transaction(card, invoice, Double.parseDouble(amount));
-						} catch (NumberFormatException e) {
-							e.printStackTrace();
-						} catch (Exception e) {
-							e.printStackTrace();
+						CreditCard card = cardService.getCreditCard(cardNumber);
+						if (card.getBalance() < Double.parseDouble(amount)) {
+							System.out.println("Not enough money");
+							return "";
+						} else {
+							invoice.setCreditcard(card);
+							try {
+								transaction(card, invoice, Double.parseDouble(amount));
+							} catch (NumberFormatException e) {
+								e.printStackTrace();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 						}
 					}
+					invoice.setBooking(booking);
+					invoice.setInvoiceDate(now);
+					invoiceService.saveInvoice(invoice);
 				}
-				invoice.setBooking(booking);
-				invoice.setInvoiceDate(now);
-				invoiceService.saveInvoice(invoice);
+
 				booking.setStatus(Status.SUCCESS);
 			}
 			for (String checked : checkedList) {

@@ -6,7 +6,7 @@
 	<div class="page-header-inner ">
 		<!-- logo start -->
 		<div class="page-logo">
-			<a href="index.html">
+			<a href="<c:url value="/admin"/>">
 				<img alt="" src="${resources}/assets/images/logo.png">
 			</a>
 		</div>

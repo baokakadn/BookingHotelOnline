@@ -17,4 +17,6 @@ public interface RoomService {
 	List<Room> searchAvailableRoom(int roomTypeId, String checkInDate, String checkOutDate);
 
 	List<Room> searchAllAvailable(String checkInDate, String checkOutDate);
+
+	Room getRoomByRoomNumber(int number);
 }

@@ -31,8 +31,9 @@
 								</div>
 								<div class="row">
 									<div class="col-lg-4 col-md-4 col-sm-4">
-										<div class="form-group select_cart_down">
-											<select class="fancy_fild form-control" name="adult" required="required">
+										<div class="form-group">
+											<input type="number" name="adult" required="required" placeholder="Adult" class="fancy_fild form-control" autocomplete="off"/>
+											<!-- <select class="fancy_fild form-control" name="adult" required="required">
 												<option value="">Adults</option>
 												<option value="1">1</option>
 												<option value="2">2</option>
@@ -41,19 +42,20 @@
 												<option value="5">5</option>
 												<option value="6">6</option>
 												<option value="7">7</option>
-											</select>
+											</select> -->
 										</div>
 									</div>
 									<div class="col-lg-4 col-md-4 col-sm-4">
-										<div class="form-group select_cart_down">
-											<select class="fancy_fild form-control" name="children" required="required">
+										<div class="form-group">
+											<input type="number" name="children" required="required" placeholder="Children" class="fancy_fild form-control" autocomplete="off"/>
+											<!-- <select class="fancy_fild form-control" name="children" required="required">
 												<option value="">Children</option>
 												<option value="0">0</option>
 												<option value="1">1</option>
 												<option value="2">2</option>
 												<option value="3">3</option>
 												<option value="4">4</option>
-											</select>
+											</select> -->
 										</div>
 									</div>
 									<div class="col-lg-4 col-md-12 col-sm-12">

@@ -151,4 +151,9 @@ public class HomeController {
 	private String viewFAQs() {
 		return "faqs";
 	}
+
+	@GetMapping("403")
+	private String get403() {
+		return "403";
+	}
 }

@@ -24,4 +24,6 @@ public interface BookingDetailsService {
 	void deleteAll(List<BookingDetails> details);
 
 	List<BookingDetails> getAllByBookingId(int id);
+
+	List<BookingDetails> getDetailsByReportDate(String start, String end);
 }

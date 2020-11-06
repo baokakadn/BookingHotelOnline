@@ -18,4 +18,6 @@ public interface BookingService {
 	Booking getByBookinguid(String uid);
 
 	List<Booking> getBookingByCheckInDateBetween(Date date1, Date date2);
+
+	Booking getBookingByRoomNumber(int number);
 }

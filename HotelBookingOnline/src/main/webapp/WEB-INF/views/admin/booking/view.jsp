@@ -14,6 +14,92 @@
 				</ol>
 			</div>
 		</div>
+		<ul id="nav" class="nav nav-pills nav-pills-rose">
+			<li class="nav-item tab-all"><a class="nav-link active show" href="#tab1" data-toggle="tab">By Date</a></li>
+			<li class="nav-item tab-all"><a class="nav-link" href="#tab2" data-toggle="tab">By Booking Number</a></li>
+			<li class="nav-item tab-all"><a class="nav-link" href="#tab3" data-toggle="tab">By Room</a></li>
+		</ul>
+		<div class="tab-content tab-space">
+			<div class="tab-pane active show" id="tab1">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="card card-box">
+							<div class="card-head">
+								<header>Search By Date</header>
+							</div>
+							<form action="" method="GET">
+								<div class="card-body row">
+		
+									<div class="col-lg-12 p-t-20">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+											<input class="mdl-textfield__input" type="text" id="startDate" name="startDate" required="required" /> <label class="mdl-textfield__label">Start
+												Date</label>
+										</div>
+									</div>
+									<div class="col-lg-12 p-t-20">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+											<input class="mdl-textfield__input" type="text" id="endDate" name="endDate" required="required" /> <label class="mdl-textfield__label">End
+												Date</label>
+										</div>
+									</div>
+									<div class="col-lg-12 p-t-20 text-center">
+										<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink">Submit</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane" id="tab2">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="card card-box">
+							<div class="card-head">
+								<header>Search by Booking Number</header>
+							</div>
+							<form action="" method="GET">
+								<div class="card-body row">
+									<div class="col-lg-12 p-t-20">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+											<input class="mdl-textfield__input" type="text" id="bookingNumber" name="bookingNumber" required="required" /> 
+											<label class="mdl-textfield__label">Booking Number</label>
+										</div>
+									</div>
+									<div class="col-lg-12 p-t-20 text-center">
+										<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink">Submit</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane" id="tab3">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="card card-box">
+							<div class="card-head">
+								<header>Search By Room</header>
+							</div>
+							<form action="" method="GET">
+								<div class="card-body row">
+									<div class="col-lg-12 p-t-20">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+											<input class="mdl-textfield__input" type="number" id="roomNumber" name="roomNumber" required="required" autocomplete="off"/> 
+											<label class="mdl-textfield__label">Room number</label>
+										</div>
+									</div>
+									<div class="col-lg-12 p-t-20 text-center">
+										<button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-pink">Submit</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-md-12">
 				<div class="card card-box">
@@ -57,24 +143,27 @@
 								</thead>
 								<tbody>
 									<c:forEach var="booking" items="${bookingList}">
-										<tr class="odd gradeX">
-											<td class="center">${booking.bookinguid}</td>
-											<fmt:parseDate value="${booking.bookingDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate" type="both" />
-											<fmt:formatDate value="${parsedDate}" var="bookingDate" type="both" pattern="yyyy-MM-dd HH:mm" />
-											<td class="center">${bookingDate}</td>
-											<td class="center"><a href="<c:url value="/admin/user/${booking.user.getUserId()}"/>">${booking.user.getName()}</a></td>
-											<td class="center">${booking.roomtype.typename}</td>
-											<td class="center"><fmt:formatDate value="${booking.checkInDate}" pattern="yyyy-MM-dd" /></td>
-											<td class="center"><fmt:formatDate value="${booking.checkOutDate}" pattern="yyyy-MM-dd" /></td>
-											<td class="center"><span
-												class="label label-sm label-${booking.status == 'ONLINE_PENDING' ? 'secondary' : booking.status == 'PENDING' 
-												? 'warning' : booking.status == 'SUCCESS' ? 'success' : 'danger'}">${booking.status}</span>
-											</td>
-											<td class="center"><a href="/admin/booking/booking-details/${booking.bookingId}" class="btn btn-tbl-edit btn-xs"><i
-													class="fa fa-eye"></i></a> <!-- <button class="btn btn-tbl-delete btn-xs">
-													<i class="fa fa-trash-o "></i>
-												</button> --></td>
-										</tr>
+										<c:if test="${not empty booking}">
+											<tr class="odd gradeX">
+												<td class="center">${booking.bookinguid}</td>
+												<fmt:parseDate value="${booking.bookingDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate" type="both" />
+												<fmt:formatDate value="${parsedDate}" var="bookingDate" type="both" pattern="yyyy-MM-dd HH:mm" />
+												<td class="center">${bookingDate}</td>
+												<td class="center"><a href="<c:url value="/admin/user/${booking.user.getUserId()}"/>">${booking.user.getName()}</a></td>
+												<td class="center">${booking.roomtype.typename}</td>
+												<td class="center"><fmt:formatDate value="${booking.checkInDate}" pattern="yyyy-MM-dd" /></td>
+												<td class="center"><fmt:formatDate value="${booking.checkOutDate}" pattern="yyyy-MM-dd" /></td>
+												<td class="center"><span
+													class="label label-sm label-${booking.status == 'ONLINE_PENDING' ? 'secondary' : booking.status == 'PENDING' 
+													? 'warning' : booking.status == 'SUCCESS' ? 'success' : 'danger'}">${booking.status}</span>
+												</td>
+												<td class="center"><a href="/admin/booking/booking-details/${booking.bookingId}" class="btn btn-tbl-edit btn-xs"><i
+														class="fa fa-eye"></i></a> <!-- <button class="btn btn-tbl-delete btn-xs">
+														<i class="fa fa-trash-o "></i>
+													</button> --></td>
+											</tr>
+										</c:if>
+										
 									</c:forEach>
 								</tbody>
 							</table>

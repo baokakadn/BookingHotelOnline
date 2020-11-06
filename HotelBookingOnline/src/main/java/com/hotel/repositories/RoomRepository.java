@@ -29,4 +29,6 @@ public interface RoomRepository extends CrudRepository<Room, Integer>{
 			"where (u.checkinDate >= ?1 and u.checkoutDate <= ?2)\r\n" +
 			"and r.roomId = u.roomId) ", nativeQuery = true)
 	public List<Room> searchAllAvailable(String checkInDate, String checkOutDate);
+
+	Room findByRoomnumber(int number);
 }

@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "invoice")
 public class Invoice {
@@ -18,6 +20,7 @@ public class Invoice {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "invoiceid")
 	private int invoiceId;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	@Column(name = "invoicedate")
 	private LocalDateTime invoiceDate;
 	@Column(name = "amount")

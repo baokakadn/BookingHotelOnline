@@ -11,58 +11,6 @@
 				<security:authorize access="hasRole('USER')">
 					<div class="col-6 top_Right text-right admin_mini_menu">
 						<ul>
-							<li class="notifaction_drop nav-item dropdown"><a href="#" id="NavebarNotifactionDrop" data-toggle="dropdown" aria-haspopup="true"
-								aria-expanded="false"> <i class="fa fa-bell-o"></i> <span>2</span>
-							</a>
-								<div class="dropdown-menu" aria-labelledby="NavebarNotifactionDrop">
-									<h3>Notifications</h3>
-									<ul>
-										<li><a class="dropdown-item clearfix" href="index.html">
-												<div class="notifaction_photo">
-													<img src="http://themes.webmasterdriver.net/Gwesty/assets/images/notifaction_drop1.jpg" alt="">
-												</div>
-												<div class="notifaction_content">
-													<h4>The Witch's Hat</h4>
-													<p>10% Discount</p>
-													<span> <i class="fa fa-clock-o"></i> 1 Min
-													</span>
-												</div>
-										</a></li>
-										<li><a class="dropdown-item clearfix" href="index.html">
-												<div class="notifaction_photo">
-													<img src="http://themes.webmasterdriver.net/Gwesty/assets/images/notifaction_drop2.jpg" alt="">
-												</div>
-												<div class="notifaction_content">
-													<h4>Park Hyatt Sydney</h4>
-													<p>10% Discount</p>
-													<span> <i class="fa fa-clock-o"></i> 2 Hour
-													</span>
-												</div>
-										</a></li>
-										<li><a class="dropdown-item clearfix" href="index.html">
-												<div class="notifaction_photo">
-													<img src="http://themes.webmasterdriver.net/Gwesty/assets/images/notifaction_drop3.jpg" alt="">
-												</div>
-												<div class="notifaction_content">
-													<h4>Melbourne Marriott Hotel</h4>
-													<p>10% Discount</p>
-													<span> <i class="fa fa-clock-o"></i> 1 Days
-													</span>
-												</div>
-										</a></li>
-										<li><a class="dropdown-item clearfix" href="index.html">
-												<div class="notifaction_photo">
-													<img src="http://themes.webmasterdriver.net/Gwesty/assets/images/notifaction_drop4.jpg" alt="">
-												</div>
-												<div class="notifaction_content">
-													<h4>Shangri-La Hotel</h4>
-													<p>10% Discount</p>
-													<span> <i class="fa fa-clock-o"></i> 5 Days1
-													</span>
-												</div>
-										</a></li>
-									</ul>
-								</div></li>
 							<security:authentication var="principal" property="principal" />
 							<li class="profile_drop nav-item dropdown"><a href="#" id="NavebarProfileDrop" data-toggle="dropdown" aria-haspopup="true"
 								aria-expanded="false"> <img src="<c:url value="/resources/upload/user-image/${principal.id}/${principal.picture}"/>" alt="">

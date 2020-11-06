@@ -13,4 +13,6 @@ public interface InvoiceService {
 	Double getTotalPaid(int bookingId);
 
 	void deleteInvoiceList(List<Invoice> list);
+
+	List<Invoice> getInvoiceByDate(String start, String end);
 }

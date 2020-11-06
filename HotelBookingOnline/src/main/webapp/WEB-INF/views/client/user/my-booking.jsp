@@ -39,8 +39,8 @@
 							<h4>${booking.roomtype.typename }</h4>
 							<div class="row">
 								<div class="col-lg-7 col-md-7 col-sm-7">
-									<span class="widget_ratting"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-										<i class="fa fa-star"></i>
+									<span class="widget_ratting"> 
+										<strong>Booking number: #${booking.bookinguid}</strong>
 									</span>
 								</div>
 								<div class="col-lg-5 col-md-5 col-sm-5">
