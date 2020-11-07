@@ -12,7 +12,7 @@ Application.properties :
 
 Config sending email (USING GMAIL CONFIGURATION):
 <br/>Go to application.properties file and change this to your email info :
-spring.mail.username=YOUR_EMAIL_ADDRESS
+<br/>spring.mail.username=YOUR_EMAIL_ADDRESS
 <br/>spring.mail.password=YOUR_EMAIL_PASSWORD
 
 Project using port 9596, so if you want to change, go to this file and change :
