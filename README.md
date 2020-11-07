@@ -2,7 +2,7 @@
 
 Project using Spring Boot + JSP + Apache Tiles 3 + Spring Data JPA 
 <br/>Report using: Jasper Report (include save as PDF, XLSX, CSV)
-Database: MySQL
+<br/>Database: MySQL
 
 Admin login:
 - Username: admin
