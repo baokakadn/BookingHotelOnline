@@ -26,4 +26,6 @@ public interface BookingDetailsService {
 	List<BookingDetails> getAllByBookingId(int id);
 
 	List<BookingDetails> getDetailsByReportDate(String start, String end);
+
+	List<BookingDetails> getDetailGroupByDate(int bookingId);
 }

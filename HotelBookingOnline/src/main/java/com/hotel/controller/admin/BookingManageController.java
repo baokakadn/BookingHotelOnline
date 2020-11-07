@@ -39,7 +39,6 @@ import com.hotel.services.ChargeService;
 import com.hotel.services.CreditCardService;
 import com.hotel.services.GuestService;
 import com.hotel.services.InvoiceService;
-import com.hotel.services.RoomService;
 import com.hotel.services.ServiceManageService;
 
 @Controller
@@ -60,9 +59,6 @@ public class BookingManageController {
 
 	@Autowired
 	private BookingDetailsService detailsService;
-
-	@Autowired
-	private RoomService roomService;
 
 	@Autowired
 	private InvoiceService invoiceService;
@@ -118,7 +114,7 @@ public class BookingManageController {
 		model.addAttribute("booking", booking);
 		model.addAttribute("listRoom", listRoom);
 		model.addAttribute("unCheckoutRooms", unCheckoutRoom);
-		model.addAttribute("listDate", getDaysBetweenDates(booking.getCheckInDate(), booking.getCheckOutDate()));
+		model.addAttribute("detailsList", detailsService.getDetailGroupByDate(bookingId));
 		model.addAttribute("serviceList", manageService.getAllServices());
 		model.addAttribute("creditCard", new CreditCard());
 		model.addAttribute("totalPaid", invoiceService.getTotalPaid(bookingId));

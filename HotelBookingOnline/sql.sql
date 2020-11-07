@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`promotion` (
   `value` INT NOT NULL,
   PRIMARY KEY (`promId`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -51,10 +51,6 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8;
 
-Insert into `hotelbooking`.`roomtype` (typename, description, adult_capacity, children_capacity, price, image)
-values ('Grand Deluxe Double', 'ashdsahdhsadhadg', 2, 2, 150, 'about_us_img-2020-10-03-10-1-47.jpg'),
-('Standard King Room', 'ashdsahdhsadhadg', 2, 3, 250, 'home_blog_img1-2020-10-11-18-53-58.jpg');
-
 
 -- -----------------------------------------------------
 -- Table `hotelbooking`.`user`
@@ -72,11 +68,8 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`user` (
   PRIMARY KEY (`userId`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 56
+AUTO_INCREMENT = 60
 DEFAULT CHARACTER SET = utf8;
-
-Insert into `hotelbooking`.`user` (name, email, phone, username, password, address, picture, status)
-value ('Nhat Minh', 'minh@gmail.com', '023456789', 'nhatminh', '$2a$10$GHgGvDv1bD95pAEy83g.I.nY9SPCTnLGFhRBq1G0C2./1E0slqH3W', 'Da Nang', 'Jin-Woo_Profile.png', 1);
 
 
 -- -----------------------------------------------------
@@ -100,8 +93,6 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`booking` (
   PRIMARY KEY (`bookingId`),
   UNIQUE INDEX `booking_uid_UNIQUE` (`booking_uid` ASC) VISIBLE,
   INDEX `fk_Booking_RoomType1_idx` (`room_type_id` ASC) VISIBLE,
-  INDEX `fk_Booking_Promotion1_idx` (`promId` ASC) VISIBLE,
-  INDEX `fk_Booking_User1_idx` (`userId` ASC) VISIBLE,
   CONSTRAINT `fk_Booking_Promotion1`
     FOREIGN KEY (`promId`)
     REFERENCES `hotelbooking`.`promotion` (`promId`),
@@ -110,15 +101,9 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`booking` (
     REFERENCES `hotelbooking`.`roomtype` (`room_type_id`),
   CONSTRAINT `fk_Booking_User1`
     FOREIGN KEY (`userId`)
-    REFERENCES `hotelbooking`.`user` (`userId`),
-  CONSTRAINT `FKa3hg04mn1uok34beoh5bqs96q`
-    FOREIGN KEY (`userId`)
-    REFERENCES `hotelbooking`.`user` (`userId`),
-  CONSTRAINT `FKj3dl5agvheo7idlx3livt67k6`
-    FOREIGN KEY (`promId`)
-    REFERENCES `hotelbooking`.`promotion` (`promId`))
+    REFERENCES `hotelbooking`.`user` (`userId`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 42
+AUTO_INCREMENT = 48
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -138,11 +123,10 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`room` (
     FOREIGN KEY (`room_type_id`)
     REFERENCES `hotelbooking`.`roomtype` (`room_type_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 6
+AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8;
 
-Insert into `hotelbooking`.`room` (room_number, room_type_id, floor, description, status)
-values (101, 1, 1, 'abcda', '1'), (102, 1, 1, 'abcda', '1'), (201, 2, 2, 'abcda', '1'), (202, 2, 2, 'abcda', '1');
+
 -- -----------------------------------------------------
 -- Table `hotelbooking`.`bookingdetails`
 -- -----------------------------------------------------
@@ -150,25 +134,19 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`bookingdetails` (
   `booking_details_id` INT NOT NULL AUTO_INCREMENT,
   `bookingId` INT NOT NULL,
   `roomId` INT NOT NULL,
+  `date` DATE NOT NULL,
   `checkinDate` DATETIME NOT NULL,
   `checkoutDate` DATETIME NOT NULL,
+  `price` DOUBLE NOT NULL,
   PRIMARY KEY (`booking_details_id`),
-  INDEX `fk_BookingDetails_Booking1_idx` (`bookingId` ASC) VISIBLE,
-  INDEX `fk_BookingDetails_Room1_idx` (`roomId` ASC) VISIBLE,
   CONSTRAINT `fk_BookingDetails_Booking1`
     FOREIGN KEY (`bookingId`)
     REFERENCES `hotelbooking`.`booking` (`bookingId`),
   CONSTRAINT `fk_BookingDetails_Room1`
     FOREIGN KEY (`roomId`)
-    REFERENCES `hotelbooking`.`room` (`roomId`),
-  CONSTRAINT `FKfsfg6fsxeg3co1ohpugq9894r`
-    FOREIGN KEY (`bookingId`)
-    REFERENCES `hotelbooking`.`booking` (`bookingId`),
-  CONSTRAINT `FKs5qfmy7pox3283irlk4t6c0kb`
-    FOREIGN KEY (`roomId`)
     REFERENCES `hotelbooking`.`room` (`roomId`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 92
+AUTO_INCREMENT = 110
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -197,22 +175,14 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`charge` (
   `serviceId` INT NOT NULL,
   `bookingId` INT NOT NULL,
   PRIMARY KEY (`chargeId`),
-  INDEX `fk_Charge_Service1_idx` (`serviceId` ASC) VISIBLE,
-  INDEX `fk_Charge_Booking1_idx` (`bookingId` ASC) VISIBLE,
-  CONSTRAINT `FK5hb1gocarsgxexdt6edo2x5un`
-    FOREIGN KEY (`bookingId`)
-    REFERENCES `hotelbooking`.`booking` (`bookingId`),
   CONSTRAINT `fk_Charge_Booking1`
     FOREIGN KEY (`bookingId`)
     REFERENCES `hotelbooking`.`booking` (`bookingId`),
   CONSTRAINT `fk_Charge_Service1`
     FOREIGN KEY (`serviceId`)
-    REFERENCES `hotelbooking`.`service` (`serviceId`),
-  CONSTRAINT `FKkd8j878lpw2peodyrbpqrsi2e`
-    FOREIGN KEY (`serviceId`)
     REFERENCES `hotelbooking`.`service` (`serviceId`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 19
+AUTO_INCREMENT = 20
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -230,7 +200,8 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`creditcard` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-
+Insert into `hotelbooking`.`creditcard`
+value ('2222 3333 4444 5555', 'JOHN HENRY', 12, 21, 123, 5000);
 -- -----------------------------------------------------
 -- Table `hotelbooking`.`position`
 -- -----------------------------------------------------
@@ -242,7 +213,7 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8;
 
-Insert into `hotelbooking`.`employee` (position_name)
+Insert into `hotelbooking`.`position` (position_name)
 values ('Administrator'), ('Manager'), ('Receptionist'), ('Bell man');
 -- -----------------------------------------------------
 -- Table `hotelbooking`.`employee`
@@ -254,7 +225,7 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`employee` (
   `dateOfBirth` DATE NOT NULL,
   `address` VARCHAR(100) NOT NULL,
   `phone` VARCHAR(11) NULL DEFAULT NULL,
-  `photo` VARCHAR(300) NOT NULL,
+  `photo` VARCHAR(300) NULL DEFAULT NULL,
   `username` VARCHAR(45) NULL DEFAULT NULL,
   `password` VARCHAR(255) NULL DEFAULT NULL,
   `position_id` INT NOT NULL,
@@ -265,10 +236,11 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`employee` (
     FOREIGN KEY (`position_id`)
     REFERENCES `hotelbooking`.`position` (`position_id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8;
 
 Insert into `hotelbooking`.`employee` (empName, gender, dateOfBirth, address, phone, username, password, position_id)
-values ('Minh', 'Male', '1997-01-01', 'Da Nang', '012345678', 'Jin-Woo_Profile.png', 'admin', '$2a$10$GHgGvDv1bD95pAEy83g.I.nY9SPCTnLGFhRBq1G0C2./1E0slqH3W', '1');
+values ('Admin', 'Male', '1997-01-01', 'Da Nang', '012345678', 'Jin-Woo_Profile.png', 'admin', '$2a$10$GHgGvDv1bD95pAEy83g.I.nY9SPCTnLGFhRBq1G0C2./1E0slqH3W', 1);
 -- -----------------------------------------------------
 -- Table `hotelbooking`.`role`
 -- -----------------------------------------------------
@@ -320,16 +292,7 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`guestinroom` (
     FOREIGN KEY (`booking_details_id`)
     REFERENCES `hotelbooking`.`bookingdetails` (`booking_details_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 18
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `hotelbooking`.`hibernate_sequence`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `hotelbooking`.`hibernate_sequence` (
-  `next_val` BIGINT NULL DEFAULT NULL)
-ENGINE = InnoDB
+AUTO_INCREMENT = 19
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -343,22 +306,14 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`invoice` (
   `bookingId` INT NOT NULL,
   `cardNumber` VARCHAR(30) NULL DEFAULT NULL,
   PRIMARY KEY (`invoiceId`),
-  INDEX `fk_Invoice_Booking1_idx` (`bookingId` ASC) VISIBLE,
-  INDEX `fk_Invoice_CreditCard1_idx` (`cardNumber` ASC) VISIBLE,
   CONSTRAINT `fk_Invoice_Booking1`
     FOREIGN KEY (`bookingId`)
     REFERENCES `hotelbooking`.`booking` (`bookingId`),
   CONSTRAINT `fk_Invoice_CreditCard1`
     FOREIGN KEY (`cardNumber`)
-    REFERENCES `hotelbooking`.`creditcard` (`cardNumber`),
-  CONSTRAINT `FKcdke7172f7cd3jhb0q5qkve2o`
-    FOREIGN KEY (`bookingId`)
-    REFERENCES `hotelbooking`.`booking` (`bookingId`),
-  CONSTRAINT `FKp8icl6x3xcei6hcyq84un6fys`
-    FOREIGN KEY (`cardNumber`)
     REFERENCES `hotelbooking`.`creditcard` (`cardNumber`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 33
+AUTO_INCREMENT = 40
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -379,47 +334,6 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 40
 DEFAULT CHARACTER SET = utf8;
 
-Insert into `hotelbooking`.`room_type_image` (image, room_type_id, feature)
-values ('about_us_img-2020-09-29-22-15-22.jpg', 1, 1), 
-('conform_hotelpic-2020-09-29-22-15-22.jpg', 1, 0),
-('china_hotel-2020-09-29-22-15-22.jpg', 2, 1),
-('home_blog_img3-2020-10-03-9-53-45.jpg', 2, 0);
--- -----------------------------------------------------
--- Table `hotelbooking`.`spring_session`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `hotelbooking`.`spring_session` (
-  `PRIMARY_ID` CHAR(36) NOT NULL,
-  `SESSION_ID` CHAR(36) NOT NULL,
-  `CREATION_TIME` BIGINT NOT NULL,
-  `LAST_ACCESS_TIME` BIGINT NOT NULL,
-  `MAX_INACTIVE_INTERVAL` INT NOT NULL,
-  `EXPIRY_TIME` BIGINT NOT NULL,
-  `PRINCIPAL_NAME` VARCHAR(100) NULL DEFAULT NULL,
-  PRIMARY KEY (`PRIMARY_ID`),
-  UNIQUE INDEX `SPRING_SESSION_IX1` (`SESSION_ID` ASC) VISIBLE,
-  INDEX `SPRING_SESSION_IX2` (`EXPIRY_TIME` ASC) VISIBLE,
-  INDEX `SPRING_SESSION_IX3` (`PRINCIPAL_NAME` ASC) VISIBLE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-ROW_FORMAT = DYNAMIC;
-
-
--- -----------------------------------------------------
--- Table `hotelbooking`.`spring_session_attributes`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `hotelbooking`.`spring_session_attributes` (
-  `SESSION_PRIMARY_ID` CHAR(36) NOT NULL,
-  `ATTRIBUTE_NAME` VARCHAR(200) NOT NULL,
-  `ATTRIBUTE_BYTES` BLOB NOT NULL,
-  PRIMARY KEY (`SESSION_PRIMARY_ID`, `ATTRIBUTE_NAME`),
-  CONSTRAINT `SPRING_SESSION_ATTRIBUTES_FK`
-    FOREIGN KEY (`SESSION_PRIMARY_ID`)
-    REFERENCES `hotelbooking`.`spring_session` (`PRIMARY_ID`)
-    ON DELETE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-ROW_FORMAT = DYNAMIC;
-
 
 -- -----------------------------------------------------
 -- Table `hotelbooking`.`user_role`
@@ -438,8 +352,7 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`user_role` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-Insert into `hotelbooking`.`user_role`
-value (1, 3);
+
 -- -----------------------------------------------------
 -- Table `hotelbooking`.`verificationtoken`
 -- -----------------------------------------------------
@@ -456,7 +369,7 @@ CREATE TABLE IF NOT EXISTS `hotelbooking`.`verificationtoken` (
     FOREIGN KEY (`userId`)
     REFERENCES `hotelbooking`.`user` (`userId`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 16
+AUTO_INCREMENT = 18
 DEFAULT CHARACTER SET = utf8;
 
 

@@ -32,7 +32,7 @@
 								<div class="row">
 									<div class="col-lg-4 col-md-4 col-sm-4">
 										<div class="form-group">
-											<input type="number" name="adult" required="required" placeholder="Adult" class="fancy_fild form-control" autocomplete="off"/>
+											<input type="number" name="adult" required="required" placeholder="Adult" class="fancy_fild form-control" autocomplete="off" min="0"/>
 											<!-- <select class="fancy_fild form-control" name="adult" required="required">
 												<option value="">Adults</option>
 												<option value="1">1</option>
@@ -47,7 +47,7 @@
 									</div>
 									<div class="col-lg-4 col-md-4 col-sm-4">
 										<div class="form-group">
-											<input type="number" name="children" required="required" placeholder="Children" class="fancy_fild form-control" autocomplete="off"/>
+											<input type="number" name="children" required="required" placeholder="Children" class="fancy_fild form-control" autocomplete="off" min="0"/>
 											<!-- <select class="fancy_fild form-control" name="children" required="required">
 												<option value="">Children</option>
 												<option value="0">0</option>

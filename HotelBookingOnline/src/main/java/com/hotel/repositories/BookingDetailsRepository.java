@@ -30,4 +30,7 @@ public interface BookingDetailsRepository extends CrudRepository<BookingDetails,
 			+ "(select bookingId from booking where checkInDate between ?1 and ?2) "
 			+ "group by bookingId, roomId", nativeQuery = true)
 	List<BookingDetails> findByReportDate(String start, String end);
+
+	@Query(value = "select * from bookingdetails where bookingId = ? group by date", nativeQuery = true)
+	List<BookingDetails> findDetailGroupByDate(int bookingId);
 }

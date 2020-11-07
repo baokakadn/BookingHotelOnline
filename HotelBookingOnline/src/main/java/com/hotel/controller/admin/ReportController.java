@@ -120,7 +120,6 @@ public class ReportController {
 	@GetMapping("revenue-report/document/{fileType}")
 	private void getRevenueFile(HttpServletResponse response, @RequestParam("startDate") String startDate,
 			@RequestParam("endDate") String endDate, @PathVariable("fileType") String fileType) throws Throwable {
-		String path = "E:\\Report";
 
 		List<Invoice> invoiceList = invoiceService.getInvoiceByDate(startDate, endDate);
 		double sum = 0;

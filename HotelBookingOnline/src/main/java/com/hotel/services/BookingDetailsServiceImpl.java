@@ -68,5 +68,10 @@ public class BookingDetailsServiceImpl implements BookingDetailsService{
 		return detailsRepo.findByReportDate(start, end);
 	}
 
+	@Override
+	public List<BookingDetails> getDetailGroupByDate(int bookingId) {
+		return detailsRepo.findDetailGroupByDate(bookingId);
+	}
+
 
 }

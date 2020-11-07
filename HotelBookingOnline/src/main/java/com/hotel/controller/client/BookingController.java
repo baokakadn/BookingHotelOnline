@@ -134,7 +134,7 @@ public class BookingController {
 			String[] expiryParts = expiry.split("/");
 			int exipyMonth = Integer.parseInt(expiryParts[0].trim());
 			int expiryYear = Integer.parseInt(expiryParts[1].trim());
-			System.out.println(exipyMonth + "/" + expiryYear);
+			//System.out.println(exipyMonth + "/" + expiryYear);
 			if (card.getCvvcode() != getCard.getCvvcode() || !card.getOwnerName().equals(getCard.getOwnerName())
 					|| card.getExpiryMonth() != exipyMonth || card.getExpiryYear() != expiryYear) {
 				model.addAttribute("error", "Wrong CreditCard information !!!");
@@ -188,9 +188,11 @@ public class BookingController {
 							LocalDateTime checkIn = LocalDateTime.parse(dateFormat.format(date) + " 13:00:00", dtFormat);
 							LocalDateTime checkOut = LocalDateTime
 									.parse(dateFormat.format(getNextDay(date).getTime()) + " 12:00:00", dtFormat);
+							detail.setDate(date);
 							detail.setCheckinDate(checkIn);
 							detail.setCheckoutDate(checkOut);
 							detail.setBooking(booking);
+							detail.setPrice(booking.getRoomtype().getPrice());
 							listDetails.add(detail);
 						}
 					}

@@ -1,6 +1,7 @@
 package com.hotel.models;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -24,6 +25,10 @@ public class BookingDetails {
 	@Column(name = "booking_details_id")
 	private int bookingdetailsid;
 
+	@Column(name = "date")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date date;
+
 	@Column(name = "checkinDate")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime checkinDate;
@@ -31,6 +36,9 @@ public class BookingDetails {
 	@Column(name = "checkoutDate")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime checkoutDate;
+
+	@Column(name = "price")
+	private double price;
 
 	@ManyToOne
 	@JoinColumn(name = "bookingid")
@@ -100,5 +108,23 @@ public class BookingDetails {
 	public void setListGuest(List<GuestInRoom> listGuest) {
 		this.listGuest = listGuest;
 	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+
 
 }

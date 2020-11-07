@@ -196,14 +196,14 @@ h3 {
 											<tbody>
 												<c:set var="index" value="1" />
 												<c:set var="sumTotal1" value="0" />
-												<c:forEach var="date" items="${listDate}">
-													<c:set var="total" value="${booking.roomtype.price * booking.numberOfRooms}" />
+												<c:forEach var="detail" items="${detailsList}">
 													<tr>
 														<td class="text-center">${index}</td>
-														<td class="text-center"><fmt:formatDate value="${date}" pattern="yyyy-MM-dd" /></td>
+														<td class="text-center"><fmt:formatDate value="${detail.date}" pattern="yyyy-MM-dd" /></td>
 														<td class="text-center">${booking.roomtype.typename}</td>
-														<td class="text-center">${booking.roomtype.price }</td>
+														<td class="text-center">${detail.price}</td>
 														<td class="text-center">${booking.numberOfRooms}</td>
+														<c:set var="total" value="${detail.price * booking.numberOfRooms}" />
 														<td class="text-right">$${total}</td>
 													</tr>
 													<c:set var="index" value="${index + 1}" />
