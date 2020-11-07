@@ -11,7 +11,7 @@ Admin login:
 Application.properties : 
 
 Config sending email (USING GMAIL CONFIGURATION):
-Go to application.properties file and change this to your email info :
+<br/>Go to application.properties file and change this to your email info :
 spring.mail.username=YOUR_EMAIL_ADDRESS
 <br/>spring.mail.password=YOUR_EMAIL_PASSWORD
 
