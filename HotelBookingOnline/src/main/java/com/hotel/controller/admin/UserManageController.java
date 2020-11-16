@@ -90,8 +90,7 @@ public class UserManageController {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
 		if (!encoder.matches(oldPass, user.getPassword())) {
 			model.addAttribute("msg", "Wrong password !");
-			model.addAttribute("user", user);
-			return "edit-user";
+			return "redirect:/admin/user/" + userId + "?msg=wrong#changePass";
 		} else {
 			user.setPassword(newPass);
 			userService.saveUser(user);

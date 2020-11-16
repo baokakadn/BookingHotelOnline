@@ -43,7 +43,17 @@
 <!-- Date Time item CSS -->
 <link rel="stylesheet" href="${resources}/assets/plugins/material-datetimepicker/bootstrap-material-datetimepicker.css" />
 
+<style type="text/css">
+.getmdl-select__fix-height .mdl-menu__container .mdl-menu {
+	overflow-y: auto;
+	max-height: 288px !important
+}
 
+.getmdl-select__fix-height .mdl-menu.mdl-menu--top-left {
+	bottom: auto;
+	top: 0
+}
+</style>
 <!-- favicon -->
 <link rel="shortcut icon" href="${resources}/assets/img/favicon.png" />
 <script src="${resources}/assets/plugins/jquery/jquery.min.js"></script>
@@ -99,8 +109,8 @@
  	<script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js" ></script>
  	<script src="${resources}/assets/js/pages/table/table_data.js" ></script> --%>
 	<!-- material -->
-	<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-	<%-- <script src="${resources}/assets/plugins/material/material.min.js"></script> --%>
+	<!-- <script src="https://code.getmdl.io/1.3.0/material.min.js"></script> -->
+	<script src="${resources}/assets/plugins/material/material.min.js"></script>
 	<script src="${resources}/assets/js/pages/material_select/getmdl-select.js" ></script>
     <script src="${resources}/assets/plugins/material-datetimepicker/moment-with-locales.min.js"></script>
 	<script src="${resources}/assets/plugins/material-datetimepicker/bootstrap-material-datetimepicker.js"></script>

@@ -16,20 +16,25 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "invoice")
 public class Invoice {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "invoiceid")
 	private int invoiceId;
+
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	@Column(name = "invoicedate")
 	private LocalDateTime invoiceDate;
+
 	@Column(name = "amount")
 	private double amount;
+
 	@ManyToOne
 	@JoinColumn(name = "bookingid")
 	private Booking booking;
+
 	@ManyToOne
-	@JoinColumn(name = "cardnumber")
+	@JoinColumn(name = "id")
 	private CreditCard creditcard;
 
 	public Invoice() {

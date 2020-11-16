@@ -28,13 +28,13 @@
 			</div>
 		</div>
 		<ul class="nav nav-pills nav-pills-rose">
-			<li class="nav-item tab-all"><a class="nav-link active show" href="#tab1" data-toggle="tab">Details</a></li>
+			<li class="nav-item tab-all"><a class="nav-link" href="#tab1" data-toggle="tab">Details</a></li>
 			<li class="nav-item tab-all"><a class="nav-link" href="#tab2" data-toggle="tab">Bookings</a></li>
 			<li class="nav-item tab-all"><a class="nav-link" href="#tab3" data-toggle="tab">Invoices</a></li>
 			<li class="nav-item tab-all"><a class="nav-link" href="#tab4" data-toggle="tab">Change Password</a></li>
 		</ul>
 		<div class="tab-content tab-space">
-			<div class="tab-pane active fontawesome-demo" id="tab1">
+			<div class="tab-pane fontawesome-demo" id="tab1">
 				<div class="white-box" style="overflow: auto;">
 					<div class="profile-sidebar">
 						<div class="card card-topline-aqua">
@@ -225,12 +225,13 @@
 			<div class="tab-pane fontawesome-demo" id="tab4">
 				<div class="white-box">
 					<form action="changePass" method="POST">
+						<label id="changePassError" style="color: red;"></label>
 						<input type="hidden" name="userId" value="${user.userId}"/>
 						<div class="card-body row">
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
 									<input class="mdl-textfield__input" type="password" id="oldPass" name="oldPass" />
-									<label class="mdl-textfield__label">Password</label>
+									<label class="mdl-textfield__label">Current Password</label>
 									<c:if test="${not empty msg}">
 										<span class="mdl-textfield__error">${msg}</span>
 									</c:if>
@@ -239,11 +240,11 @@
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
 									<input class="mdl-textfield__input" type="password" id="newPass" name="newPass" />
-									<label class="mdl-textfield__label">Password</label>
+									<label class="mdl-textfield__label">New Password</label>
 								</div>
 							</div>
 							<div class="col-lg-6 p-t-20">
-								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+								<div id="confirm" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
 									<input class="mdl-textfield__input" type="password" id="confirmPass"> 
 									<label class="mdl-textfield__label">Confirm Password</label>
 								</div>
@@ -264,14 +265,50 @@
 	var password = document.getElementById("newPass"), confirm_password = document
 			.getElementById("confirmPass");
 
-	function validatePassword() {
-		if (password.value != confirm_password.value) {
-			confirm_password.setCustomValidity("Passwords Don't Match");
-		} else {
-			confirm_password.setCustomValidity('');
+	function validatePassword(){
+		  if(password.value != confirm_password.value) {
+			$('#confirm').removeClass('is-valid');
+			$('#confirm').addClass('is-invalid');
+			$('#cfError').remove();
+			$('#confirm').append("<span class='mdl-textfield__error' id='cfError'>Passwords Don't Match</span>");
+		    confirm_password.setCustomValidity("Passwords Don't Match");
+		  } else {
+			  $('#cfError').remove();
+			 $('#confirm').removeClass('is-invalid');
+			 $('#confirm').addClass('is-valid');
+		    confirm_password.setCustomValidity('');
+		  }
 		}
-	}
 
 	password.onchange = validatePassword;
 	confirm_password.onkeyup = validatePassword;
+</script>
+<script type="text/javascript">
+var url = document.location.toString();
+if (window.location.href.indexOf('#changePass') != -1) {
+	$('.nav-pills a[href="#tab4').addClass("active show"); 
+	$('#tab4').addClass("active show"); 
+} else {
+	$('.nav-pills a[href="#tab1').addClass("active show"); 
+	$('#tab1').addClass("active show"); 
+}
+</script>
+<script>
+function GetURLParameter(sParam)
+{
+	var sPageURL = window.location.search.substring(1);
+	var sURLVariables = sPageURL.split('&');
+	for (var i = 0; i < sURLVariables.length; i++){
+		var sParameterName = sURLVariables[i].split('=');
+		if (sParameterName[0] == sParam)
+		{
+			return sParameterName[1];
+		}
+	}
+}
+
+var msg = GetURLParameter('msg');
+if (msg == 'wrong'){
+	$('#changePassError').text('Error: Wrong Password !!!');
+}
 </script>

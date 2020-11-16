@@ -57,7 +57,7 @@
 								<div class="clearfix"></div>
 								<hr class="item_divder">
 								<p class="float-left text-center">
-									<strong class="green_text">$ ${r.price}</strong> <span class="text-uppercase d-block">PER NIGHT</span>
+									<strong class="green_text">$${r.price}</strong> <span class="text-uppercase d-block">PER NIGHT</span>
 								</p>
 								<a href="/room-detail/${r.roomtypeid}${not empty queryString ? queryString : ''}" class="btn btn-success float-right">View Details</a>
 							</div>

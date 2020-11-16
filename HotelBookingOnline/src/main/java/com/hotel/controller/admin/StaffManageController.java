@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,7 @@ import com.hotel.models.Employee;
 import com.hotel.models.Position;
 import com.hotel.services.EmployeeService;
 import com.hotel.services.PositionService;
+import com.hotel.services.RoleService;
 import com.hotel.ults.MyUploadForm;
 
 @Controller
@@ -41,6 +43,9 @@ public class StaffManageController {
 
 	@Autowired
 	private EmployeeService employeeService;
+
+	@Autowired
+	private RoleService roleService;
 
 	@GetMapping("create")
 	private String createStaff(Model model) {
@@ -54,12 +59,15 @@ public class StaffManageController {
 		boolean isStaff = true;
 		model.addAttribute("isStaff", isStaff);
 		model.addAttribute("staffList", employeeService.getAllEmployees());
+
 		return "list-staff";
 	}
 
 	@GetMapping("{staffId}")
 	private String editStaff(@PathVariable("staffId") int id, Model model) {
 		model.addAttribute("staff", employeeService.getEmployeeById(id));
+		model.addAttribute("positionList", positionService.getAllPositions());
+		model.addAttribute("listRole", roleService.getAllRole());
 		return "edit-staff";
 	}
 
@@ -81,6 +89,20 @@ public class StaffManageController {
 		employee.setPhoto(newEmp.getPhoto());
 		employeeService.saveEmployee(employee);
 		return "redirect:/admin/staff/" + employee.getEmpId();
+	}
+
+	@PostMapping("changePass")
+	private String changePass(@RequestParam("oldPass") String oldPass, @RequestParam("newPass") String newPass, @RequestParam("staffId") String staffId, Model model) {
+		Employee employee = employeeService.getEmployeeById(Integer.parseInt(staffId));
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+		if (!encoder.matches(oldPass, employee.getPassword())) {
+			model.addAttribute("msg", "Wrong password !");
+			return "redirect:/admin/staff/" + staffId + "?msg=wrong#changePass";
+		} else {
+			employee.setPassword(newPass);
+			employeeService.saveEmployee(employee);
+			return "redirect:/admin/staff/" + staffId;
+		}
 	}
 
 	@PostMapping("uploadImage")

@@ -563,26 +563,6 @@ h3 {
 									<div class="form-group col-sm-12">
 										<label class="font-bold18">Expiry Date</label>
 										<input name="expiry" class="form-control" type="text" placeholder data-mask="99/99"/>
-										<!-- <div class="form-row">
-											<div class="form-group col-sm-12">
-												<input name="expiryDate" class="form-control" type="text" />
-												<select class="form-control" name="expiryMonth">
-													<option>MM</option>
-													<option value="1">January</option>
-													<option value="2">February</option>
-													<option value="3">March</option>
-													<option value="4">April</option>
-													<option value="5">May</option>
-													<option value="6">June</option>
-													<option value="7">July</option>
-													<option value="8">August</option>
-													<option value="9">September</option>
-													<option value="10">October</option>
-													<option value="11">November</option>
-													<option value="12">December</option>
-												</select>
-											</div>
-										</div> -->
 									</div>
 									<div class="form-group col-sm-12 ">
 										<label class="font-bold18">CVV Number</label> <input name="cvvcode" class="form-control" type="text" />

@@ -1,5 +1,7 @@
 package com.hotel.services;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,16 @@ public class CreditCardServiceImpl implements CreditCardService{
 	@Override
 	public void saveCard(CreditCard creditCard) {
 		cardRepository.save(creditCard);
+	}
+
+	@Override
+	public List<CreditCard> getAllCard() {
+		return (List<CreditCard>) cardRepository.findAll();
+	}
+
+	@Override
+	public CreditCard getCardById(int id) {
+		return cardRepository.findById(id);
 	}
 
 }

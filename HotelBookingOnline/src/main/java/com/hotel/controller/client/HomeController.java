@@ -23,6 +23,7 @@ import com.hotel.repositories.VerificationTokenRepository;
 import com.hotel.services.BookingService;
 import com.hotel.services.EmailService;
 import com.hotel.services.RoleService;
+import com.hotel.services.TypeRoomService;
 import com.hotel.services.UserService;
 
 @Controller
@@ -43,10 +44,14 @@ public class HomeController {
 	@Autowired
 	private BookingService bookingService;
 
+	@Autowired
+	private TypeRoomService typeRoomService;
+
 	@GetMapping("")
 	private String viewHomePage(Model model) {
 		boolean homePage = true;
 		model.addAttribute("homePage", homePage);
+		model.addAttribute("roomTypeList", typeRoomService.getAllRoomType());
 		return "index";
 	}
 
@@ -65,7 +70,6 @@ public class HomeController {
 			} else {
 				user = new User();
 				user.setUsername(username);
-				System.out.println(password.length());
 				user.setPassword(password);
 				user.setEmail(email);
 				userService.saveUser(user);

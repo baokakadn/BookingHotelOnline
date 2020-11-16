@@ -26,10 +26,17 @@
 							<div class="profile-usertitle-job">${principal.position}</div>
 						</div>
 						<div class="sidebar-userpic-btn">
-							<a class="tooltips" href="/admin/staff/${principal.id}" data-placement="top" data-original-title="Profile"> <i class="material-icons">person_outline</i>
-							</a> <a class="tooltips" href="" data-placement="top" data-original-title="Mail"> <i class="material-icons">mail_outline</i>
-							</a> <a class="tooltips" href="" data-placement="top" data-original-title="Chat"> <i class="material-icons">chat</i>
-							</a> <a class="tooltips" href="/admin/process-logout" data-placement="top" data-original-title="Logout"> <i class="material-icons">input</i>
+							<a class="tooltips" href="/admin/staff/${principal.id}" data-placement="top" data-original-title="Profile"> 
+								<i class="material-icons">person_outline</i>
+							</a> 
+							<a class="tooltips" href="#" data-placement="top" data-original-title="Mail"> 
+								<i class="material-icons">mail_outline</i>
+							</a> 
+							<a class="tooltips" href="#" data-placement="top" data-original-title="Chat"> 
+								<i class="material-icons">chat</i>
+							</a> 
+							<a class="tooltips" href="/admin/process-logout" data-placement="top" data-original-title="Logout"> 
+								<i class="material-icons">input</i>
 							</a>
 						</div>
 					</div>
@@ -150,6 +157,17 @@
 							</a></li>
 							<li class="nav-item ${isPromo ? ' active':''}"><a href="/admin/promotion" class="nav-link "> <span class="title">View All
 										Promotions</span>
+							</a></li>
+						</ul></li>
+					<li class="nav-item ${fn:indexOf(url, 'creditcard') > -1 ? ' active':''}"><a href="#" class="nav-link nav-toggle"> <i
+							class="material-icons">credit_card</i> <span class="title">CreditCard</span> <span class="arrow ${fn:indexOf(url, 'creditcard') > -1 ? ' open':''}"></span>
+					</a>
+						<ul class="sub-menu">
+							<li class="nav-item ${fn:indexOf(url, 'creditcard/create') > -1 ? ' active':''}"><a href="/admin/creditcard/create" class="nav-link "> <span
+									class="title">Add CreditCard</span>
+							</a></li>
+							<li class="nav-item ${isCard ? ' active':''}"><a href="/admin/creditcard" class="nav-link "> <span class="title">View All
+										CreditCard</span>
 							</a></li>
 						</ul></li>
 				</security:authorize>

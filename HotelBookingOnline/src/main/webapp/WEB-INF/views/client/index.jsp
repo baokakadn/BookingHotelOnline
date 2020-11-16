@@ -32,7 +32,7 @@
 								<div class="row">
 									<div class="col-lg-4 col-md-4 col-sm-4">
 										<div class="form-group">
-											<input type="number" name="adult" required="required" placeholder="Adult" class="fancy_fild form-control" autocomplete="off" min="0"/>
+											<input type="number" name="adult" required="required" placeholder="Adult" class="fancy_fild form-control" autocomplete="off" min="0" />
 											<!-- <select class="fancy_fild form-control" name="adult" required="required">
 												<option value="">Adults</option>
 												<option value="1">1</option>
@@ -47,7 +47,7 @@
 									</div>
 									<div class="col-lg-4 col-md-4 col-sm-4">
 										<div class="form-group">
-											<input type="number" name="children" required="required" placeholder="Children" class="fancy_fild form-control" autocomplete="off" min="0"/>
+											<input type="number" name="children" required="required" placeholder="Children" class="fancy_fild form-control" autocomplete="off" min="0" />
 											<!-- <select class="fancy_fild form-control" name="children" required="required">
 												<option value="">Children</option>
 												<option value="0">0</option>
@@ -78,8 +78,7 @@
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<h2 class="main_hadding">
-					Recommended Destinations
-					<span class="h2_babuls_style"></span>
+					Recommended Destinations <span class="h2_babuls_style"></span>
 				</h2>
 			</div>
 		</div>
@@ -130,15 +129,13 @@
 </section>
 <!-- Recommended Destinations End Here -->
 <!-- How It Works Start Here -->
-<section class="parallax-window2 xs-height-auto" data-parallax="scroll"
-	data-image-src="${resources}/assets/images/how_it_work_bg.jpg">
+<section class="parallax-window2 xs-height-auto" data-parallax="scroll" data-image-src="${resources}/assets/images/how_it_work_bg.jpg">
 	<div class="how_it_work_inner padding_75 xs-height-auto">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<h2 class="main_hadding white-text">
-						How It Works
-						<span class="h2_babuls_style"></span>
+						How It Works <span class="h2_babuls_style"></span>
 					</h2>
 				</div>
 			</div>
@@ -184,8 +181,7 @@
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<h2 class="main_hadding">
-					Our Rooms
-					<span class="h2_babuls_style"></span>
+					Our Rooms <span class="h2_babuls_style"></span>
 				</h2>
 			</div>
 		</div>
@@ -194,312 +190,42 @@
 				<!-- Product Owl Slider-->
 				<div id="new-products_slider" class="products_slider_style2">
 					<div class="owl-carousel owl-theme">
-						<div class="item">
-							<div class="most_pop_item_blog">
-								<div class="item_img_blog">
-									<img src="${resources}/assets/images/most_popular_item1.png" class="img-fluid" alt="">
-									<div class="most_popu_overlay">
-										<ul class="list-style-none yemm_most_facilities">
-											<li>
-												<img src="${resources}/assets/images/car-defult_icon.png" alt="">
-												<span class="d-block">Car Park</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/swmming_black_icon.png" alt="">
-												<span class="d-block">Swimming Pull</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/fitness_black_icon.png" alt="">
-												<span class="d-block">Fitness Center</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/spa_balck_icon.png" alt="">
-												<span class="d-block">Spa & Massage</span>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<div class="pop_item_description">
-									<div class="yemm_hotel_location clearfix">
-										<h5>
-											<a href="hotel-detail-1.html">Atlantis Hotel</a>
-										</h5>
-										<div class="hotel-addressdetail">
-											<strong>
-												<i class="fa fa-map-marker m-r-7"></i>
-												Sanguily, Cuba
-											</strong>
-											<p class="adv-spac">
-												<span class="outline_bages m-r-7">Ad</span>
-												<i class="fa fa-check-circle"></i>
-											</p>
+						<c:forEach var="roomType" items="${roomTypeList}">
+							<div class="item">
+								<div class="most_pop_item_blog">
+									<div class="item_img_blog">
+										<img style="width: 348px; height: 230px;" src="${resources}/upload/room-type-image/${roomType.roomtypeid}/${roomType.image}"
+											class="img-fluid" alt="">
+										<div class="most_popu_overlay">
+											<ul class="list-style-none yemm_most_facilities">
+												<li><img src="${resources}/assets/images/car-defult_icon.png" alt=""> <span class="d-block">Car Park</span></li>
+												<li><img src="${resources}/assets/images/swmming_black_icon.png" alt=""> <span class="d-block">Swimming Pull</span></li>
+												<li><img src="${resources}/assets/images/fitness_black_icon.png" alt=""> <span class="d-block">Fitness Center</span></li>
+												<li><img src="${resources}/assets/images/spa_balck_icon.png" alt=""> <span class="d-block">Spa & Massage</span></li>
+											</ul>
 										</div>
-										<div class="clearfix"></div>
-										<hr class="item_divder">
-										<p class="float-left text-center">
-											<strong class="green_text">$40.8</strong>
-											<span class="text-uppercase d-block">PER NIGHT</span>
-										</p>
-										<a href="hotel-detail-1.html" class="btn btn-success float-right">Book Now</a>
+									</div>
+									<div class="pop_item_description">
+										<div class="yemm_hotel_location clearfix">
+											<h5>
+												<a href="hotel-detail-1.html">${roomType.typename}</a>
+											</h5>
+											<div class="hotel-addressdetail">
+												<strong> <i class="fa fa-map-marker m-r-7"></i> ${roomType.adultcapacity}<span class="text-uppercase d-block">adult</span>
+												</strong> <strong> <i class="fa fa-map-marker m-r-7"></i> ${roomType.childrencapacity}<span class="text-uppercase d-block">children</span>
+												</strong>
+											</div>
+											<div class="clearfix"></div>
+											<hr class="item_divder">
+											<p class="float-left text-center">
+												<strong class="green_text">$${roomType.price}</strong> <span class="text-uppercase d-block">PER NIGHT</span>
+											</p>
+											<a href="<c:url value="/room-detail/${roomType.roomtypeid}"/>" class="btn btn-success float-right">Book Now</a>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="item">
-							<div class="most_pop_item_blog">
-								<div class="item_img_blog">
-									<img src="${resources}/assets/images/most_popular_item2.jpg" class="img-fluid" alt="">
-									<div class="most_popu_overlay">
-										<ul class="list-style-none yemm_most_facilities">
-											<li>
-												<img src="${resources}/assets/images/car-defult_icon.png" alt="">
-												<span class="d-block">Car Park</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/swmming_black_icon.png" alt="">
-												<span class="d-block">Swimming Pull</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/fitness_black_icon.png" alt="">
-												<span class="d-block">Fitness Center</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/spa_balck_icon.png" alt="">
-												<span class="d-block">Spa & Massage</span>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<div class="pop_item_description">
-									<div class="yemm_hotel_location clearfix">
-										<h5>
-											<a href="hotel-detail-1.html">Wellington Hotel</a>
-										</h5>
-										<div class="hotel-addressdetail">
-											<strong>
-												<i class="fa fa-map-marker m-r-7"></i>
-												La Teresa, Cuba
-											</strong>
-											<p class="adv-spac">
-												<span class="outline_bages m-r-7">Ad</span>
-												<i class="fa fa-check-circle"></i>
-											</p>
-										</div>
-										<div class="clearfix"></div>
-										<hr class="item_divder">
-										<p class="float-left text-center">
-											<strong class="green_text">$35.8</strong>
-											<span class="text-uppercase d-block">PER NIGHT</span>
-										</p>
-										<a href="hotel-detail-1.html" class="btn btn-success float-right">Book Now</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="most_pop_item_blog">
-								<div class="item_img_blog">
-									<img src="${resources}/assets/images/most_popular_item3.jpg" class="img-fluid" alt="">
-									<div class="most_popu_overlay">
-										<ul class="list-style-none yemm_most_facilities">
-											<li>
-												<img src="${resources}/assets/images/car-defult_icon.png" alt="">
-												<span class="d-block">Car Park</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/swmming_black_icon.png" alt="">
-												<span class="d-block">Swimming Pull</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/fitness_black_icon.png" alt="">
-												<span class="d-block">Fitness Center</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/spa_balck_icon.png" alt="">
-												<span class="d-block">Spa & Massage</span>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<div class="pop_item_description">
-									<div class="yemm_hotel_location clearfix">
-										<h5>
-											<a href="hotel-detail-1.html">InterContinental New York Barclay</a>
-										</h5>
-										<div class="hotel-addressdetail">
-											<strong>
-												<i class="fa fa-map-marker m-r-7"></i>
-												Orlando Gonzales, Cuba
-											</strong>
-											<p class="adv-spac">
-												<span class="outline_bages m-r-7">Ad</span>
-												<i class="fa fa-check-circle"></i>
-											</p>
-										</div>
-										<div class="clearfix"></div>
-										<hr class="item_divder">
-										<p class="float-left text-center">
-											<strong class="green_text">$80</strong>
-											<span class="text-uppercase d-block">PER NIGHT</span>
-										</p>
-										<a href="hotel-detail-1.html" class="btn btn-success float-right">Book Now</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="most_pop_item_blog">
-								<div class="item_img_blog">
-									<img src="${resources}/assets/images/most_popular_item1.png" class="img-fluid" alt="">
-									<div class="most_popu_overlay">
-										<ul class="list-style-none yemm_most_facilities">
-											<li>
-												<img src="${resources}/assets/images/car-defult_icon.png" alt="">
-												<span class="d-block">Car Park</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/swmming_black_icon.png" alt="">
-												<span class="d-block">Swimming Pull</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/fitness_black_icon.png" alt="">
-												<span class="d-block">Fitness Center</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/spa_balck_icon.png" alt="">
-												<span class="d-block">Spa & Massage</span>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<div class="pop_item_description">
-									<div class="yemm_hotel_location clearfix">
-										<h5>
-											<a href="#">The Emperor's Crown Hostel</a>
-										</h5>
-										<div class="hotel-addressdetail">
-											<strong>
-												<i class="fa fa-map-marker m-r-7"></i>
-												Sanguily, Cuba
-											</strong>
-											<p class="adv-spac">
-												<span class="outline_bages m-r-7">Ad</span>
-												<i class="fa fa-check-circle"></i>
-											</p>
-										</div>
-										<div class="clearfix"></div>
-										<hr class="item_divder">
-										<p class="float-left text-center">
-											<strong class="green_text">$60.5</strong>
-											<span class="text-uppercase d-block">PER NIGHT</span>
-										</p>
-										<a href="hotel-detail-1.html" class="btn btn-success float-right">Book Now</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="most_pop_item_blog">
-								<div class="item_img_blog">
-									<img src="${resources}/assets/images/most_popular_item2.jpg" class="img-fluid" alt="">
-									<div class="most_popu_overlay">
-										<ul class="list-style-none yemm_most_facilities">
-											<li>
-												<img src="${resources}/assets/images/car-defult_icon.png" alt="">
-												<span class="d-block">Car Park</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/swmming_black_icon.png" alt="">
-												<span class="d-block">Swimming Pull</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/fitness_black_icon.png" alt="">
-												<span class="d-block">Fitness Center</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/spa_balck_icon.png" alt="">
-												<span class="d-block">Spa & Massage</span>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<div class="pop_item_description">
-									<div class="yemm_hotel_location clearfix">
-										<h5>
-											<a href="hotel-detail-1.html">The Witch's Hat</a>
-										</h5>
-										<div class="hotel-addressdetail">
-											<strong>
-												<i class="fa fa-map-marker m-r-7"></i>
-												La Teresa, Cuba
-											</strong>
-											<p class="adv-spac">
-												<span class="outline_bages m-r-7">Ad</span>
-												<i class="fa fa-check-circle"></i>
-											</p>
-										</div>
-										<div class="clearfix"></div>
-										<hr class="item_divder">
-										<p class="float-left text-center">
-											<strong class="green_text">$100</strong>
-											<span class="text-uppercase d-block">PER NIGHT</span>
-										</p>
-										<a href="hotel-detail-1.html" class="btn btn-success float-right">Book Now</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="most_pop_item_blog">
-								<div class="item_img_blog">
-									<img src="${resources}/assets/images/most_popular_item3.jpg" class="img-fluid" alt="">
-									<div class="most_popu_overlay">
-										<ul class="list-style-none yemm_most_facilities">
-											<li>
-												<img src="${resources}/assets/images/car-defult_icon.png" alt="">
-												<span class="d-block">Car Park</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/swmming_black_icon.png" alt="">
-												<span class="d-block">Swimming Pull</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/fitness_black_icon.png" alt="">
-												<span class="d-block">Fitness Center</span>
-											</li>
-											<li>
-												<img src="${resources}/assets/images/spa_balck_icon.png" alt="">
-												<span class="d-block">Spa & Massage</span>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<div class="pop_item_description">
-									<div class="yemm_hotel_location clearfix">
-										<h5>
-											<a href="hotel-detail-1.html">Grace Building, Sydney</a>
-										</h5>
-										<div class="hotel-addressdetail">
-											<strong>
-												<i class="fa fa-map-marker m-r-7"></i>
-												Orlando Gonzales, Cuba
-											</strong>
-											<p class="adv-spac">
-												<span class="outline_bages m-r-7">Ad</span>
-												<i class="fa fa-check-circle"></i>
-											</p>
-										</div>
-										<div class="clearfix"></div>
-										<hr class="item_divder">
-										<p class="float-left text-center">
-											<strong class="green_text">$55.8</strong>
-											<span class="text-uppercase d-block">PER NIGHT</span>
-										</p>
-										<a href="hotel-detail-1.html" class="btn btn-success float-right">Book Now</a>
-									</div>
-								</div>
-							</div>
-						</div>
+						</c:forEach>
 					</div>
 				</div>
 				<!-- Product Owl Slider ends -->
@@ -507,240 +233,15 @@
 		</div>
 	</div>
 </section>
-<!-- Hotels-Offers Start Here -->
-<%-- <section class="parallax-window3" data-parallax="scroll" data-image-src="${resources}/assets/images/parallax_BG3.jpg">
-	<div class="yemm_hotel_offer padding_75">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-					<h2 class="main_hadding white-text">
-						Hotels Offers
-						<span class="h2_babuls_style"></span>
-					</h2>
-				</div>
-			</div>
-			<div class="padding_l-r">
-				<div id="popular_category" class="products_slider_style2">
-					<div class="owl-carousel owl-theme">
-						<div class="item">
-							<div class="smooth_slide_img">
-								<img src="${resources}/assets/images/3d_slider_img1.jpg" class="img-fluid" alt="">
-								<div class="smooth_overlay">
-									<ul class="list-style-none yemm_most_facilities">
-										<li>
-											<img src="${resources}/assets/images/gray_car_icon.png" alt="">
-											<span class="d-block">Car Park</span>
-										</li>
-										<li>
-											<img src="${resources}/assets/images/swmming_gray_icon.png" alt="">
-											<span class="d-block">Swimming Pull</span>
-										</li>
-										<li>
-											<img src="${resources}/assets/images/fitness_gray_icon.png" alt="">
-											<span class="d-block">Fitness Center</span>
-										</li>
-										<li>
-											<img src="${resources}/assets/images/spa_gray_icon.png" alt="">
-											<span class="d-block">Spa &amp; Massage</span>
-										</li>
-										<li class="dicount_yemm">
-											<del>$350</del>
-											<strong>$250</strong>
-											<small>Per Night</small>
-										</li>
-									</ul>
-								</div>
-								<div class="offer_yemm_bottom">
-									<div class="float-left">
-										<h2 class="white-text">Park Hyatt Sydney</h2>
-										<strong class="d-block">5 Star Hotel in Dubai</strong>
-										<a href="#" class="btn btn-success">Book Now</a>
-									</div>
-									<div class="promocoad_blog">
-										<strong class="promooff">30% OFF</strong>
-										<span class="promocoad">BOOK636F</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="smooth_slide_img">
-								<img src="${resources}/assets/images/3d_slider_img2.jpg" class="img-fluid" alt="">
-								<div class="smooth_overlay">
-									<ul class="list-style-none yemm_most_facilities">
-										<li>
-											<img src="${resources}/assets/images/gray_car_icon.png" alt="">
-											<span class="d-block">Car Park</span>
-										</li>
-										<li>
-											<img src="${resources}/assets/images/swmming_gray_icon.png" alt="">
-											<span class="d-block">Swimming Pull</span>
-										</li>
-										<li>
-											<img src="${resources}/assets/images/fitness_gray_icon.png" alt="">
-											<span class="d-block">Fitness Center</span>
-										</li>
-										<li>
-											<img src="${resources}/assets/images/spa_gray_icon.png" alt="">
-											<span class="d-block">Spa &amp; Massage</span>
-										</li>
-										<li class="dicount_yemm">
-											<del>$350</del>
-											<strong>$250</strong>
-											<small>Per Night</small>
-										</li>
-									</ul>
-								</div>
-								<div class="offer_yemm_bottom">
-									<div class="float-left">
-										<h2 class="white-text">Australia Hotel</h2>
-										<strong class="d-block">5 Star Hotel in Dubai</strong>
-										<a href="#" class="btn btn-success">Book Now</a>
-									</div>
-									<div class="promocoad_blog">
-										<strong class="promooff">30% OFF</strong>
-										<span class="promocoad">BOOK636F</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="smooth_slide_img">
-								<img src="${resources}/assets/images/3d_slider_img3.jpg" class="img-fluid" alt="">
-								<div class="smooth_overlay">
-									<ul class="list-style-none yemm_most_facilities">
-										<li>
-											<img src="${resources}/assets/images/gray_car_icon.png" alt="">
-											<span class="d-block">Car Park</span>
-										</li>
-										<li>
-											<img src="${resources}/assets/images/swmming_gray_icon.png" alt="">
-											<span class="d-block">Swimming Pull</span>
-										</li>
-										<li>
-											<img src="${resources}/assets/images/fitness_gray_icon.png" alt="">
-											<span class="d-block">Fitness Center</span>
-										</li>
-										<li>
-											<img src="${resources}/assets/images/spa_gray_icon.png" alt="">
-											<span class="d-block">Spa &amp; Massage</span>
-										</li>
-										<li class="dicount_yemm">
-											<del>$350</del>
-											<strong>$250</strong>
-											<small>Per Night</small>
-										</li>
-									</ul>
-								</div>
-								<div class="offer_yemm_bottom">
-									<div class="float-left">
-										<h2 class="white-text">Shangri-La Hotel, Sydney</h2>
-										<strong class="d-block">5 Star Hotel in Dubai</strong>
-										<a href="#" class="btn btn-success">Book Now</a>
-									</div>
-									<div class="promocoad_blog">
-										<strong class="promooff">30% OFF</strong>
-										<span class="promocoad">BOOK636F</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section> --%>
-<!-- Hotels-Offers End Here -->
-<!-- Home-Blog Start Here -->
-<%-- <section class="padding_75">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12 text-center">
-				<h2 class="main_hadding">
-					Our Blogs
-					<span class="h2_babuls_style"></span>
-				</h2>
-			</div>
-		</div>
-		<div class="row m-0">
-			<div class="col-lg-4 col-md-4 p-0">
-				<div class="home_blog_prent">
-					<img src="${resources}/assets/images/home_blog_img1.jpg" class="img-fluid" alt="">
-					<div class="home_blog_disc">
-						<span class="green_text text-uppercase">ROOMS & SUITES</span>
-						<h4>Finding Best Places to Visit in California</h4>
-						<p class="text_gary18">Hotella Hotel will manage a new hotel in Rome that will incorporate a restaurant from Michelin-starred chef
-							Revolutions of the lorem points that first lami toresta...</p>
-						<div class="blog_user_info clearfix">
-							<span class="float-left">
-								<i class="fa fa-user-circle-o m-r-7"></i>
-								By Jhone Snow
-							</span>
-							<span class="float-right">
-								<i class="fa fa-calendar m-r-7"></i>
-								September 6, 2019
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-4 col-md-4  p-0">
-				<div class="home_blog_prent xs-column-reverse">
-					<div class="home_blog_disc rel-top15">
-						<span class="green_text text-uppercase">FACILITIES</span>
-						<h4>Details of Seventh Hotella Hotel Branch in Italy.</h4>
-						<p class="text_gary18">Hotella Hotel will manage a new hotel in Rome that will incorporate a restaurant from Michelin-starred chef
-							Revolutions of the lorem points that first lami toresta...</p>
-						<div class="blog_user_info clearfix">
-							<span class="float-left">
-								<i class="fa fa-user-circle-o m-r-7"></i>
-								By Jhone Snow
-							</span>
-							<span class="float-right">
-								<i class="fa fa-calendar m-r-7"></i>
-								September 6, 2019
-							</span>
-						</div>
-					</div>
-					<img src="${resources}/assets/images/home_blog_img2.jpg" class="img-fluid" alt="">
-				</div>
-			</div>
-			<div class="col-lg-4 col-md-4 p-0">
-				<div class="home_blog_prent">
-					<img src="${resources}/assets/images/home_blog_img3.jpg" class="img-fluid" alt="">
-					<div class="home_blog_disc">
-						<span class="green_text text-uppercase">CLOUD COMPUTING</span>
-						<h4>Weekly Meeting in Compa- nies Think Room</h4>
-						<p class="text_gary18">Hotella Hotel will manage a new hotel in Rome that will incorporate a restaurant from Michelin-starred chef
-							Revolutions of the lorem points that first lami toresta...</p>
-						<div class="blog_user_info clearfix">
-							<span class="float-left">
-								<i class="fa fa-user-circle-o m-r-7"></i>
-								By Jhone Snow
-							</span>
-							<span class="float-right">
-								<i class="fa fa-calendar m-r-7"></i>
-								September 6, 2019
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section> --%>
 <!-- Home-Blog Start Here -->
 <!-- Testimonial Start Here -->
-<section class="parallax-window3" data-parallax="scroll"
-	data-image-src="${resources}/assets/images/testimonial_parallax_BG.jpg">
+<section class="parallax-window3" data-parallax="scroll" data-image-src="${resources}/assets/images/testimonial_parallax_BG.jpg">
 	<div class="testimonial_inner_yemm padding_75">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<h2 class="main_hadding white-text">
-						Testimonial
-						<span class="h2_babuls_style"></span>
+						Testimonial <span class="h2_babuls_style"></span>
 					</h2>
 				</div>
 			</div>
@@ -816,33 +317,20 @@
 		<div class="row">
 			<div class="col-lg-12 text-center">
 				<h2 class="main_hadding">
-					Our Partners
-					<span class="h2_babuls_style"></span>
+					Our Partners <span class="h2_babuls_style"></span>
 				</h2>
 			</div>
 			<div class="col-lg-12">
 				<div class="partners_logo_parent">
 					<ul class="list-style-none">
-						<li>
-							<a href="#">
-								<img src="${resources}/assets/images/brand_logo_img01.png" class="img-fluid" alt="">
-							</a>
-						</li>
-						<li>
-							<a href="#">
-								<img src="${resources}/assets/images/brand_logo_img02.png" class="img-fluid" alt="">
-							</a>
-						</li>
-						<li>
-							<a href="#">
-								<img src="${resources}/assets/images/brand_logo_img03.png" class="img-fluid" alt="">
-							</a>
-						</li>
-						<li>
-							<a href="#">
-								<img src="${resources}/assets/images/brand_logo_img04.png" class="img-fluid" alt="">
-							</a>
-						</li>
+						<li><a href="#"> <img src="${resources}/assets/images/brand_logo_img01.png" class="img-fluid" alt="">
+						</a></li>
+						<li><a href="#"> <img src="${resources}/assets/images/brand_logo_img02.png" class="img-fluid" alt="">
+						</a></li>
+						<li><a href="#"> <img src="${resources}/assets/images/brand_logo_img03.png" class="img-fluid" alt="">
+						</a></li>
+						<li><a href="#"> <img src="${resources}/assets/images/brand_logo_img04.png" class="img-fluid" alt="">
+						</a></li>
 					</ul>
 				</div>
 			</div>

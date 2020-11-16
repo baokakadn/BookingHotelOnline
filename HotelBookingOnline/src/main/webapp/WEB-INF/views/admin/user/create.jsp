@@ -72,7 +72,7 @@
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div id="confirm" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<input class="mdl-textfield__input" type="password" id="txtConfirmPwd" required="true" /> 
+									<input class="mdl-textfield__input" type="password" id="txtConfirmPwd" required="required" /> 
 									<label class="mdl-textfield__label">Confirm Password</label>
 								</div>
 							</div>

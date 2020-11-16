@@ -26,7 +26,7 @@ public interface BookingDetailsRepository extends CrudRepository<BookingDetails,
 	@Query(value = "select * from bookingdetails where bookingId = ?1 and roomId = ?2 and checkinDate >= ?3", nativeQuery = true)
 	List<BookingDetails> findAllAfter(int bookingId, int roomId, LocalDateTime date);
 
-	@Query(value = "SELECT * FROM hotelbooking.bookingdetails where bookingId in "
+	@Query(value = "SELECT * FROM bookingdetails where bookingId in "
 			+ "(select bookingId from booking where checkInDate between ?1 and ?2) "
 			+ "group by bookingId, roomId", nativeQuery = true)
 	List<BookingDetails> findByReportDate(String start, String end);

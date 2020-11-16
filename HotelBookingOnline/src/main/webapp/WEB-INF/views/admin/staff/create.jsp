@@ -82,8 +82,9 @@
 								</div>
 							</div>
 							<div class="col-lg-6 p-t-20">
-								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<input class="mdl-textfield__input" type="password" id="txtConfirmPwd"> <label class="mdl-textfield__label">Confirm Password</label>
+								<div id="confirm" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+									<input class="mdl-textfield__input" type="password" id="txtConfirmPwd" required="required"> 
+									<label class="mdl-textfield__label">Confirm Password</label>
 								</div>
 							</div>
 							<div class="col-lg-12 p-t-20">
@@ -122,12 +123,19 @@
 	  , confirm_password = document.getElementById("txtConfirmPwd");
 
 	function validatePassword(){
-	  if(password.value != confirm_password.value) {
-	    confirm_password.setCustomValidity("Passwords Don't Match");
-	  } else {
-	    confirm_password.setCustomValidity('');
-	  }
-	}
+		  if(password.value != confirm_password.value) {
+			$('#confirm').removeClass('is-valid');
+			$('#confirm').addClass('is-invalid');
+			$('#cfError').remove();
+			$('#confirm').append("<span class='mdl-textfield__error' id='cfError'>Passwords Don't Match</span>");
+		    confirm_password.setCustomValidity("Passwords Don't Match");
+		  } else {
+			  $('#cfError').remove();
+			 $('#confirm').removeClass('is-invalid');
+			 $('#confirm').addClass('is-valid');
+		    confirm_password.setCustomValidity('');
+		  }
+		}
 
 	password.onchange = validatePassword;
 	confirm_password.onkeyup = validatePassword;
