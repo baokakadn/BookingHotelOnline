@@ -69,6 +69,8 @@ public class UserController {
 	@Autowired
 	private EmailService emailService;
 
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@GetMapping("profile")
 	private String getProfile( @AuthenticationPrincipal CustomUserDetail user, Model model, @RequestParam(value = "msg", required = false) String msg) {
@@ -163,11 +165,10 @@ public class UserController {
 	@PostMapping("changePass")
 	private String changePass(@RequestParam("oldPass") String oldPass, @RequestParam("newPass") String newPass, @RequestParam("userId") String userId, Model model) {
 		User user = userService.getUserById(Integer.parseInt(userId));
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-		if (!encoder.matches(oldPass, user.getPassword())) {
+		if (!bCryptPasswordEncoder.matches(oldPass, user.getPassword())) {
 			return "redirect:/user/profile?msg=error#change_pass";
 		} else {
-			user.setPassword(newPass);
+			user.setPassword(bCryptPasswordEncoder.encode(newPass));
 			userService.saveUser(user);
 			return "redirect:/user/profile";
 		}

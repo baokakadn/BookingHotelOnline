@@ -71,7 +71,7 @@
 										<tbody>
 											<c:forEach var="staff" items="${staffList}">
 												<tr class="odd gradeX">
-													<td class="user-circle-img sorting_1"><img style="width: 40px; height: 40px;" src="<c:url value="/resources/upload/staff-image/${staff.empId}/${staff.photo}"/>" alt=""></td>
+													<td class="user-circle-img sorting_1"><img style="width: 40px; height: 40px;" src="<c:url value="/resources/upload/staff-image/${staff.photo}"/>" alt=""></td>
 													<td class="center">${staff.empName}</td>
 													<td class="center">${staff.gender}</td>
 													<td class="center"><a href="tel:${staff.phone}"> ${staff.phone} </a></td>
@@ -102,7 +102,7 @@
 											<div class="user-name">${staff.empName}</div>
 											<div class="name-center">${staff.position.name}</div>
 										</div>
-										<img style="width: 112px; height: 112px;" src="<c:url value="/resources/upload/staff-image/${staff.empId}/${staff.photo}"/>" class="user-img" alt="">
+										<img style="width: 112px; height: 112px;" src="<c:url value="/resources/upload/staff-image/${staff.photo}"/>" class="user-img" alt="">
 										<p>${staff.address}</p>
 										<div>
 											<p>

@@ -28,7 +28,7 @@
 							<div class="card-body no-padding height-9">
 								<div class="row">
 									<div class="profile-userpic">
-										<img style="width: 130px; height: 130px;" src="<c:url value="/resources/upload/staff-image/${staff.empId}/${staff.photo}"/>"
+										<img style="width: 130px; height: 130px;" src="<c:url value="/resources/upload/staff-image/${staff.photo}"/>"
 											class="img-responsive" alt="">
 									</div>
 								</div>
@@ -60,6 +60,8 @@
 					</div>
 					<form:form action="updateStaff" method="POST" modelAttribute="staff" id="update">
 						<form:hidden path="empId" />
+						<form:hidden path="password"/>
+						<form:hidden path="listRole"/>
 						<div class="card-body row">
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">

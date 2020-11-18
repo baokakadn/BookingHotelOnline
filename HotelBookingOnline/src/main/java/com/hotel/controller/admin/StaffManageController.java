@@ -4,12 +4,14 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hotel.models.CustomEmployeeDetail;
 import com.hotel.models.Employee;
 import com.hotel.models.Position;
+import com.hotel.models.Role;
 import com.hotel.services.EmployeeService;
 import com.hotel.services.PositionService;
 import com.hotel.services.RoleService;
@@ -46,6 +49,9 @@ public class StaffManageController {
 
 	@Autowired
 	private RoleService roleService;
+
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@GetMapping("create")
 	private String createStaff(Model model) {
@@ -73,33 +79,57 @@ public class StaffManageController {
 
 	@PostMapping("saveStaff")
 	private String saveStaff(@ModelAttribute("staff") Employee employee, @RequestParam("pos") String name) {
-		System.out.println(name);
 		Position position = positionService.getPositionByName(name.trim());
-		System.out.println(position.getId());
+		Role role = new Role();
+		Set<Role> roles = new HashSet<Role>();
 		employee.setPosition(position);
+		if (name.equalsIgnoreCase("Administrator")) {
+			role = roleService.getRoleById(1);
+			roles.add(role);
+			employee.setListRole(roles);
+		}
+		if (name.equalsIgnoreCase("Receptionist")) {
+			role = roleService.getRoleById(2);
+			roles.add(role);
+			employee.setListRole(roles);
+		}
+		if (employee.getPassword() != null && !employee.getPassword().equals("")) {
+			employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
+		}
+		employee.setPhoto("default-user.png");
 		employeeService.saveEmployee(employee);
 		return "redirect:/admin/staff";
 	}
 
 	@PostMapping("updateStaff")
-	private String updateStaff(@ModelAttribute("staff") Employee employee, @RequestParam("roleName") String name) {
+	private String updateStaff(@ModelAttribute("staff") Employee employee, @RequestParam("roleName") String name, CustomEmployeeDetail user) {
 		Position position = positionService.getPositionByName(name);
 		Employee newEmp = employeeService.getEmployeeById(employee.getEmpId());
 		employee.setPosition(position);
 		employee.setPhoto(newEmp.getPhoto());
 		employeeService.saveEmployee(employee);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication.getName().equalsIgnoreCase(employee.getUsername())) {
+			if (authentication instanceof UsernamePasswordAuthenticationToken) {
+				UsernamePasswordAuthenticationToken currentAuth = (UsernamePasswordAuthenticationToken) authentication;
+				user.setName(employee.getEmpName());
+				UsernamePasswordAuthenticationToken updateAuth = new UsernamePasswordAuthenticationToken(user ,
+						currentAuth.getCredentials(),
+						currentAuth.getAuthorities());
+				SecurityContextHolder.getContext().setAuthentication(updateAuth);
+			}
+		}
 		return "redirect:/admin/staff/" + employee.getEmpId();
 	}
 
 	@PostMapping("changePass")
 	private String changePass(@RequestParam("oldPass") String oldPass, @RequestParam("newPass") String newPass, @RequestParam("staffId") String staffId, Model model) {
 		Employee employee = employeeService.getEmployeeById(Integer.parseInt(staffId));
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-		if (!encoder.matches(oldPass, employee.getPassword())) {
+		if (!bCryptPasswordEncoder.matches(oldPass, employee.getPassword())) {
 			model.addAttribute("msg", "Wrong password !");
 			return "redirect:/admin/staff/" + staffId + "?msg=wrong#changePass";
 		} else {
-			employee.setPassword(newPass);
+			employee.setPassword(bCryptPasswordEncoder.encode(newPass));
 			employeeService.saveEmployee(employee);
 			return "redirect:/admin/staff/" + staffId;
 		}
@@ -119,7 +149,7 @@ public class StaffManageController {
 			MyUploadForm myUploadForm, int staffId, CustomEmployeeDetail user) throws IOException {
 
 		// Thư mục gốc upload file.
-		String uploadRootPath = request.getServletContext().getRealPath("upload/staff-image/" + staffId);
+		String uploadRootPath = request.getServletContext().getRealPath("upload/staff-image");
 		System.out.println("uploadRootPath=" + uploadRootPath);
 
 		File uploadRootDir = new File(uploadRootPath);
@@ -128,7 +158,6 @@ public class StaffManageController {
 			uploadRootDir.mkdirs();
 		}
 
-		FileUtils.cleanDirectory(uploadRootDir);
 
 		MultipartFile[] fileDatas = myUploadForm.getFileDatas();
 		//
@@ -138,8 +167,17 @@ public class StaffManageController {
 		for (MultipartFile fileData : fileDatas) {
 
 			// Tên file gốc tại Client.
-			String name = fileData.getOriginalFilename();
-			System.out.println("Client File Name = " + name);
+			String originalName = fileData.getOriginalFilename();
+			String suffix = originalName.substring(originalName.lastIndexOf(".") + 1, originalName.length());
+			String name = "staff-" + staffId + "-" + renameFile() + "." + suffix;
+			File[] files = uploadRootDir.listFiles();
+			for (File f : files)
+			{
+				if (f.getName().startsWith("staff-" + staffId + "-"))
+				{
+					f.delete();
+				}
+			}
 
 			if (name != null && name.length() > 0) {
 				try {
@@ -173,5 +211,14 @@ public class StaffManageController {
 
 
 		return "redirect:/admin/staff/" + staffId;
+	}
+
+	private String renameFile() {
+		LocalTime dt = LocalTime.now();
+		int hour = dt.getHour();
+		int minute = dt.getMinute();
+		int second = dt.getSecond();
+		String time = hour + "-" + minute + "-" + second;
+		return time;
 	}
 }

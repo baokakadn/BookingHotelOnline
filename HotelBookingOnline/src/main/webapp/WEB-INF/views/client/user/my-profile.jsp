@@ -7,7 +7,7 @@
 		<div class="row m-b30">
 			<div class="col-lg-6">
 				<div class="user_accout_pic d-flex align-items-center">
-					<img src="<c:url value="/resources/upload/user-image/${user.userId}/${user.picture}"/>" alt="">
+					<img src="<c:url value="/resources/upload/user-image/${user.picture}"/>" alt="">
 					<h3>${user.name}</h3>
 				</div>
 			</div>
@@ -100,7 +100,7 @@
 						<div class="form-group">
 							<input id="newPass" name="newPass" type="password" placeholder="New Password" class="form-control" required="required"/>
 						</div>
-						<div class="form-group">
+						<div id="confirm" class="form-group">
 							<input id="confirmPass" type="password" placeholder="Confirm Password" class="form-control" required="required"/>
 						</div>
 						<div class="form-group text-right border-0 m-0">
@@ -113,19 +113,26 @@
 	</div>
 	<!-- change Password Modal End -->
 </section>
+
 <script type="text/javascript">
-	var password = document.getElementById("newPass"), 
-		confirm_password = document.getElementById("confirmPass");
-	
-	function validatePassword() {
-		if (password.value != confirm_password.value) {
-			confirm_password.setCustomValidity("Passwords Don't Match");
-		} else {
-			confirm_password.setCustomValidity('');
-		}
+	var password = document.getElementById("newPass")
+	  , confirm_password = document.getElementById("confirmPass");
+
+	function validatePassword(){
+	  if(password.value != confirm_password.value) {
+		$('#confirm').removeClass('is-valid');
+		$('#confirm').addClass('is-invalid');
+		$('#cfError').remove();
+		$('#confirm').append("<span style='color: red;' id='cfError'>Passwords Don't Match</span>");
+	    confirm_password.setCustomValidity("Passwords Don't Match");
+	  } else {
+		  $('#cfError').remove();
+		 $('#confirm').removeClass('is-invalid');
+		 $('#confirm').addClass('is-valid');
+	    confirm_password.setCustomValidity('');
+	  }
 	}
 
 	password.onchange = validatePassword;
 	confirm_password.onkeyup = validatePassword;
 </script>
-

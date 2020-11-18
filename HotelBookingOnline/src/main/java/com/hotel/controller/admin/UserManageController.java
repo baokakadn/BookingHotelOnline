@@ -4,12 +4,13 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -38,6 +39,9 @@ public class UserManageController {
 	@Autowired
 	private RoleService roleService;
 
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 	@GetMapping("create")
 	private String createUser(Model model) {
 		model.addAttribute("user", new User());
@@ -58,23 +62,36 @@ public class UserManageController {
 		return "edit-user";
 	}
 
+	@Transactional
 	@PostMapping("saveUser")
 	private String saveUser(@ModelAttribute("user") User user, @RequestParam("image") MultipartFile[] fileDatas, HttpServletRequest request) throws IOException {
-		if (user.getUsername() != null) {
-			Role role = roleService.getRoleById(3);
-			user.getListRole().add(role);
+		if (user.getUsername() != null && !user.getUsername().isEmpty()) {
 			user.setStatus(true);
 		}
+		user.setPicture("default-user.png");
 		userService.saveUser(user);
-		MyUploadForm myUploadForm = new MyUploadForm();
-		myUploadForm.setFileDatas(fileDatas);
-		return this.doUpload(request, myUploadForm, user.getUserId());
+		Role role = roleService.getRoleById(3);
+		List<Role> roles = new ArrayList<Role>();
+		roles.add(role);
+		user.setListRole(roles);
+		if (user.getPassword() != null && !user.getPassword().equals("")) {
+			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		}
+		userService.saveUser(user);
+		if (fileDatas != null && fileDatas.length > 0) {
+			MyUploadForm myUploadForm = new MyUploadForm();
+			myUploadForm.setFileDatas(fileDatas);
+			return this.doUpload(request, myUploadForm, user.getUserId());
+		}
+		return "redirect:/admin/user/";
+
 	}
 
 	@PostMapping("updateUser")
 	private String updateUser(@ModelAttribute("user") User user, @RequestParam(value = "username", required = false) String username) {
 		User newUser = userService.getUserById(user.getUserId());
 		user.setPicture(newUser.getPicture());
+		user.setPassword(newUser.getPassword());
 		if (!username.equalsIgnoreCase("")) {
 			user.setUsername(username);
 		} else {
@@ -87,12 +104,11 @@ public class UserManageController {
 	@PostMapping("changePass")
 	private String changePass(@RequestParam("oldPass") String oldPass, @RequestParam("newPass") String newPass, @RequestParam("userId") String userId, Model model) {
 		User user = userService.getUserById(Integer.parseInt(userId));
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-		if (!encoder.matches(oldPass, user.getPassword())) {
+		if (!bCryptPasswordEncoder.matches(oldPass, user.getPassword())) {
 			model.addAttribute("msg", "Wrong password !");
 			return "redirect:/admin/user/" + userId + "?msg=wrong#changePass";
 		} else {
-			user.setPassword(newPass);
+			user.setPassword(bCryptPasswordEncoder.encode(newPass));
 			userService.saveUser(user);
 			return "redirect:/admin/user/" + userId;
 		}
@@ -112,7 +128,7 @@ public class UserManageController {
 			MyUploadForm myUploadForm, int userId) throws IOException {
 
 		// Thư mục gốc upload file.
-		String uploadRootPath = request.getServletContext().getRealPath("upload/user-image/" + userId);
+		String uploadRootPath = request.getServletContext().getRealPath("upload/user-image");
 		System.out.println("uploadRootPath=" + uploadRootPath);
 
 		File uploadRootDir = new File(uploadRootPath);
@@ -120,8 +136,6 @@ public class UserManageController {
 		if (!uploadRootDir.exists()) {
 			uploadRootDir.mkdirs();
 		}
-
-		FileUtils.cleanDirectory(uploadRootDir);
 
 		MultipartFile[] fileDatas = myUploadForm.getFileDatas();
 		//
@@ -131,9 +145,17 @@ public class UserManageController {
 		for (MultipartFile fileData : fileDatas) {
 
 			// Tên file gốc tại Client.
-			String name = fileData.getOriginalFilename();
-			System.out.println("Client File Name = " + name);
-
+			String originalName = fileData.getOriginalFilename();
+			String suffix = originalName.substring(originalName.lastIndexOf(".") + 1, originalName.length());
+			String name = "user-" + userId + "-" + renameFile() + "." + suffix;
+			File[] files = uploadRootDir.listFiles();
+			for (File f : files)
+			{
+				if (f.getName().startsWith("user-" + userId + "-"))
+				{
+					f.delete();
+				}
+			}
 			if (name != null && name.length() > 0) {
 				try {
 					// Tạo file tại Server.
@@ -153,6 +175,15 @@ public class UserManageController {
 		}
 		userService.saveUser(user);
 		return "redirect:/admin/user/" + userId;
+	}
+
+	private String renameFile() {
+		LocalTime dt = LocalTime.now();
+		int hour = dt.getHour();
+		int minute = dt.getMinute();
+		int second = dt.getSecond();
+		String time = hour + "-" + minute + "-" + second;
+		return time;
 	}
 
 }

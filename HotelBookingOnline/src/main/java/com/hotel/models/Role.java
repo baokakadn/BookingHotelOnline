@@ -1,5 +1,6 @@
 package com.hotel.models;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -28,7 +29,7 @@ public class Role implements java.io.Serializable {
 	private Set<Employee> listEmps;
 
 	@ManyToMany(mappedBy = "listRole")
-	private Set<User> listUsers;
+	private List<User> listUsers;
 
 	public Role() {
 		super();
@@ -58,11 +59,11 @@ public class Role implements java.io.Serializable {
 		this.listEmps = listEmps;
 	}
 
-	public Set<User> getListUsers() {
+	public List<User> getListUsers() {
 		return listUsers;
 	}
 
-	public void setListUsers(Set<User> listUsers) {
+	public void setListUsers(List<User> listUsers) {
 		this.listUsers = listUsers;
 	}
 

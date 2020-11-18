@@ -8,14 +8,35 @@
 			<div class="col-6"></div>
 
 			<security:authorize access="isAuthenticated()">
+				<security:authorize access="hasAnyRole('STAFF', 'ADMIN')">
+					<div class="col-6 top_Right text-right admin_mini_menu">
+						<ul>
+							<security:authentication var="principal" property="principal" />
+							<li class="profile_drop nav-item dropdown">
+								<a href="#" id="NavebarProfileDrop" data-toggle="dropdown" aria-haspopup="true"	aria-expanded="false"> 
+								<img src="<c:url value="/resources/upload/staff-image/${principal.picture}"/>" alt="">
+										${principal.name} <i class="fa fa-angle-down"></i>
+								</a>
+								<div class="dropdown-menu" aria-labelledby="NavebarProfileDrop">
+									<h3>Account & Settings</h3>
+									<ul>
+										<li><a class="dropdown-item clearfix" href="/admin">Go to Admin</a></li>
+										<li><a class="dropdown-item clearfix" href="/process-logout">Log Out</a></li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</security:authorize>
 				<security:authorize access="hasRole('USER')">
 					<div class="col-6 top_Right text-right admin_mini_menu">
 						<ul>
 							<security:authentication var="principal" property="principal" />
-							<li class="profile_drop nav-item dropdown"><a href="#" id="NavebarProfileDrop" data-toggle="dropdown" aria-haspopup="true"
-								aria-expanded="false"> <img src="<c:url value="/resources/upload/user-image/${principal.id}/${principal.picture}"/>" alt="">
-									${principal.name} <i class="fa fa-angle-down"></i>
-							</a>
+							<li class="profile_drop nav-item dropdown">
+								<a href="#" id="NavebarProfileDrop" data-toggle="dropdown" aria-haspopup="true"	aria-expanded="false"> 
+								<img src="<c:url value="/resources/upload/user-image/${principal.picture}"/>" alt="">
+										${principal.name} <i class="fa fa-angle-down"></i>
+								</a>
 								<div class="dropdown-menu" aria-labelledby="NavebarProfileDrop">
 									<h3>Account & Settings</h3>
 									<ul>
@@ -24,7 +45,8 @@
 										<li><a class="dropdown-item clearfix" href="/user/cancel-booking">Cancel Bookings</a></li>
 										<li><a class="dropdown-item clearfix" href="process-logout">Log Out</a></li>
 									</ul>
-								</div></li>
+								</div>
+							</li>
 						</ul>
 					</div>
 				</security:authorize>
@@ -96,7 +118,7 @@
 							<label id="loginError" style="color: red;"></label>
 							<div class="input-group">
 								<span class="input-group-addon"> <i class="fa fa-user"></i>
-								</span> <input id="email" type="text" class="form-control" name="email" placeholder="Username">
+								</span> <input type="text" class="form-control" name="email" placeholder="Username">
 							</div>
 							<div class="input-group">
 								<span class="input-group-addon"> <i class="fa fa-lock"></i>
@@ -145,7 +167,7 @@
 							</div>
 							<div class="input-group">
 								<span class="input-group-addon"> <i class="fa fa-lock"></i>
-								</span> <input id="confirmPass" type="Password" class="form-control" name="Confirm Password" placeholder="Confirm Password" required="required">
+								</span> <input id="regConfirmPass" type="Password" class="form-control" name="Confirm Password" placeholder="Confirm Password" required="required">
 							</div>
 							<div class="foregot_pass">
 								<label class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0"> <input type="checkbox" class="custom-control-input"
@@ -199,7 +221,7 @@ if (msg == 'email'){
 </script>
 <script type="text/javascript">
 	var password = document.getElementById("regPass"), 
-		confirm_password = document.getElementById("confirmPass");
+		confirm_password = document.getElementById("regConfirmPass");
 	
 	function validatePassword() {
 		if (password.value != confirm_password.value) {

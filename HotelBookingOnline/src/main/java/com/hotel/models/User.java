@@ -1,7 +1,6 @@
 package com.hotel.models;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,8 +14,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Table(name = "user")
@@ -58,7 +55,7 @@ public class User implements java.io.Serializable {
 
 	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> listRole;
+	private List<Role> listRole;
 
 	public User() {
 		super();
@@ -102,8 +99,7 @@ public class User implements java.io.Serializable {
 	}
 
 	public void setPassword(String password) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
-		this.password = encoder.encode(password);
+		this.password = password;
 	}
 
 	public String getAddress() {
@@ -138,11 +134,11 @@ public class User implements java.io.Serializable {
 		this.bookings = bookings;
 	}
 
-	public Set<Role> getListRole() {
+	public List<Role> getListRole() {
 		return listRole;
 	}
 
-	public void setListRole(Set<Role> listRole) {
+	public void setListRole(List<Role> listRole) {
 		this.listRole = listRole;
 	}
 
@@ -151,7 +147,11 @@ public class User implements java.io.Serializable {
 	}
 
 	public void setUsername(String username) {
-		this.username = username;
+		if (username != null && !username.equals("")) {
+			this.username = username;
+		} else {
+			this.username = null;
+		}
 	}
 
 }

@@ -1,7 +1,6 @@
 package com.hotel.configurations;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,15 +23,12 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserSecurityService userSecurityService;
 
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
-		return bCryptPasswordEncoder;
-	}
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userSecurityService).passwordEncoder(passwordEncoder());
+		auth.userDetailsService(userSecurityService).passwordEncoder(bCryptPasswordEncoder);
 	}
 
 	@Override

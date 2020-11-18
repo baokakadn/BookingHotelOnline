@@ -55,24 +55,24 @@
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
 									<form:input path="phone" class="mdl-textfield__input" type="text" pattern="-?[0-9]*([0-9]+)?" id="text5" required="true"/>
-									<label class="mdl-textfield__label" for="text5">Mobile Number</label> <span class="mdl-textfield__error">Number required!</span>
+									<label class="mdl-textfield__label" for="text5">Mobile Number</label>
 								</div>
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<form:input path="username" class="mdl-textfield__input" type="text" id="txtUserName" required="true"/>
+									<form:input path="username" class="mdl-textfield__input" type="text" id="txtUserName"/>
 									<label class="mdl-textfield__label">UserName</label>
 								</div>
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<form:input path="password" class="mdl-textfield__input" type="password" id="txtPwd" required="true"/>
+									<form:input path="password" class="mdl-textfield__input" type="password" id="txtPwd"/>
 									<label class="mdl-textfield__label">Password</label>
 								</div>
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div id="confirm" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<input class="mdl-textfield__input" type="password" id="txtConfirmPwd" required="required" /> 
+									<input class="mdl-textfield__input" type="password" id="txtConfirmPwd"/> 
 									<label class="mdl-textfield__label">Confirm Password</label>
 								</div>
 							</div>
@@ -117,24 +117,24 @@ function processFile(imageInput) {
 </script>
 
 <script type="text/javascript">
-		var password = document.getElementById("txtPwd")
-		  , confirm_password = document.getElementById("txtConfirmPwd");
-	
-		function validatePassword(){
-		  if(password.value != confirm_password.value) {
-			$('#confirm').removeClass('is-valid');
-			$('#confirm').addClass('is-invalid');
-			$('#cfError').remove();
-			$('#confirm').append("<span class='mdl-textfield__error' id='cfError'>Passwords Don't Match</span>");
-		    confirm_password.setCustomValidity("Passwords Don't Match");
-		  } else {
-			  $('#cfError').remove();
-			 $('#confirm').removeClass('is-invalid');
-			 $('#confirm').addClass('is-valid');
-		    confirm_password.setCustomValidity('');
-		  }
-		}
-	
-		password.onchange = validatePassword;
-		confirm_password.onkeyup = validatePassword;
-	</script>
+	var password = document.getElementById("txtPwd")
+	  , confirm_password = document.getElementById("txtConfirmPwd");
+
+	function validatePassword(){
+	  if(password.value != confirm_password.value) {
+		$('#confirm').removeClass('is-valid');
+		$('#confirm').addClass('is-invalid');
+		$('#cfError').remove();
+		$('#confirm').append("<span class='mdl-textfield__error' id='cfError'>Passwords Don't Match</span>");
+	    confirm_password.setCustomValidity("Passwords Don't Match");
+	  } else {
+		  $('#cfError').remove();
+		 $('#confirm').removeClass('is-invalid');
+		 $('#confirm').addClass('is-valid');
+	    confirm_password.setCustomValidity('');
+	  }
+	}
+
+	password.onchange = validatePassword;
+	confirm_password.onkeyup = validatePassword;
+</script>

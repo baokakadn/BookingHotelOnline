@@ -69,7 +69,7 @@
 										<tbody>
 											<c:forEach var="user" items="${userList}">
 												<tr class="odd gradeX">
-													<td class="user-circle-img sorting_1"><img style="width: 40px; height: 40px;" src="<c:url value="/resources/upload/user-image/${user.userId}/${user.picture}"/>" alt=""></td>
+													<td class="user-circle-img sorting_1"><img style="width: 40px; height: 40px;" src="<c:url value="/resources/upload/user-image/${user.picture}"/>" alt=""></td>
 													<td class="center">${user.name}</td>
 													<td class="center"><a href="mailto:${user.email}"> ${user.email} </a></td>
 													<td class="center"><a href="tel:${user.phone}"> ${user.phone} </a></td>
@@ -97,7 +97,7 @@
 										<div class="profile-header">
 											<div class="user-name">${user.name}</div>
 										</div>
-										<img style="width: 112px; height: 112px;" src="<c:url value="/resources/upload/user-image/${user.userId}/${user.picture}"/>" class="user-img" alt="">
+										<img style="width: 112px; height: 112px;" src="<c:url value="/resources/upload/user-image/${user.picture}"/>" class="user-img" alt="">
 										<p>${user.address}</p>
 										<div>
 											<p>

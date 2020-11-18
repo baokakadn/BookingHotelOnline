@@ -72,6 +72,7 @@ public class HomeController {
 				user.setUsername(username);
 				user.setPassword(password);
 				user.setEmail(email);
+				user.setPicture("default-user.png");
 				userService.saveUser(user);
 				VerificationToken token = new VerificationToken(user);
 				verificationTokenRepo.save(token);
@@ -160,4 +161,5 @@ public class HomeController {
 	private String get403() {
 		return "403";
 	}
+
 }

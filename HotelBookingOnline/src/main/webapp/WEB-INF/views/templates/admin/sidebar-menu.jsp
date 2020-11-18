@@ -17,7 +17,7 @@
 					<div class="user-panel">
 						<div class="row">
 							<div class="sidebar-userpic">
-								<img style="height: 75px;" src="<c:url value="/resources/upload/staff-image/${principal.id}/${principal.picture}"/>" class="img-responsive"
+								<img style="height: 75px;" src="<c:url value="/resources/upload/staff-image/${principal.picture}"/>" class="img-responsive"
 									alt="">
 							</div>
 						</div>
