@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +18,6 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -188,7 +188,7 @@ public class UserController {
 			MyUploadForm myUploadForm, int userId, CustomUserDetail userLoggin) throws IOException {
 
 		// Thư mục gốc upload file.
-		String uploadRootPath = request.getServletContext().getRealPath("upload/user-image/" + userId);
+		String uploadRootPath = request.getServletContext().getRealPath("upload/user-image");
 		System.out.println("uploadRootPath=" + uploadRootPath);
 
 		File uploadRootDir = new File(uploadRootPath);
@@ -196,8 +196,6 @@ public class UserController {
 		if (!uploadRootDir.exists()) {
 			uploadRootDir.mkdirs();
 		}
-
-		FileUtils.cleanDirectory(uploadRootDir);
 
 		MultipartFile[] fileDatas = myUploadForm.getFileDatas();
 		//
@@ -207,8 +205,17 @@ public class UserController {
 		for (MultipartFile fileData : fileDatas) {
 
 			// Tên file gốc tại Client.
-			String name = fileData.getOriginalFilename();
-			System.out.println("Client File Name = " + name);
+			String originalName = fileData.getOriginalFilename();
+			String suffix = originalName.substring(originalName.lastIndexOf(".") + 1, originalName.length());
+			String name = "user-" + userId + "-" + renameFile() + "." + suffix;
+			File[] files = uploadRootDir.listFiles();
+			for (File f : files)
+			{
+				if (f.getName().startsWith("user-" + userId + "-"))
+				{
+					f.delete();
+				}
+			}
 
 			if (name != null && name.length() > 0) {
 				try {
@@ -238,5 +245,14 @@ public class UserController {
 			SecurityContextHolder.getContext().setAuthentication(updateAuth);
 		}
 		return "redirect:/user/profile";
+	}
+
+	private String renameFile() {
+		LocalTime dt = LocalTime.now();
+		int hour = dt.getHour();
+		int minute = dt.getMinute();
+		int second = dt.getSecond();
+		String time = hour + "-" + minute + "-" + second;
+		return time;
 	}
 }

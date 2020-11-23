@@ -1,5 +1,6 @@
 package com.hotel.services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class RoomServiceImpl implements RoomService{
 	}
 
 	@Override
-	public List<Room> searchAvailableRoom(int roomTypeId, String checkInDate, String checkOutDate) {
+	public List<Room> searchAvailableRoom(int roomTypeId, Date checkInDate, Date checkOutDate) {
 		return roomRepo.searchAvailable(roomTypeId, checkInDate, checkOutDate);
 	}
 

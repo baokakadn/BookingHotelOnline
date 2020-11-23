@@ -11,7 +11,7 @@ public interface BookingDetailsService {
 
 	void saveAll(List<BookingDetails> listDetails);
 
-	BookingDetails getByCheckinDate(int bookingId, int roomId, LocalDateTime date);
+	BookingDetails getByBookingAndRoom(int bookingId, int roomId);
 
 	BookingDetails getByCheckoutDate(int bookingId, int roomId, LocalDateTime date);
 

@@ -63,6 +63,9 @@ public class Booking implements Serializable {
 	@Column(name = "numberOfRooms")
 	private int numberOfRooms;
 
+	@Column(name = "price")
+	private double price;
+
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	@Column(name = "cancelDate")
 	private Date cancelDate;
@@ -227,6 +230,14 @@ public class Booking implements Serializable {
 
 	public void setCancelDate(Date cancelDate) {
 		this.cancelDate = cancelDate;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 }

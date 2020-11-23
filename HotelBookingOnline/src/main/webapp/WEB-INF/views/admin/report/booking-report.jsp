@@ -106,7 +106,7 @@
 											<td class="center"><fmt:formatDate value="${booking.checkInDate}" pattern="yyyy-MM-dd" /></td>
 											<td class="center"><fmt:formatDate value="${booking.checkOutDate}" pattern="yyyy-MM-dd" /></td>
 											<td class="center"><span
-												class="label label-sm label-${booking.status == 'ONLINE_PENDING' ? 'secondary' : booking.status == 'PENDING' 
+												class="label label-sm label-${booking.status == 'ONLINE_PENDING' ? 'secondary' : booking.status == 'STAYING' 
 												? 'warning' : booking.status == 'SUCCESS' ? 'success' : 'danger'}">${booking.status}</span>
 											</td>
 											<td class="center"><a href="/admin/booking/booking-details/${booking.bookingId}" class="btn btn-tbl-edit btn-xs"><i

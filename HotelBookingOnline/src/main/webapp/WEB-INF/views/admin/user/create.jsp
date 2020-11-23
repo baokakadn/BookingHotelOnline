@@ -56,6 +56,7 @@
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
 									<form:input path="phone" class="mdl-textfield__input" type="text" pattern="-?[0-9]*([0-9]+)?" id="text5" required="true"/>
 									<label class="mdl-textfield__label" for="text5">Mobile Number</label>
+									<span class="mdl-textfield__error">Enter Valid Number!</span>
 								</div>
 							</div>
 							<div class="col-lg-6 p-t-20">

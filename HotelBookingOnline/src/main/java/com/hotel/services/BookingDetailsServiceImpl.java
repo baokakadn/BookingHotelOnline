@@ -29,11 +29,6 @@ public class BookingDetailsServiceImpl implements BookingDetailsService{
 	}
 
 	@Override
-	public BookingDetails getByCheckinDate(int bookingId, int roomId, LocalDateTime date) {
-		return detailsRepo.findByCheckinDate(bookingId, roomId, date);
-	}
-
-	@Override
 	public BookingDetails getByCheckoutDate(int bookingId, int roomId, LocalDateTime date) {
 		return detailsRepo.findByCheckoutDate(bookingId, roomId, date);
 	}
@@ -71,6 +66,11 @@ public class BookingDetailsServiceImpl implements BookingDetailsService{
 	@Override
 	public List<BookingDetails> getDetailGroupByDate(int bookingId) {
 		return detailsRepo.findDetailGroupByDate(bookingId);
+	}
+
+	@Override
+	public BookingDetails getByBookingAndRoom(int bookingId, int roomId) {
+		return detailsRepo.findByBooking_BookingIdAndRoom_Roomid(bookingId, roomId);
 	}
 
 

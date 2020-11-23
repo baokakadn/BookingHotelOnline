@@ -23,14 +23,14 @@
 
 							<div class="col-lg-12 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<input class="mdl-textfield__input" type="text" id="startDate" name="startDate" required="required" /> <label class="mdl-textfield__label">Start
-										Date</label>
+									<input class="mdl-textfield__input" type="text" id="startDate" name="startDate" required="required" /> 
+									<label class="mdl-textfield__label">Start Date</label>
 								</div>
 							</div>
 							<div class="col-lg-12 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<input class="mdl-textfield__input" type="text" id="endDate" name="endDate" required="required" /> <label class="mdl-textfield__label">End
-										Date</label>
+									<input class="mdl-textfield__input" type="text" id="endDate" name="endDate" required="required" /> 
+									<label class="mdl-textfield__label">End	Date</label>
 								</div>
 							</div>
 							<div class="col-lg-12 p-t-20 text-center">
@@ -90,7 +90,7 @@
 											<td class="center">${invoice.invoiceId}</td>
 											<td class="center"><a href="<c:url value="/admin/user/${invoice.booking.user.getUserId()}"/>">${invoice.booking.user.name}</a></td>
 											<td class="center"><a href="<c:url value="/admin/booking/booking-details/${invoice.booking.bookingId}"/>">${invoice.booking.bookinguid}</a></td>
-											<fmt:parseDate value="${invoice.invoiceDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDate" type="both" />
+											<fmt:parseDate value="${invoice.invoiceDate}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate" type="both" />
 											<fmt:formatDate value="${parsedDate}" var="date" type="both" pattern="yyyy-MM-dd HH:mm" />
 											<td class="center">${date}</td>
 											<td class="center">${not empty invoice.creditcard ? 'CreditCard' : 'Cash'}</td>

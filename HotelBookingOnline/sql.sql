@@ -78,7 +78,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 Insert into `booking`.`user` (name, email, phone, username, password, address, picture, status)
-value ('Angelina Jolie', 'jolie@gmail.com', '0123456789', 'jolie', '$2a$10$GPcJOsLLAey6n4kNOwNVDODx1UtQ7U.pzFnuYOi08CVCdlRtw8Sli', 'Ha Noi', '', 1);
+value ('Angelina Jolie', 'jolie@gmail.com', '0123456789', 'jolie', '$2a$10$GPcJOsLLAey6n4kNOwNVDODx1UtQ7U.pzFnuYOi08CVCdlRtw8Sli', 'Ha Noi', 'Angelina-Jolie.jpg', 1);
 -- -----------------------------------------------------
 -- Table `booking`.`booking`
 -- -----------------------------------------------------
@@ -91,11 +91,12 @@ CREATE TABLE IF NOT EXISTS `booking`.`booking` (
   `bookingDate` DATETIME NOT NULL,
   `checkInDate` DATE NOT NULL,
   `checkOutDate` DATE NOT NULL,
-  `status` ENUM('PENDING', 'CANCEL', 'SUCCESS', 'ONLINE_PENDING') NOT NULL DEFAULT 'PENDING',
+  `status` ENUM('STAYING', 'CANCEL', 'SUCCESS', 'ONLINE_PENDING') NOT NULL,
   `note` VARCHAR(100) NULL DEFAULT NULL,
   `adult` INT NOT NULL,
   `children` INT NOT NULL,
   `numberOfRooms` INT NULL DEFAULT NULL,
+  `price` DOUBLE NOT NULL,
   `cancelDate` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`bookingId`),
   UNIQUE INDEX `booking_uid_UNIQUE` (`booking_uid` ASC) VISIBLE,
@@ -112,9 +113,9 @@ CREATE TABLE IF NOT EXISTS `booking`.`booking` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-Insert into `booking`.`booking` (booking_uid, userId, room_type_id, bookingDate, checkInDate, checkOutDate, status, adult, children, numberOfRooms)
-value ('3670-478900059', 1, 4, '2020-11-07 19:52:56', '2020-11-08', '2020-11-10', 'PENDING', 2, 3, 2),
-('1290-121300060', 1, 3, '2020-11-08 12:38:44', '2020-11-10', '2020-11-12', 'ONLINE_PENDING', 3, 2, 2);
+Insert into `booking`.`booking` (booking_uid, userId, room_type_id, bookingDate, checkInDate, checkOutDate, status, adult, children, numberOfRooms, price)
+value ('3670-478900059', 1, 4, '2020-11-07 19:52:56', '2020-11-22', '2020-11-24', 'STAYING', 2, 3, 2, 200),
+('1290-121300060', 1, 3, '2020-11-08 12:38:44', '2020-11-25', '2020-11-27', 'ONLINE_PENDING', 3, 2, 2, 300);
 
 -- -----------------------------------------------------
 -- Table `booking`.`room`
@@ -155,10 +156,8 @@ CREATE TABLE IF NOT EXISTS `booking`.`bookingdetails` (
   `booking_details_id` INT NOT NULL AUTO_INCREMENT,
   `bookingId` INT NOT NULL,
   `roomId` INT NOT NULL,
-  `date` DATE NOT NULL,
   `checkinDate` DATETIME NOT NULL,
   `checkoutDate` DATETIME NOT NULL,
-  `price` DOUBLE NOT NULL,
   PRIMARY KEY (`booking_details_id`),
   CONSTRAINT `fk_BookingDetails_Booking1`
     FOREIGN KEY (`bookingId`)
@@ -169,16 +168,12 @@ CREATE TABLE IF NOT EXISTS `booking`.`bookingdetails` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-Insert into `booking`.`bookingdetails` (bookingId, roomId, date, checkinDate, checkoutDate, price)
+Insert into `booking`.`bookingdetails` (bookingId, roomId, checkinDate, checkoutDate)
 values 
-(1, 5, '2020-11-08', '2020-11-08 13:00:00', '2020-11-09 12:00:00', 200),
-(1, 11, '2020-11-08', '2020-11-08 13:00:00', '2020-11-09 12:00:00', 200),
-(1, 5, '2020-11-09', '2020-11-09 13:00:00', '2020-11-10 12:00:00', 200),
-(1, 11, '2020-11-09', '2020-11-09 13:00:00', '2020-11-10 12:00:00', 200),
-(2, 2, '2020-11-08', '2020-11-10 13:00:00', '2020-11-11 12:00:00', 300),
-(2, 3, '2020-11-08', '2020-11-10 13:00:00', '2020-11-11 12:00:00', 300),
-(2, 2, '2020-11-09', '2020-11-11 13:00:00', '2020-11-12 12:00:00', 300),
-(2, 3, '2020-11-09', '2020-11-11 13:00:00', '2020-11-12 12:00:00', 300);
+(1, 5, '2020-11-22 13:00:00', '2020-11-24 12:00:00'),
+(1, 11, '2020-11-22 13:00:00', '2020-11-24 12:00:00'),
+(2, 2, '2020-11-25 13:00:00', '2020-11-27 12:00:00'),
+(2, 3, '2020-11-25 13:00:00', '2020-11-27 12:00:00');
 -- -----------------------------------------------------
 -- Table `booking`.`service`
 -- -----------------------------------------------------

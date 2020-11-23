@@ -17,8 +17,7 @@ public interface BookingDetailsRepository extends CrudRepository<BookingDetails,
 	@Query(value = "select * from bookingdetails where bookingId = ?1", nativeQuery = true)
 	List<BookingDetails> findAllByBookingId(int id);
 
-	@Query(value = "select * from bookingdetails where bookingId = ?1 and roomId = ?2 and checkinDate = ?3", nativeQuery = true)
-	BookingDetails findByCheckinDate(int bookingId, int roomId, LocalDateTime date);
+	BookingDetails findByBooking_BookingIdAndRoom_Roomid(int bookingId, int roomId);
 
 	@Query(value = "select * from bookingdetails where bookingId = ?1 and roomId = ?2 and checkoutDate = ?3", nativeQuery = true)
 	BookingDetails findByCheckoutDate(int bookingId, int roomId, LocalDateTime date);

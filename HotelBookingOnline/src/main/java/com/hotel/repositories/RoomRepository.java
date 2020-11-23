@@ -1,5 +1,6 @@
 package com.hotel.repositories;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -13,21 +14,22 @@ public interface RoomRepository extends CrudRepository<Room, Integer>{
 
 	Room findById(int id);
 
-	@Query(value="SELECT * from room AS r, roomtype as t\r\n" +
-			"where t.room_type_id = ?1\r\n" +
-			"and r.room_type_id = t.room_type_id\r\n" +
-			"and not exists \r\n" +
-			"(select * from bookingdetails as u \r\n" +
-			"where (u.checkinDate >= ?2 and u.checkoutDate <= ?3)\r\n" +
-			"and r.roomId = u.roomId) ", nativeQuery = true)
-	public List<Room> searchAvailable(int roomTypeId, String checkInDate, String checkOutDate);
+	@Query(value="SELECT * FROM room WHERE room_type_id = ?1 and  roomid NOT IN \r\n" +
+			"(\r\n" +
+			"    SELECT roomid \r\n" +
+			"    FROM bookingdetails \r\n" +
+			"    WHERE (checkOutDate >= CONCAT(?2,' 13:00:00') AND checkInDate <= CONCAT(?3,' 12:00:00')) \r\n" +
+			"       OR (checkOutDate <= CONCAT(?2,' 13:00:00') AND checkInDate >= CONCAT(?3,' 12:00:00')) \r\n" +
+			")", nativeQuery = true)
+	public List<Room> searchAvailable(int roomTypeId, Date checkInDate, Date checkOutDate);
 
-	@Query(value="SELECT * from room AS r, roomtype as t\r\n" +
-			"where r.room_type_id = t.room_type_id\r\n" +
-			"and not exists \r\n" +
-			"(select * from bookingdetails as u \r\n" +
-			"where (u.checkinDate >= ?1 and u.checkoutDate <= ?2)\r\n" +
-			"and r.roomId = u.roomId) ", nativeQuery = true)
+	@Query(value="SELECT * FROM room WHERE roomId NOT IN \r\n" +
+			"(\r\n" +
+			"    SELECT roomId \r\n" +
+			"    FROM bookingdetails \r\n" +
+			"    WHERE (checkOutDate >= CONCAT(?1,' 13:00:00') AND checkInDate <= CONCAT(?2,' 12:00:00')) \r\n" +
+			"       OR (checkOutDate <= CONCAT(?1,' 13:00:00') AND checkInDate >= CONCAT(?2,' 12:00:00')) \r\n" +
+			")", nativeQuery = true)
 	public List<Room> searchAllAvailable(String checkInDate, String checkOutDate);
 
 	Room findByRoomnumber(int number);

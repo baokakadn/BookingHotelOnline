@@ -46,8 +46,8 @@ public class RoomController {
 		if (arrival != null && depature != null && adult != null && children != null) {
 			int adultCap = Integer.parseInt(adult.trim());
 			int childrenCap = Integer.parseInt(children.trim());
-			String StrCheckIn = arrival.replaceAll("/", "-") + " 13:00:00";
-			String StrCheckOut = depature.replaceAll("/", "-") + " 12:00:00";
+			String StrCheckIn = arrival.replaceAll("/", "-");
+			String StrCheckOut = depature.replaceAll("/", "-");
 			List<Room> listRoom = roomService.searchAllAvailable(StrCheckIn, StrCheckOut);
 			List<RoomType> listRoomType = new ArrayList<RoomType>();
 			List<RoomType> newList = new ArrayList<RoomType>();

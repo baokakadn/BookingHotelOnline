@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -109,12 +108,11 @@ public class BookingManageController {
 				unCheckoutRoom.add(detail.getRoom());
 			}
 		}
-		System.out.println(unCheckoutRoom.size());
 		listRoom = new ArrayList<Room>(new HashSet<Room>(listRoom));
 		model.addAttribute("booking", booking);
+		model.addAttribute("listDate", getDaysBetweenDates(booking.getCheckInDate(), booking.getCheckOutDate()));
 		model.addAttribute("listRoom", listRoom);
 		model.addAttribute("unCheckoutRooms", unCheckoutRoom);
-		model.addAttribute("detailsList", detailsService.getDetailGroupByDate(bookingId));
 		model.addAttribute("serviceList", manageService.getAllServices());
 		model.addAttribute("creditCard", new CreditCard());
 		model.addAttribute("totalPaid", invoiceService.getTotalPaid(bookingId));
@@ -180,14 +178,22 @@ public class BookingManageController {
 				break;
 			}
 		}
+		guest.setIdImage("default-user.png");
 		guestService.saveGuest(guest);
+		return "redirect:/admin/booking/booking-details/" + bookingId;
+	}
+
+	@GetMapping("booking-details/{bookingId}/remove-guest/{guestId}")
+	private String removeGuest(@PathVariable("bookingId") int bookingId, @PathVariable("guestId") int id) {
+		GuestInRoom guest = guestService.getGuestById(id);
+		guestService.deleteGuest(guest);
 		return "redirect:/admin/booking/booking-details/" + bookingId;
 	}
 
 	@GetMapping("booking-details/{bookingId}/confirmStatus")
 	private String confirmStatus(@PathVariable("bookingId") int bookingId) {
 		Booking booking = bookingService.getBookingById(bookingId);
-		booking.setStatus(Status.PENDING);
+		booking.setStatus(Status.STAYING);
 		return "redirect:/admin/booking/booking-details/" + bookingId;
 	}
 
@@ -202,14 +208,16 @@ public class BookingManageController {
 			@RequestParam(value = "expiryMonth", required = false) String month,
 			@RequestParam(value = "expiryYear", required = false) String year,
 			@RequestParam(value = "cvvcode", required = false) String cvvCode) {
+
 		Booking booking = bookingService.getBookingById(bookingId);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		LocalDateTime now = LocalDateTime.now();
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String strCheckout = java.time.LocalDate.now().toString() + " 12:00:00";
-		String strCheckin = java.time.LocalDate.now().toString() + " 13:00:00";
-		System.out.println(payment);
 		if (checkedList != null) {
+			//Modify checkoutDate when check out
+			for (String checked : checkedList) {
+				int id = Integer.parseInt(checked.trim());
+				BookingDetails details = detailsService.getByBookingAndRoom(bookingId, id);
+				details.setCheckoutDate(LocalDateTime.now());
+				detailsService.saveDetails(details);
+			}
 			if (payment != null) {
 				if (Double.parseDouble(amount) > 0) {
 					Invoice invoice = new Invoice();
@@ -232,35 +240,11 @@ public class BookingManageController {
 						}
 					}
 					invoice.setBooking(booking);
-					invoice.setInvoiceDate(now);
+					invoice.setInvoiceDate(LocalDateTime.now());
 					invoiceService.saveInvoice(invoice);
 				}
-
 				booking.setStatus(Status.SUCCESS);
 			}
-			for (String checked : checkedList) {
-				int id = Integer.parseInt(checked.trim());
-				BookingDetails details;
-				List<BookingDetails> listDetails;
-				if (now.getHour() <= 12) {
-					details = detailsService.getByCheckoutDate(bookingId, id,
-							LocalDateTime.parse(strCheckout, formatter));
-					details.setCheckoutDate(LocalDateTime.parse(now.format(formatter), formatter));
-					listDetails = detailsService.getAllAfter(bookingId, id, LocalDateTime.parse(strCheckin, formatter));
-				} else {
-					details = detailsService.getByCheckinDate(bookingId, id,
-							LocalDateTime.parse(strCheckin, formatter));
-					details.setCheckoutDate(LocalDateTime.parse(now.format(formatter), formatter));
-					Date newDate = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
-					String checkIn = dateFormat.format(getNextDay(newDate).getTime()) + " 13:00:00";
-					listDetails = detailsService.getAllAfter(bookingId, id, LocalDateTime.parse(checkIn, formatter));
-				}
-				detailsService.saveDetails(details);
-				if (!listDetails.isEmpty()) {
-					detailsService.deleteAll(listDetails);
-				}
-			}
-
 		}
 		return "redirect:/admin/booking/booking-details/" + bookingId;
 	}
@@ -276,13 +260,6 @@ public class BookingManageController {
 			calendar.add(Calendar.DATE, 1);
 		}
 		return dates;
-	}
-
-	private Calendar getNextDay(Date date) {
-		Calendar c = Calendar.getInstance();
-		c.setTime(date);
-		c.add(Calendar.DATE, 1);
-		return c;
 	}
 
 	@Transactional(rollbackOn = Exception.class)

@@ -29,4 +29,9 @@ public class GuestServiceImpl implements GuestService{
 		return guestRepo.findById(id);
 	}
 
+	@Override
+	public void deleteGuest(GuestInRoom guest) {
+		guestRepo.delete(guest);
+	}
+
 }

@@ -40,12 +40,13 @@
 						<div class="card-body row">
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<form:input path="name" class="mdl-textfield__input" type="text" /> <label class="mdl-textfield__label">Full Name</label>
+									<form:input path="name" class="mdl-textfield__input" type="text" required="true"/> 
+									<label class="mdl-textfield__label">Full Name</label>
 								</div>
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height txt-full-width">
-									<form:input path="sex" class="mdl-textfield__input" type="text" id="sample3" value="" readonly="true" tabIndex="-1" /> <label for="sample3"
+									<form:input path="sex" class="mdl-textfield__input" type="text" id="sample3" readonly="true" required="true"/> <label for="sample3"
 										class="pull-right margin-0"> <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
 									</label> <label for="sample3" class="mdl-textfield__label">Gender</label>
 									<ul data-mdl-for="sample3" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
@@ -56,12 +57,13 @@
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<form:input path="dob" class="mdl-textfield__input" type="text" id="dateOfBirth"/> <label class="mdl-textfield__label">Date Of Birth</label>
+									<form:input path="dob" class="mdl-textfield__input" type="text" id="dateOfBirth"/> 
+									<label class="mdl-textfield__label">Date Of Birth</label>
 								</div>
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height txt-full-width">
-									<input name="roomNum" class="mdl-textfield__input" type="text" id="sample2" value="" readonly tabIndex="-1"> <label for="sample2"
+									<input name="roomNum" class="mdl-textfield__input" type="text" id="sample2" readonly required="required"> <label for="sample2"
 										class="pull-right margin-0"> <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
 									</label> <label for="sample2" class="mdl-textfield__label">Room</label>
 									<ul data-mdl-for="sample2" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
@@ -73,18 +75,24 @@
 							</div>
 							<div class="col-lg-12 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield txt-full-width">
-									<form:textarea path="address" class="mdl-textfield__input" rows="1" id="text7" />
+									<form:textarea path="address" class="mdl-textfield__input" rows="1" id="text7" required="true"/>
 									<label class="mdl-textfield__label" for="text7">Address</label>
 								</div>
 							</div>
 							<div class="col-lg-6 p-t-20">
-								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<form:input path="idType" class="mdl-textfield__input" type="text" id="txtFirstName" /> <label class="mdl-textfield__label">Identify Type</label>
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height txt-full-width">
+									<form:input path="idType" class="mdl-textfield__input" type="text" id="sample1" readonly="true" required="true" /> <label for="sample1"
+										class="pull-right margin-0"> <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+									</label> <label for="sample1" class="mdl-textfield__label">Identify Type</label>
+									<ul data-mdl-for="sample1" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+										<li class="mdl-menu__item" data-val="DE">ID CARD</li>
+										<li class="mdl-menu__item" data-val="BY">PASSPORT</li>
+									</ul>
 								</div>
 							</div>
 							<div class="col-lg-6 p-t-20">
 								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-									<form:input path="idNo" class="mdl-textfield__input" type="number" id="text5" /> <label class="mdl-textfield__label" for="text5">Identify Number</label>
+									<form:input path="idNo" class="mdl-textfield__input" type="number" id="text5" required="true"/> <label class="mdl-textfield__label" for="text5">Identify Number</label>
 									<span class="mdl-textfield__error">Number required!</span>
 								</div>
 							</div>

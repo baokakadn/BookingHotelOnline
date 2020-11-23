@@ -1,5 +1,6 @@
 package com.hotel.services;
 
+import java.util.Date;
 import java.util.List;
 
 import com.hotel.models.Room;
@@ -14,7 +15,7 @@ public interface RoomService {
 
 	void deleteRoom(Room room);
 
-	List<Room> searchAvailableRoom(int roomTypeId, String checkInDate, String checkOutDate);
+	List<Room> searchAvailableRoom(int roomTypeId, Date checkInDate, Date checkOutDate);
 
 	List<Room> searchAllAvailable(String checkInDate, String checkOutDate);
 

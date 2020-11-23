@@ -4,13 +4,13 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,7 +55,7 @@ public class GuestManageController {
 		listRoom = new ArrayList<Room>(new HashSet<Room>(listRoom));
 		model.addAttribute("guest", guestService.getGuestById(id));
 		model.addAttribute("listRoom", listRoom);
-		model.addAttribute("bookingId", booking.getBookingId());
+		model.addAttribute("booking", booking);
 		return "edit-guest";
 	}
 
@@ -73,7 +73,7 @@ public class GuestManageController {
 			MyUploadForm myUploadForm, int guestId) throws IOException {
 
 		// Thư mục gốc upload file.
-		String uploadRootPath = request.getServletContext().getRealPath("upload/guest-image/" + guestId);
+		String uploadRootPath = request.getServletContext().getRealPath("upload/guest-image");
 		System.out.println("uploadRootPath=" + uploadRootPath);
 
 		File uploadRootDir = new File(uploadRootPath);
@@ -81,8 +81,6 @@ public class GuestManageController {
 		if (!uploadRootDir.exists()) {
 			uploadRootDir.mkdirs();
 		}
-
-		FileUtils.cleanDirectory(uploadRootDir);
 
 		MultipartFile[] fileDatas = myUploadForm.getFileDatas();
 		//
@@ -92,8 +90,17 @@ public class GuestManageController {
 		for (MultipartFile fileData : fileDatas) {
 
 			// Tên file gốc tại Client.
-			String name = fileData.getOriginalFilename();
-			System.out.println("Client File Name = " + name);
+			String originalName = fileData.getOriginalFilename();
+			String suffix = originalName.substring(originalName.lastIndexOf(".") + 1, originalName.length());
+			String name = "guest-" + guestId + "-" + renameFile() + "." + suffix;
+			File[] files = uploadRootDir.listFiles();
+			for (File f : files)
+			{
+				if (f.getName().startsWith("guest-" + guestId + "-"))
+				{
+					f.delete();
+				}
+			}
 
 			if (name != null && name.length() > 0) {
 				try {
@@ -114,5 +121,14 @@ public class GuestManageController {
 		}
 		guestService.saveGuest(guest);
 		return "redirect:/admin/guest/" + guestId;
+	}
+
+	private String renameFile() {
+		LocalTime dt = LocalTime.now();
+		int hour = dt.getHour();
+		int minute = dt.getMinute();
+		int second = dt.getSecond();
+		String time = hour + "-" + minute + "-" + second;
+		return time;
 	}
 }

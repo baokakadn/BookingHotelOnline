@@ -80,26 +80,10 @@
 							<i class="fa fa-calendar absolute_icon"></i>
 						</div>
 						<div class="form-group rel_position">
-							<form:input path="adult" type="number" name="adult" required="true" class="fancy_fild form-control" autocomplete="off"/>
-							<%-- <form:select path="adult" class="fancy_fild form-control" name="adult" id="adult" required="true">
-								<option value="">Adults</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-							</form:select> --%>
+							<form:input path="adult" type="number" min="1" name="adult" required="true" class="fancy_fild form-control" autocomplete="off"/>
 						</div>
 						<div class="form-group rel_position">
-							<form:input path="children" type="number" name="children" required="true" class="fancy_fild form-control" autocomplete="off"/>
-							<%-- <form:select path="children" class="fancy_fild form-control" name="children" id="children" required="true">
-								<option value="">Children</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-							</form:select> --%>
+							<form:input path="children" type="number" min="0" name="children" required="true" class="fancy_fild form-control" autocomplete="off"/>
 						</div>
 						<div class="form-group">
 							<label>Rooms</label>

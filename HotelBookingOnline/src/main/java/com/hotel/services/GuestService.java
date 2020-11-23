@@ -11,4 +11,6 @@ public interface GuestService {
 	void saveGuest(GuestInRoom guest);
 
 	GuestInRoom getGuestById(int id);
+
+	void deleteGuest(GuestInRoom guest);
 }

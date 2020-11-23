@@ -78,7 +78,7 @@ h3 {
 										</div>
 									</c:when>
 									<c:otherwise>
-										<c:if test="${booking.status eq 'PENDING' }">
+										<c:if test="${booking.status eq 'STAYING' }">
 											<div class="float-right ml-2">
 												<a style="margin-right: .5rem !important;" class="btn btn-primary" href="#" data-toggle="modal" data-target="#add_service"> Add
 													Service</a> 
@@ -89,13 +89,13 @@ h3 {
 										</c:if>
 										<div class="dropdown float-right mr-2">
 											<button type="button"
-												class="btn btn-${booking.status == 'PENDING' ? 'warning' : 'danger'} 
+												class="btn btn-${booking.status == 'STAYING' ? 'warning' : 'danger'} 
 											dropdown-toggle"
 												data-toggle="dropdown">${booking.status}
 												&nbsp&nbsp<i class="fa fa-angle-down"></i>
 											</button>
 											<div class="dropdown-menu">
-												<c:set var="statusList" value="${['PENDING','CANCEL']}" />
+												<c:set var="statusList" value="${['STAYING','CANCEL']}" />
 												<c:forEach var="status" items="${statusList}">
 													<c:if test="${status != booking.status}">
 														<c:set var="statusLink" value="/admin/booking/booking-details/${booking.bookingId}/change-status/${status}" />
@@ -161,7 +161,7 @@ h3 {
 												<th><b>Booking Status </b></th>
 												<th>:</th>
 												<td>&nbsp&nbsp <span style="padding: 2px 5px; font-weight: bold;"
-													class="btn-circle btn-${booking.status == 'PENDING' ? 'warning' : booking.status == 'CANCEL' ? 'danger' : booking.status == 'SUCCESS' ? 'success' : 'secondary'} btn-sm m-b-5">
+													class="btn-circle btn-${booking.status == 'STAYING' ? 'warning' : booking.status == 'CANCEL' ? 'danger' : booking.status == 'SUCCESS' ? 'success' : 'secondary'} btn-sm m-b-5">
 														${booking.status}</span>
 												</td>
 											</tr>
@@ -196,19 +196,20 @@ h3 {
 											<tbody>
 												<c:set var="index" value="1" />
 												<c:set var="sumTotal1" value="0" />
-												<c:forEach var="detail" items="${detailsList}">
+												<c:forEach var="date" items="${listDate}">
 													<tr>
 														<td class="text-center">${index}</td>
-														<td class="text-center"><fmt:formatDate value="${detail.date}" pattern="yyyy-MM-dd" /></td>
+														<td class="text-center"><fmt:formatDate value="${date}" pattern="yyyy-MM-dd" /></td>
 														<td class="text-center">${booking.roomtype.typename}</td>
-														<td class="text-center">${detail.price}</td>
+														<td class="text-center">${booking.price}</td>
 														<td class="text-center">${booking.numberOfRooms}</td>
-														<c:set var="total" value="${detail.price * booking.numberOfRooms}" />
+														<c:set var="total" value="${booking.price * booking.numberOfRooms}" />
 														<td class="text-right">$${total}</td>
 													</tr>
 													<c:set var="index" value="${index + 1}" />
 													<c:set var="sumTotal1" value="${sumTotal1 + total }" />
 												</c:forEach>
+												
 											</tbody>
 											<tr class="border-bottom">
 												<td colspan="5" align=""><b>Total Paid Night</b></td>
@@ -409,8 +410,10 @@ h3 {
 														<td class="center">${guest.sex}</td>
 														<td class="center"><fmt:formatDate value="${guest.dob}" pattern="yyyy-MM-dd" /></td>
 														<td class="center">${guest.address}</td>
+														<c:url var="deleteGuest" value="${booking.bookingId}/remove-guest/${guest.id}" />
 														<td class="center"><a href="/admin/guest/${guest.id}" class="btn btn-tbl-edit btn-xs"> <i class="fa fa-pencil"></i>
-														</a><a class="btn btn-tbl-delete btn-xs"> <i class="fa fa-trash-o "></i>
+														</a><a class="btn btn-tbl-delete btn-xs" onclick="if ((confirm('Are you sure you want to delete this guest?'))) 
+											window.location.href = '${deleteGuest}'; return false;"> <i class="fa fa-trash-o "></i>
 														</a></td>
 													</tr>
 												</c:forEach>

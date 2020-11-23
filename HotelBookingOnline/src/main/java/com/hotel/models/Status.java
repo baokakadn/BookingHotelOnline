@@ -1,7 +1,7 @@
 package com.hotel.models;
 
 public enum Status {
-	PENDING,
+	STAYING,
 	CANCEL,
 	SUCCESS,
 	ONLINE_PENDING ;

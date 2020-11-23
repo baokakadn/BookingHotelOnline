@@ -2,12 +2,14 @@ package com.hotel.controller.client;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,6 +49,9 @@ public class HomeController {
 	@Autowired
 	private TypeRoomService typeRoomService;
 
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 	@GetMapping("")
 	private String viewHomePage(Model model) {
 		boolean homePage = true;
@@ -70,7 +75,10 @@ public class HomeController {
 			} else {
 				user = new User();
 				user.setUsername(username);
-				user.setPassword(password);
+				Random rnd = new Random();
+				int n = 100000 + rnd.nextInt(900000);
+				user.setName("U" + n);
+				user.setPassword(bCryptPasswordEncoder.encode(password));
 				user.setEmail(email);
 				user.setPicture("default-user.png");
 				userService.saveUser(user);

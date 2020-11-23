@@ -34,7 +34,7 @@ public class Invoice {
 	private Booking booking;
 
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "cardId")
 	private CreditCard creditcard;
 
 	public Invoice() {

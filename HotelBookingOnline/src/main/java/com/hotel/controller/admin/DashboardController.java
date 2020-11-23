@@ -36,7 +36,7 @@ public class DashboardController {
 			if (booking.getStatus().equals(Status.ONLINE_PENDING)) {
 				upcoming.add(booking);
 			}
-			if (booking.getStatus().equals(Status.PENDING)) {
+			if (booking.getStatus().equals(Status.STAYING)) {
 				current.add(booking);
 			}
 		}

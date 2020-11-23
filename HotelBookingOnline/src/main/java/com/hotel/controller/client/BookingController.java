@@ -7,9 +7,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
@@ -86,10 +84,8 @@ public class BookingController {
 			@ModelAttribute("booking") Booking booking,
 			@RequestParam("numberOfRooms") String numberOfRooms,
 			HttpServletRequest request,  @AuthenticationPrincipal CustomUserDetail user) {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String StrCheckIn = dateFormat.format(booking.getCheckInDate()) + " 13:00:00";
-		String StrCheckOut = dateFormat.format(booking.getCheckOutDate()) + " 12:00:00";
-		List<Room> listRoom = roomService.searchAvailableRoom(roomTypeId, StrCheckIn, StrCheckOut);
+
+		List<Room> listRoom = roomService.searchAvailableRoom(roomTypeId, booking.getCheckInDate(), booking.getCheckOutDate());
 		if (listRoom.isEmpty()) {
 			System.out.println("KHONG CO PHONG");
 			model.addAttribute("message", "Opps ! There are no rooms available during this time !");
@@ -118,9 +114,8 @@ public class BookingController {
 	@PostMapping("confirm")
 	private String getConfirm(@ModelAttribute("card") CreditCard getCard, HttpServletRequest request, Model model,
 			@RequestParam("grandTotal") double grandTotal, HttpSession session, @RequestParam("expiry") String expiry) throws Exception {
-		LocalDateTime now = LocalDateTime.now();
+
 		Booking booking = (Booking) session.getAttribute("BOOKING_SESSION");
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 		// Set invoice
 		Invoice invoice = new Invoice();
@@ -134,7 +129,6 @@ public class BookingController {
 			String[] expiryParts = expiry.split("/");
 			int exipyMonth = Integer.parseInt(expiryParts[0].trim());
 			int expiryYear = Integer.parseInt(expiryParts[1].trim());
-			//System.out.println(exipyMonth + "/" + expiryYear);
 			if (card.getCvvcode() != getCard.getCvvcode() || !card.getOwnerName().equals(getCard.getOwnerName())
 					|| card.getExpiryMonth() != exipyMonth || card.getExpiryYear() != expiryYear) {
 				model.addAttribute("error", "Wrong CreditCard information !!!");
@@ -148,6 +142,7 @@ public class BookingController {
 					model.addAttribute("grandTotal", grandTotal);
 					return "checkout";
 				} else {
+					LocalDateTime now = LocalDateTime.now();
 					invoice.setCreditcard(card);
 					transaction(card, invoice, grandTotal);
 					invoice.setInvoiceDate(now);
@@ -155,6 +150,7 @@ public class BookingController {
 					// Set user and save booking
 					booking.setBookinguid(generateUID());
 					booking.setBookingDate(now);
+					booking.setPrice(booking.getRoomtype().getPrice());
 					booking.setStatus(Status.ONLINE_PENDING);
 					User user = userService.getUserById(booking.getUser().getUserId());
 					if (user == null) {
@@ -175,26 +171,19 @@ public class BookingController {
 
 					// Set booking details
 					List<BookingDetails> listDetails = new ArrayList<BookingDetails>();
-					String StrCheckIn = dateFormat.format(booking.getCheckInDate()) + " 13:00:00";
-					String StrCheckOut = dateFormat.format(booking.getCheckOutDate()) + " 12:00:00";
-					List<Room> listRoom = roomService.searchAvailableRoom(booking.getRoomtype().getRoomtypeid(), StrCheckIn,
-							StrCheckOut);
-					List<Date> dates = getDaysBetweenDates(booking.getCheckInDate(), booking.getCheckOutDate());
-					for (Date date : dates) {
-						for (int i = 1; i <= booking.getNumberOfRooms(); i++) {
-							BookingDetails detail = new BookingDetails();
-							detail.setRoom(listRoom.get(i - 1));
-							DateTimeFormatter dtFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-							LocalDateTime checkIn = LocalDateTime.parse(dateFormat.format(date) + " 13:00:00", dtFormat);
-							LocalDateTime checkOut = LocalDateTime
-									.parse(dateFormat.format(getNextDay(date).getTime()) + " 12:00:00", dtFormat);
-							detail.setDate(date);
-							detail.setCheckinDate(checkIn);
-							detail.setCheckoutDate(checkOut);
-							detail.setBooking(booking);
-							detail.setPrice(booking.getRoomtype().getPrice());
-							listDetails.add(detail);
-						}
+					List<Room> listRoom = roomService.searchAvailableRoom(booking.getRoomtype().getRoomtypeid(), booking.getCheckInDate(),
+							booking.getCheckOutDate());
+					DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+					for (int i = 1; i <= booking.getNumberOfRooms(); i++) {
+						BookingDetails detail = new BookingDetails();
+						detail.setRoom(listRoom.get(i - 1));
+						DateTimeFormatter dtFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+						LocalDateTime checkIn = LocalDateTime.parse(dateFormat.format(booking.getCheckInDate()) + " 13:00:00", dtFormat);
+						LocalDateTime checkOut = LocalDateTime.parse(dateFormat.format(booking.getCheckOutDate()) + " 12:00:00", dtFormat);
+						detail.setCheckinDate(checkIn);
+						detail.setCheckoutDate(checkOut);
+						detail.setBooking(booking);
+						listDetails.add(detail);
 					}
 					detailsService.saveAll(listDetails);
 					emailService.sendConfirmBooking(booking);
@@ -250,19 +239,6 @@ public class BookingController {
 		return "booking";
 	}
 
-	private List<Date> getDaysBetweenDates(Date startdate, Date enddate) {
-		List<Date> dates = new ArrayList<Date>();
-		Calendar calendar = new GregorianCalendar();
-		calendar.setTime(startdate);
-
-		while (calendar.getTime().before(enddate)) {
-			Date result = calendar.getTime();
-			dates.add(result);
-			calendar.add(Calendar.DATE, 1);
-		}
-		return dates;
-	}
-
 	private String generateUID() {
 		String maxId = bookingService.getMaxBookingId();
 		int id;
@@ -276,13 +252,6 @@ public class BookingController {
 		int m = 1000 + rnd.nextInt(9000);
 		String uid = n + "-" + m + (String.format("%05d", id + 1));
 		return uid;
-	}
-
-	private Calendar getNextDay(Date date) {
-		Calendar c = Calendar.getInstance();
-		c.setTime(date);
-		c.add(Calendar.DATE, 1);
-		return c;
 	}
 
 	private String hideCard(String card) {

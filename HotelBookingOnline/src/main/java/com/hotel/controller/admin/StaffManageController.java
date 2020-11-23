@@ -102,7 +102,7 @@ public class StaffManageController {
 	}
 
 	@PostMapping("updateStaff")
-	private String updateStaff(@ModelAttribute("staff") Employee employee, @RequestParam("roleName") String name, CustomEmployeeDetail user) {
+	private String updateStaff(@ModelAttribute("staff") Employee employee, @RequestParam("roleName") String name, @AuthenticationPrincipal CustomEmployeeDetail user) {
 		Position position = positionService.getPositionByName(name);
 		Employee newEmp = employeeService.getEmployeeById(employee.getEmpId());
 		employee.setPosition(position);
